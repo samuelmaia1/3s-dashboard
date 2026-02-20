@@ -21,6 +21,15 @@ const lightTheme = createTheme({
     success: {
       main: "#16A34A",   
     },
+
+    error: {
+      main: "#561213",
+      contrastText: "#FFFFFF",   
+    },
+
+    info: {
+      main: "#3B82F6",   
+    },
   },
 
   typography: {
