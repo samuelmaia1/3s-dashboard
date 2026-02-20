@@ -5,21 +5,21 @@ const lightTheme = createTheme({
     mode: "light",
 
     background: {
-      default: "#f7f7f7",
-      paper: "#ffffff",
+      default: "#FFFFFF", 
+      paper: "#F5F5F5",  
     },
 
     text: {
-      primary: "#1f1f1f",
-      secondary: "#6e6e6e",
+      primary: "#000000",  
+      secondary: "#525252", 
     },
 
     primary: {
-      main: "#e52e4d",
+      main: "#000000",     
     },
 
     success: {
-      main: "#33cc95",
+      main: "#16A34A",   
     },
   },
 

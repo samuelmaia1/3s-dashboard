@@ -5,21 +5,21 @@ const darkTheme = createTheme({
     mode: "dark",
 
     background: {
-      default: "#333333",
-      paper: "#1f1f1f",
+      default: "#0A0A0A",  
+      paper: "#1A1A1A",     
     },
 
     text: {
-      primary: "#f7f7f7",
-      secondary: "#b1b1b1",
+      primary: "#FFFFFF", 
+      secondary: "#A3A3A3",
     },
 
     primary: {
-      main: "#e52e4d",
+      main: "#FFFFFF",  
     },
 
     success: {
-      main: "#33cc95",
+      main: "#22C55E",   
     },
   },
 
