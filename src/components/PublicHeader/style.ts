@@ -14,8 +14,8 @@ export const ButtonsContainer = styled("div")({
   gap: "0.5rem",
 })
 
-export const AvatarContainer = styled("div")({
+export const AvatarContainer = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "1rem",
-});
+}));
