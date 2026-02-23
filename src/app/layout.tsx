@@ -1,21 +1,19 @@
 import { ThemeContextProvider } from "@/contexts/ThemeContext";
 import "./globals.scss";
+import { AuthContextProvider } from "@/contexts/AuthContext";
+import { ReactNode } from "react";
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<RootLayoutProps>) 
-{
-
+export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <html lang="pt-BR">
       <body>
-        <ThemeContextProvider>
-          {children}
-        </ThemeContextProvider>
+        <AuthContextProvider>
+          <ThemeContextProvider>{children}</ThemeContextProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );

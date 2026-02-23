@@ -16,6 +16,7 @@ const lightTheme = createTheme({
 
     primary: {
       main: "#000000",     
+      contrastText: "#FFFFFF",
     },
 
     success: {

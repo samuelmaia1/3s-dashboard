@@ -19,10 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@contexts/*": ["./src/contexts/*"],
+      "@icons/*": ["./src/assets/icons/*"],
+      "@/*": ["./src/*"],
     }
   },
   "include": [

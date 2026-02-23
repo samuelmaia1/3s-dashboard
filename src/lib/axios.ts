@@ -19,16 +19,13 @@ api.interceptors.response.use(
       !originalRequest._retry &&
       !originalRequest.url?.includes(routes.auth.refresh)
     ) {
-      console.log("Token expirado. Tentando renovar...");
       originalRequest._retry = true;
 
       try {
         await api.post(routes.auth.refresh);
         return api(originalRequest);
-      } catch {
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-        }
+      } catch(error) {
+        return Promise.reject(error);
       }
     }
 

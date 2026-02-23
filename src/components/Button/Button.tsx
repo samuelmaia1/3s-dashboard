@@ -1,6 +1,10 @@
-import React, { ButtonHTMLAttributes, CSSProperties } from "react";
+import { ButtonHTMLAttributes, CSSProperties } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
+import { Icon } from "@components/Icon/Icon";
+import { IconName } from "@/constants/icons";
+
+import { StyledButton } from "./style";
 
 type Variant = "outline" | "filled" | "text";
 type Color = "primary" | "error" | "success" | "info";
@@ -14,6 +18,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   shape?: Shape;
   size?: Size;
   fullWidth?: boolean;
+  icon?: IconName;
 }
 
 const sizeMap: Record<Size, CSSProperties> = {
@@ -31,8 +36,17 @@ const sizeMap: Record<Size, CSSProperties> = {
   },
 };
 
-export function Button({ variant = "filled", color = "primary", shape = "rounded", size = "medium", fullWidth = false, style, children, ...rest }: ButtonProps)
-{
+export function Button({
+  variant = "filled",
+  color = "primary",
+  shape = "rounded",
+  size = "medium",
+  fullWidth = false,
+  style,
+  children,
+  icon,
+  ...rest
+}: ButtonProps) {
   const theme: Theme = useTheme();
 
   const paletteColor = theme.palette[color];
@@ -70,7 +84,7 @@ export function Button({ variant = "filled", color = "primary", shape = "rounded
   }[variant];
 
   return (
-    <button
+    <StyledButton
       style={{
         ...baseStyle,
         ...variantStyle,
@@ -79,6 +93,7 @@ export function Button({ variant = "filled", color = "primary", shape = "rounded
       {...rest}
     >
       {children}
-    </button>
+      {icon && <Icon name={icon} size={16} />}
+    </StyledButton>
   );
-};
+}

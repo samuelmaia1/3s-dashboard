@@ -1,3 +1,5 @@
+import { get } from "http";
+
 export const routes = {
   auth: {
     login: "/auth/login",
@@ -6,6 +8,7 @@ export const routes = {
   },
   users: {
     list: "/users",
-    create: "/users/create",        
+    create: "/users/create", 
+    get: "/users",       
   }
 }
