@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, CSSProperties } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { Icon } from "@components/Icon/Icon";
-import { IconName } from "@/constants/icons";
+import { IconName } from "lucide-react/dynamic";
 
 import { StyledButton } from "./style";
 
@@ -93,7 +93,7 @@ export function Button({
       {...rest}
     >
       {children}
-      {icon && <Icon name={icon} size={16} />}
+      {icon && <Icon name={icon} size={20} />}
     </StyledButton>
   );
 }

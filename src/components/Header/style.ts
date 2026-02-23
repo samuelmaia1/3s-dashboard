@@ -1,11 +1,15 @@
 import { styled } from "@mui/material";
 
-export const Container = styled("header")({
+export const Container = styled("header")(({theme}) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   padding: "1.5rem",
-})
+
+  [theme.breakpoints.up("md")]: {
+    justifyContent: "flex-end",
+  },
+}));
 
 export const ButtonsContainer = styled("div")({
   display: "flex",
@@ -18,4 +22,8 @@ export const AvatarContainer = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "1rem",
+
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
 }));

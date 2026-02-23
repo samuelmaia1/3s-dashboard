@@ -2,7 +2,7 @@ import { CircularProgress } from "@mui/material";
 
 interface LoadingSpinnerProps {
   size?: number | string;
-  color: "primary" | "secondary" | "inherit";
+  color?: "primary" | "secondary" | "inherit";
 }
 
 export function LoadingSpinner({

@@ -7,7 +7,12 @@ import { useTheme } from "@hooks/useTheme";
 import { Avatar } from "@components/Avatar/Avatar";
 import { AvatarContainer, ButtonsContainer, Container } from "./style";
 
-export function Header() {
+interface HeaderProps {
+  onOpenSidebar: () => void;
+}
+
+export function Header({ onOpenSidebar }: HeaderProps) {
+
   const { toggleTheme, theme } = useTheme();
 
   const isDark = theme === "dark";
@@ -21,7 +26,7 @@ export function Header() {
           shape="rounded"
           size="medium"
           icon={"menu"}
-          onClick={toggleTheme}
+          onClick={onOpenSidebar}
         />
       </AvatarContainer>
       <ButtonsContainer>
@@ -30,7 +35,7 @@ export function Header() {
           color="primary"
           shape="rounded"
           size="medium"
-          icon={isDark ? "moon" : "sun"}
+          icon={isDark ? "moon-star" : "sun"}
           onClick={toggleTheme}
         />
         <Button
