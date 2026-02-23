@@ -5,8 +5,6 @@ import { useAuth } from "@/hooks/useAuth";
 export default function Login() {
   const { user, login } = useAuth();
 
-  console.log(user);
-
   return (
     <div className="page">
       <h1>Login</h1>

@@ -42,8 +42,9 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   async function login(email: string, password: string) {
     try {
       const response = await api.post(routes.auth.login, { email, password });
-      const userData: LoggedUser = response.data;
+      const userData: LoggedUser = response.data.user;
       setUser(userData);
+      router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
     }
