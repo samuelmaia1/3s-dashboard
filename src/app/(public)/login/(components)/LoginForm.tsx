@@ -5,32 +5,48 @@ import { Box } from "@mui/material";
 import { Input } from "@components/Input/Input";
 import { Button } from "@components/Button/Button";
 import { useAuth } from "@hooks/useAuth";
+import { ApiError } from "@/types/Error";
+import { Text } from "@components/Text/Text";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [defaultError, setDefaultError] = useState("");
 
   const { login, loadingAuth } = useAuth();
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const newErrors: typeof errors = {};
+    try {
+      const newErrors: typeof errors = {};
 
-    if (!email) {
-      newErrors.email = "Informe seu e-mail";
-    }
+      if (!email) {
+        newErrors.email = "Informe seu e-mail";
+      }
 
-    if (!password) {
-      newErrors.password = "Informe sua senha";
-    }
+      if (!password) {
+        newErrors.password = "Informe sua senha";
+      }
 
-    setErrors(newErrors);
+      setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
-      login(email, password);
-    }
+      if (Object.keys(newErrors).length === 0) {
+        await login(email, password);
+      }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (error.status === 401) {
+          setDefaultError(error.message || "Credenciais inválidas");
+        }
+
+        if (error.status === 404) {
+          setErrors({email: "Este e-mail não está cadastrado"});
+        }
+      }
+    }    
   }
 
   return (
@@ -46,17 +62,25 @@ export default function LoginForm() {
         onChange={(e) => setEmail(e.target.value)}
         error={!!errors.email}
         helperText={errors.email}
+        endIcon="mail"
       />
 
       <Input
         label="Senha"
-        type="password"
+        type={showPassword ? "text" : "password"}
+        secure={showPassword}
         placeholder="Digite sua senha"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         error={!!errors.password}
         helperText={errors.password}
+        endIcon={showPassword ? "eye-off" : "eye"}
+        onEndIconClick={() => setShowPassword(!showPassword)}
       />
+
+      <Text variant="body2" color="error.main" >
+        {defaultError}
+      </Text>
 
       <Button type="submit" variant="filled" color="primary" fullWidth shape="square" icon="arrow-right" loading={loadingAuth}>
         Entrar

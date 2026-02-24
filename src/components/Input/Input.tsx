@@ -1,6 +1,9 @@
 "use client";
 
+import { IconName } from "lucide-react/dynamic";
 import { StyledTextField } from "./style";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Icon } from "@components/Icon/Icon";
 
 interface InputProps {
   label?: string;
@@ -12,6 +15,9 @@ interface InputProps {
   type?: string;
   disabled?: boolean;
   name?: string;
+  secure?: boolean;
+  endIcon?: IconName;
+  onEndIconClick?: () => void;
 }
 
 export function Input({
@@ -24,6 +30,9 @@ export function Input({
   type = "text",
   disabled = false,
   name,
+  endIcon,
+  onEndIconClick,
+  secure = false,
 }: InputProps) {
   return (
     <StyledTextField
@@ -38,7 +47,20 @@ export function Input({
       name={name}
       variant="outlined"
       InputLabelProps={{ shrink: true }}
-      fullWidth
+      fullWidth={secure}
+      InputProps={{
+        endAdornment: endIcon ? (
+          <InputAdornment position="end">
+            <IconButton
+              onClick={onEndIconClick}
+              edge="end"
+              disabled={disabled}
+            >
+              <Icon name={endIcon} size={16} />
+            </IconButton>
+          </InputAdornment>
+        ) : undefined,
+      }}
     />
   );
 }

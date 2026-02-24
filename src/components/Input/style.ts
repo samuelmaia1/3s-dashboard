@@ -39,6 +39,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
 
   "& .MuiInputBase-input": {
     padding: "14px 16px",
+    paddingRight: 8,
     fontSize: 14,
     color: theme.palette.text.primary,
 

@@ -2,7 +2,9 @@
 
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
+import { ApiError } from "@/types/Error";
 import { LoggedUser } from "@/types/User";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
@@ -47,7 +49,11 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       setUser(userData);
       router.push("/dashboard");
     } catch (error) {
-      console.error("Login failed:", error);
+      if (axios.isAxiosError(error) && error.response?.data) {
+        throw new ApiError(error.response.data);
+      }
+
+      throw error;
     } finally {
       setLoadingAuth(false);
     }
