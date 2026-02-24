@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { PublicHeader } from "@components/PublicHeader/PublicHeader";
+import { PublicContent } from "@components/auth/PublicContent/PublicContent";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -8,8 +9,7 @@ interface RootLayoutProps {
 export default function PublicLayout({ children }: Readonly<RootLayoutProps>) {
   return (
     <>
-      <PublicHeader />
-      {children}
+      <PublicContent>{children}</PublicContent>
     </>
   );
 }

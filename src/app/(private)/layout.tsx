@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Header } from "@components/Header/Header";
-import { ProtectedContent } from "@components/ProtectedContent/ProtectedContent";
+import { ProtectedContent } from "@components/auth/ProtectedContent/ProtectedContent";
 import Sidebar from "@components/Sidebar/Sidebar";
 
 interface RootLayoutProps {
