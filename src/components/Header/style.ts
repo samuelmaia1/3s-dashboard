@@ -5,10 +5,6 @@ export const Container = styled("header")(({theme}) => ({
   alignItems: "center",
   justifyContent: "space-between",
   padding: "1.5rem",
-
-  [theme.breakpoints.up("md")]: {
-    justifyContent: "flex-end",
-  },
 }));
 
 export const ButtonsContainer = styled("div")({
@@ -25,5 +21,11 @@ export const AvatarContainer = styled("div")(({ theme }) => ({
 
   [theme.breakpoints.up("md")]: {
     display: "none",
+  },
+}));
+
+export const TitleContainer = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "block",
   },
 }));

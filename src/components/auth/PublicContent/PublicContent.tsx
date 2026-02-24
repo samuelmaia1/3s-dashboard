@@ -20,10 +20,6 @@ export function PublicContent({ children }: PublicContentProps) {
     }
   }, [loadingAuth, user]);
 
-  if (loadingAuth) {
-    return <LoadingScreen />;
-  }
-
   if (user) {
     return null;
   }

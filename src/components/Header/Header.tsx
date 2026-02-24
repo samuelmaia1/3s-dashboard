@@ -5,13 +5,15 @@ import { Button } from "@components/Button/Button";
 import { useTheme } from "@hooks/useTheme";
 
 import { Avatar } from "@components/Avatar/Avatar";
-import { AvatarContainer, ButtonsContainer, Container } from "./style";
+import { AvatarContainer, ButtonsContainer, Container, TitleContainer } from "./style";
+import { Text } from "@components/Text/Text";
 
 interface HeaderProps {
   onOpenSidebar: () => void;
+  title: string
 }
 
-export function Header({ onOpenSidebar }: HeaderProps) {
+export function Header({ onOpenSidebar, title }: HeaderProps) {
 
   const { toggleTheme, theme } = useTheme();
 
@@ -29,6 +31,11 @@ export function Header({ onOpenSidebar }: HeaderProps) {
           onClick={onOpenSidebar}
         />
       </AvatarContainer>
+      <TitleContainer>
+        <Text variant="h5" weight={500}>
+          {title}
+        </Text>
+      </TitleContainer>
       <ButtonsContainer>
         <Button
           variant="text"

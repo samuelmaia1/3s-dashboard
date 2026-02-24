@@ -1,10 +1,11 @@
-import { ButtonHTMLAttributes, CSSProperties } from "react";
+import { ButtonHTMLAttributes, CSSProperties, ReactNode } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Theme } from "@mui/material/styles";
 import { Icon } from "@components/Icon/Icon";
 import { IconName } from "lucide-react/dynamic";
 
 import { StyledButton } from "./style";
+import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 
 type Variant = "outline" | "filled" | "text";
 type Color = "primary" | "error" | "success" | "info";
@@ -12,13 +13,14 @@ type Shape = "rounded" | "square";
 type Size = "large" | "medium" | "small";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick: () => void;
+  onClick?: () => void;
   variant?: Variant;
   color?: Color;
   shape?: Shape;
   size?: Size;
   fullWidth?: boolean;
   icon?: IconName;
+  loading?: boolean;
 }
 
 const sizeMap: Record<Size, CSSProperties> = {
@@ -45,6 +47,7 @@ export function Button({
   style,
   children,
   icon,
+  loading = false,
   ...rest
 }: ButtonProps) {
   const theme: Theme = useTheme();
@@ -86,14 +89,23 @@ export function Button({
   return (
     <StyledButton
       style={{
-        ...baseStyle,
+        ...baseStyle, 
         ...variantStyle,
         ...style,
       }}
+      disabled={loading}
       {...rest}
     >
-      {children}
-      {icon && <Icon name={icon} size={20} />}
+      {!loading ? <Content icon={icon}>{children}</Content> : <LoadingSpinner color={"inherit"} size={20}/>}
     </StyledButton>
+  );
+}
+
+function Content({ children, icon }: { children: ReactNode; icon?: IconName;}) {
+  return (
+    <>
+      {children}
+      {icon && <Icon name={icon} size={20} style={{ marginLeft: children ? 10 : 0 }} />}
+    </>
   );
 }

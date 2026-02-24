@@ -35,13 +35,6 @@ export default function Dashboard() {
 
   return (
     <Container>
-      <Text variant="h5" weight="medium">
-        Dashboard
-      </Text>
-      <Text variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-        Visão geral do seu negócio
-      </Text>
-
       <CardContainer>
         <Card
           title="Aluguéis ativos"

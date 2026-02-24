@@ -23,7 +23,7 @@ export function PublicHeader() {
           icon={isDark ? "moon" : "sun"}
           onClick={toggleTheme}
         />
-        <Avatar />
+        <Button>Cadastre-se</Button>
       </ButtonsContainer>
     </Container>
   );

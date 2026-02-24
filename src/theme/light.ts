@@ -40,6 +40,21 @@ const lightTheme = createTheme({
       fontFamily: "'Poppins', sans-serif",
       fontWeight: 600,
     },
+
+    h2: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 600,
+    },
+
+    h3: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 600,
+    },
+
+    h4: {
+      fontFamily: "'Poppins', sans-serif",
+      fontWeight: 600,
+    },
   },
 });
 
