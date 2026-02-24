@@ -12,9 +12,16 @@ export type LoggedUser = {
 };
 
 export type Address = {
-    cep: string;
-    street: string;
-    neighborhood: string;
-    city: string;
-    number: string;
+  cep: string;
+  street: string;
+  neighborhood: string;
+  city: string;
+  number: string;
+}
+
+export type DashboardSummary = {
+  activeRentals: number;
+  monthlyRevenue: number;
+  costumersCount: number;
+  openContracts: number;
 }

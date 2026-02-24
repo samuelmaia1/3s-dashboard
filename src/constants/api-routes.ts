@@ -10,5 +10,8 @@ export const routes = {
     list: "/users",
     create: "/users/create", 
     get: "/users",       
+  },
+  dashboard: {
+    summary: "/dashboard/summary",
   }
 }

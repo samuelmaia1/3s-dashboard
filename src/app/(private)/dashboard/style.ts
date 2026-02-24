@@ -10,3 +10,9 @@ export const CardContainer = styled(Box)(({ theme }) => ({
     gap: "1.5rem",
     marginTop: "2rem",
 }));
+
+export const IconTextContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+}));
