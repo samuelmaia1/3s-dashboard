@@ -10,27 +10,37 @@ import { DashboardSummary } from "@/types/User";
 import { formatToCurrency } from "@/formatter";
 import { Icon } from "@components/Icon/Icon";
 import { useTheme } from "@mui/material";
+import { IFlashMessage } from "@/types/Interfaces";
+import { useSearchParams } from "next/navigation";
+import { FlashMessage } from "@components/FlashMessage/FlashMessage";
+import { useFlashMessage } from "@contexts/FlashMessageContext";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
-  const [loading, setLoading] = useState(false);
+  
+  const { showMessage } = useFlashMessage();
+
+  const params = useSearchParams();
 
   const theme = useTheme();
 
   async function fetchDashboardSummary() {
     try {
-      setLoading(true);
       const response = await api.get(routes.dashboard.summary);
       setSummary(response.data);
     } catch (error) {
       console.error("Erro ao buscar resumo do dashboard:", error);
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
     fetchDashboardSummary();
+  }, []);
+
+  useEffect(() => {
+    if (params.get("login") === "true") {
+      showMessage("Login realizado com sucesso!" , "success");
+    }
   }, []);
 
   return (

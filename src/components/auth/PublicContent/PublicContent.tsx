@@ -3,7 +3,6 @@
 import { ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@hooks/useAuth";
-import { LoadingScreen } from "@components/LoadingScreen/LoadingScreen";
 import { PublicHeader } from "@components/PublicHeader/PublicHeader";
 
 interface PublicContentProps {
@@ -12,6 +11,7 @@ interface PublicContentProps {
 
 export function PublicContent({ children }: PublicContentProps) {
   const { user, loadingAuth } = useAuth();
+
   const router = useRouter();
 
   useEffect(() => {

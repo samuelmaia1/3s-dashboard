@@ -4,6 +4,7 @@ import { ButtonContainer, ButtonWrapper } from "./style";
 import { Button } from "@components/Button/Button";
 import { maskCep } from "@/formatter";
 import { fetchAddressByCep } from "@/services/viacep.service";
+import { Fab } from "@components/Fab/Fab";
 
 interface AddressStepProps {
     onNext: () => void;
@@ -52,7 +53,7 @@ export function AddressStep({ onNext, onBack }: AddressStepProps) {
         <ButtonContainer>
             <ButtonWrapper>
                 <Button onClick={onBack} variant="text" color="primary" shape="square" icon="arrow-left" />
-                <Button onClick={handleNext} variant="filled" color="primary" shape="square" icon="arrow-right" />
+                <Fab icon="arrow-right" onClick={handleNext} />
             </ButtonWrapper>
         </ButtonContainer>
     </>

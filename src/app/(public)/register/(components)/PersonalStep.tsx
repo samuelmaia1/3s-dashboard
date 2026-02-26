@@ -4,6 +4,7 @@ import { ButtonContainer } from "./style";
 import { Button } from "@components/Button/Button";
 import { maskCpf } from "@/formatter";
 import { useState } from "react";
+import { Fab } from "@components/Fab/Fab";
 
 export function PersonalStep({ onNext }: { onNext: () => void }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,7 @@ export function PersonalStep({ onNext }: { onNext: () => void }) {
       />
 
       <ButtonContainer>
-        <Button onClick={handleNext} variant="filled" color="primary" shape="square" icon="arrow-right" />
+        <Fab icon="arrow-right" onClick={handleNext} />
       </ButtonContainer>
     </>
   );

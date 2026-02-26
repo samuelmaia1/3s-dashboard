@@ -9,14 +9,26 @@ import { PersonalStep } from "./PersonalStep";
 import { AddressStep } from "./AddressStep";
 import { CompanyStep } from "./CompanyStep";
 import { ApiError } from "@/types/Error";
-import { api } from "@/lib/axios";
-import { routes } from "@/constants/api-routes";
 import { Text } from "@components/Text/Text";
 import { createUser } from "@/services/user.service";
+import { AlertProps, Snackbar } from "@mui/material";
+import { Button } from "@components/Button/Button";
+import { FlashMessage } from "@components/FlashMessage/FlashMessage";
+import { useAuth } from "@hooks/useAuth";
+import { useFlashMessage } from "@contexts/FlashMessageContext";
+
+interface FlashMessage {
+    open: boolean;
+    message: string;
+    severity?: AlertProps["severity"];
+}
 
 export default function RegisterForm() {
     const [step, setStep] = useState(1);
     const [error, setError] = useState<string | null>(null);
+    const { showMessage } = useFlashMessage();
+
+    const { login } = useAuth();
 
     const methods = useForm<CreateUserFormData>({
         resolver: zodResolver(createUserSchema),
@@ -26,21 +38,25 @@ export default function RegisterForm() {
     async function onSubmit(data: CreateUserFormData) {
         try {
             const response = await createUser(data);
-            console.log(response);
+
             if (response.status === 201) {
                 setError(null);
+                
+                showMessage("Usuário criado com sucesso!", "success");
+                
+                await login(data.email, data.password);
             }
         } catch (error) {
             if (error instanceof ApiError) {
                 setError(error.message);
+                showMessage(`Erro ao criar usuário: ${error.message}`, "error");
             }
-            console.error(error);
         }
     }
 
   return (
     <>
-        <ProgressBar progress={(step / 3) * 100} color="success"/>
+        <ProgressBar progress={(step / 3) * 100} color="inherit"/>
         <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)}>
                 {step === 1 && <PersonalStep onNext={() => setStep(2)} />}

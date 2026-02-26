@@ -1,6 +1,7 @@
 "use client";
 
 import { routes } from "@/constants/api-routes";
+import { publicPaths } from "@/constants/app-paths";
 import { api } from "@/lib/axios";
 import { ApiError } from "@/types/Error";
 import { LoggedUser } from "@/types/User";
@@ -35,7 +36,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       setUser(response.data);
     } catch (error) {
       setUser(null);
-      router.push("/login");
+      if (!publicPaths.includes(window.location.pathname)) 
+        router.push("/login");
     } finally {
       setLoadingAuth(false);
     }
@@ -47,7 +49,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
       const response = await api.post(routes.auth.login, { email, password });
       const userData: LoggedUser = response.data.user;
       setUser(userData);
-      router.push("/dashboard");
+      router.push("/dashboard?login=true");
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data) {
         throw new ApiError(error.response.data);
@@ -61,6 +63,26 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   async function logout() {
     setUser(null);
+    try {
+      setLoadingAuth(true);
+      const response = await api.post(routes.auth.logout);
+
+      if (response.status === 204) {
+        setUser(null);
+        router.push("/login?logout=true");
+      } else {
+        throw new ApiError(response.data);
+      }
+
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        throw new ApiError(error.response.data);
+      }
+
+      throw error;
+    } finally {
+      setLoadingAuth(false);
+    }
   }
 
   useEffect(() => {

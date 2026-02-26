@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Login",
-  description: "Acesse sua conta",
+  title: "Criar Conta",
+  description: "Crie uma nova conta",
 };
 
-export default function LoginLayoyt({ children }: { children: ReactNode }) {
+export default function RegisterLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       {children}

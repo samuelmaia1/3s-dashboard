@@ -21,16 +21,23 @@ const darkTheme = createTheme({
 
     success: {
       main: "#22C55E",   
+      contrastText: "#FFFFFF"
     },
 
     error: {
-      main: "#561213",  
-      contrastText: "#FFFFFF", 
+      main: "#EF4444", 
+      contrastText: "#FFFFFF",
     },
 
     info: {
       main: "#3B82F6",   
+      contrastText: "#FFFFFF",
     },
+
+    warning: {
+      main: "#F57C01",   
+      contrastText: "#FFFFFF",
+    }
   },
 
   typography: {
