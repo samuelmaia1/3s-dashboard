@@ -15,3 +15,31 @@ export function formatPath(path = "") {
     )
     .join(" ");
 }
+
+export function maskCpf(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+}
+
+export function maskCep(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{5})(\d)/, "$1-$2");
+}
+
+export function maskInstagram(value: string) {
+  if (!value) return "";
+
+  const sanitized = value
+    .replace(/\s/g, "")  
+    .replace(/@+/g, "@");
+
+  if (sanitized.startsWith("@")) {
+    return sanitized;
+  }
+
+  return `@${sanitized}`;
+}

@@ -25,3 +25,22 @@ export type DashboardSummary = {
   costumersCount: number;
   openContracts: number;
 }
+
+export type CreateUser = {
+  name: string;
+  lastName: string;
+  email: string;
+  cpf: string;
+  password: string;
+
+  address: {
+    cep: string;
+    street: string;
+    neighborhood: string;
+    city: string;
+    number: string;
+  };
+
+  socialName: string;
+  instagram: string;
+}

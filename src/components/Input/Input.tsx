@@ -18,6 +18,7 @@ interface InputProps {
   secure?: boolean;
   endIcon?: IconName;
   onEndIconClick?: () => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 export function Input({
@@ -25,6 +26,7 @@ export function Input({
   placeholder,
   value,
   onChange,
+  onBlur,
   error = false,
   helperText,
   type = "text",
@@ -40,6 +42,7 @@ export function Input({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onBlur={onBlur}
       error={error}
       helperText={helperText}
       type={type}

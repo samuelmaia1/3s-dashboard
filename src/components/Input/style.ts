@@ -35,6 +35,7 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
     "&.Mui-error fieldset": {
       borderColor: theme.palette.error.main,
     },
+    
   },
 
   "& .MuiInputBase-input": {
