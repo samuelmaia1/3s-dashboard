@@ -10,12 +10,12 @@ interface PublicContentProps {
 }
 
 export function PublicContent({ children }: PublicContentProps) {
-  const { user, loadingAuth } = useAuth();
+  const { user, loadingAuth, isLoggingIn } = useAuth();
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!loadingAuth && user) {
+    if (!loadingAuth && user && !isLoggingIn) {
       router.replace("/dashboard");
     }
   }, [loadingAuth, user]);

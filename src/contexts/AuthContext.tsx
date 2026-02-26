@@ -15,6 +15,7 @@ interface AuthContextValues {
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   loadingAuth: boolean;
+  isLoggingIn: boolean;
 }
 
 interface AuthProviderProps {
@@ -27,6 +28,7 @@ export const AuthContext = createContext<AuthContextValues>(
 
 export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<LoggedUser | null>(null);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [loadingAuth, setLoadingAuth] = useState(true);
   const router = useRouter();
 
@@ -46,6 +48,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   async function login(email: string, password: string) {
     try {
       setLoadingAuth(true);
+      setIsLoggingIn(true);
+      
       const response = await api.post(routes.auth.login, { email, password });
       const userData: LoggedUser = response.data.user;
       setUser(userData);
@@ -90,7 +94,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, loadingAuth }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, loadingAuth, isLoggingIn }}>
       {children}
     </AuthContext.Provider>
   );
