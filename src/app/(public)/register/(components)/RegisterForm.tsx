@@ -18,61 +18,68 @@ import { useAuth } from "@hooks/useAuth";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 
 interface FlashMessage {
-    open: boolean;
-    message: string;
-    severity?: AlertProps["severity"];
+  open: boolean;
+  message: string;
+  severity?: AlertProps["severity"];
 }
 
 export default function RegisterForm() {
-    const [step, setStep] = useState(1);
-    const [error, setError] = useState<string | null>(null);
-    const { showMessage } = useFlashMessage();
+  const [step, setStep] = useState(0);
+  const [error, setError] = useState<string | null>(null);
+  const { showMessage } = useFlashMessage();
 
-    const { login } = useAuth();
+  const { login } = useAuth();
 
-    const methods = useForm<CreateUserFormData>({
-        resolver: zodResolver(createUserSchema),
-        mode: "onChange",
-    })
-  
-    async function onSubmit(data: CreateUserFormData) {
-        try {
-            const response = await createUser(data);
+  const methods = useForm<CreateUserFormData>({
+    resolver: zodResolver(createUserSchema),
+    mode: "onChange",
+  });
 
-            if (response.status === 201) {
-                setError(null);
-                
-                showMessage("Usuário criado com sucesso!", "success");
-                
-                await login(data.email, data.password);
-            }
-        } catch (error) {
-            if (error instanceof ApiError) {
-                setError(error.message);
-                showMessage(`Erro ao criar usuário: ${error.message}`, "error");
-            }
-        }
+  async function onSubmit(data: CreateUserFormData) {
+    try {
+      const response = await createUser(data);
+
+      if (response.status === 201) {
+        setError(null);
+
+        showMessage("Usuário criado com sucesso!", "success");
+
+        await login(data.email, data.password);
+      }
+    } catch (error) {
+      if (error instanceof ApiError) {
+        setError(error.message);
+        showMessage(`Erro ao criar usuário: ${error.message}`, "error");
+      }
     }
+  }
 
   return (
     <>
-        <ProgressBar progress={(step / 3) * 100} color="inherit"/>
-        <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
-                {step === 1 && <PersonalStep onNext={() => setStep(2)} />}
-                {step === 2 && <AddressStep onNext={() => setStep(3)} onBack={() => setStep(1)} />}
-                {step === 3 && <CompanyStep onBack={() => setStep(2)} />}
-            </form>
-        </FormProvider>
-        {error && 
-            <Text 
-                variant="body2" 
-                color="error.main" 
-                style={{textAlign: 'center', marginTop: 24}}
-            >
-                {error}
-            </Text>
-        }
+      <ProgressBar progress={(step / 3) * 100} color="inherit" />
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onSubmit)}>
+          {step === 0 && <PersonalStep onNext={() => setStep(1)} />}
+          {step === 1 && (
+            <AddressStep onNext={() => setStep(2)} onBack={() => setStep(0)} />
+          )}
+          {(step === 2 || step === 3) && (
+            <CompanyStep
+              onBack={() => setStep(1)}
+              onCreate={() => setStep(3)}
+            />
+          )}
+        </form>
+      </FormProvider>
+      {error && (
+        <Text
+          variant="body2"
+          color="error.main"
+          style={{ textAlign: "center", marginTop: 24 }}
+        >
+          {error}
+        </Text>
+      )}
     </>
   );
 }

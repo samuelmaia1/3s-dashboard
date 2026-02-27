@@ -7,15 +7,19 @@ import { Button } from "@components/Button/Button";
 import { useAuth } from "@hooks/useAuth";
 import { ApiError } from "@/types/Error";
 import { Text } from "@components/Text/Text";
+import { useFlashMessage } from "@contexts/FlashMessageContext";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {},
+  );
   const [defaultError, setDefaultError] = useState("");
 
   const { login, loadingAuth } = useAuth();
+  const { showMessage } = useFlashMessage();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -40,20 +44,34 @@ export default function LoginForm() {
       if (error instanceof ApiError) {
         if (error.status === 401) {
           setDefaultError(error.message || "Credenciais inválidas");
+          showMessage(
+            "Credenciais inválidas. Por favor, tente novamente.",
+            "error",
+          );
         }
 
         if (error.status === 404) {
-          setErrors({email: "Este e-mail não está cadastrado"});
+          setErrors({ email: "Este e-mail não está cadastrado" });
+          showMessage(
+            "Este e-mail não está cadastrado. Por favor, verifique e tente novamente.",
+            "error",
+          );
         }
       }
-    }    
+    }
   }
 
   return (
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ display: "flex", flexDirection: "column", gap: 2, maxWidth: '600px', width: "100%" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxWidth: "600px",
+        width: "100%",
+      }}
     >
       <Input
         label="E-mail"
@@ -78,11 +96,19 @@ export default function LoginForm() {
         onEndIconClick={() => setShowPassword(!showPassword)}
       />
 
-      <Text variant="body2" color="error.main" >
+      <Text variant="body2" color="error.main">
         {defaultError}
       </Text>
 
-      <Button type="submit" variant="filled" color="primary" fullWidth shape="square" icon="arrow-right" loading={loadingAuth}>
+      <Button
+        type="submit"
+        variant="filled"
+        color="primary"
+        fullWidth
+        shape="square"
+        icon="arrow-right"
+        loading={loadingAuth}
+      >
         Entrar
       </Button>
     </Box>

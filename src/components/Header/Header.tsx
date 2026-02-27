@@ -5,20 +5,30 @@ import { Button } from "@components/Button/Button";
 import { useTheme } from "@hooks/useTheme";
 
 import { Avatar } from "@components/Avatar/Avatar";
-import { AvatarContainer, ButtonsContainer, Container, TitleContainer } from "./style";
+import {
+  AvatarContainer,
+  ButtonsContainer,
+  Container,
+  TitleContainer,
+} from "./style";
 import { Text } from "@components/Text/Text";
 import { useAuth } from "@hooks/useAuth";
 import { FlashMessage } from "@components/FlashMessage/FlashMessage";
 import { useState } from "react";
 import { IFlashMessage } from "@/types/Interfaces";
+import { Icon } from "@components/Icon/Icon";
 
 interface HeaderProps {
   onOpenSidebar: () => void;
-  title: string
+  title: string;
 }
 
 export function Header({ onOpenSidebar, title }: HeaderProps) {
-  const [snackBar, setSnackBar] = useState<IFlashMessage>({ open: false, message: "", severity: undefined });
+  const [snackBar, setSnackBar] = useState<IFlashMessage>({
+    open: false,
+    message: "",
+    severity: undefined,
+  });
 
   const { logout } = useAuth();
 
@@ -29,48 +39,42 @@ export function Header({ onOpenSidebar, title }: HeaderProps) {
   async function handleLogout() {
     try {
       await logout();
-      setSnackBar({ open: true, message: "Logout realizado com sucesso!", severity: "success" });
+      setSnackBar({
+        open: true,
+        message: "Logout realizado com sucesso!",
+        severity: "success",
+      });
     } catch (error) {
-      setSnackBar({ open: true, message: "Erro ao deslogar", severity: "error" });
+      setSnackBar({
+        open: true,
+        message: "Erro ao deslogar",
+        severity: "error",
+      });
     }
   }
 
   return (
     <Container>
-      <FlashMessage message={snackBar.message} open={snackBar.open} onClose={() => setSnackBar((prev) => ({ ...prev, open: false }))} />
+      <FlashMessage
+        message={snackBar.message}
+        open={snackBar.open}
+        onClose={() => setSnackBar((prev) => ({ ...prev, open: false }))}
+      />
       <AvatarContainer>
-        <Button
-          variant="text"
-          color="primary"
-          shape="rounded"
-          size="medium"
-          icon={"menu"}
-          onClick={onOpenSidebar}
-        />
+        <Icon size={16} name={"menu"} onClick={onOpenSidebar} />
       </AvatarContainer>
       <TitleContainer>
-        <Text variant="h5" weight={500}>
+        <Text variant="h6" weight={500} fontSize={16}>
           {title}
         </Text>
       </TitleContainer>
       <ButtonsContainer>
-        <Button
-          variant="text"
-          color="primary"
-          shape="rounded"
-          size="medium"
-          icon={isDark ? "moon-star" : "sun"}
+        <Icon
+          size="16"
+          name={isDark ? "moon-star" : "sun"}
           onClick={toggleTheme}
         />
-        <Button
-          variant="text"
-          color="primary"
-          shape="rounded"
-          size="medium"
-          icon="settings"
-          onClick={handleLogout}
-        />
-        <Avatar />
+        <Icon size="16" name={"settings"} onClick={handleLogout} />
       </ButtonsContainer>
     </Container>
   );

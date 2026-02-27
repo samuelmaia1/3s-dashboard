@@ -1,8 +1,8 @@
 import { styled } from "@mui/material";
 
 export const AvatarContainer = styled("div")(({ theme }) => ({
-  width: 32,
-  height: 32,
+  width: 24,
+  height: 24,
   borderRadius: "50%",
 
   display: "flex",

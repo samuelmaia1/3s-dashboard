@@ -10,15 +10,16 @@ import { DashboardSummary } from "@/types/User";
 import { formatToCurrency } from "@/formatter";
 import { Icon } from "@components/Icon/Icon";
 import { useTheme } from "@mui/material";
-import { IFlashMessage } from "@/types/Interfaces";
 import { useSearchParams } from "next/navigation";
-import { FlashMessage } from "@components/FlashMessage/FlashMessage";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
+import { useAuth } from "@hooks/useAuth";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
-  
+
   const { showMessage } = useFlashMessage();
+
+  const { isLoggingIn } = useAuth();
 
   const params = useSearchParams();
 
@@ -38,8 +39,8 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
-    if (params.get("login") === "true") {
-      showMessage("Login realizado com sucesso!" , "success");
+    if (params.get("login") === "true" && isLoggingIn) {
+      showMessage("Login realizado com sucesso!", "success");
     }
   }, []);
 

@@ -11,7 +11,7 @@ export const ButtonsContainer = styled("div")({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-end",
-  gap: "0.5rem",
+  gap: "2rem",
 })
 
 export const AvatarContainer = styled("div")(({ theme }) => ({

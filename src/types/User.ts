@@ -8,7 +8,8 @@ export type LoggedUser = {
   address: Address;
   socialName: string | null;
   instagram: string | null;
-  cpf: string
+  cpf: string;
+  logo: string;
 };
 
 export type Address = {
@@ -43,4 +44,6 @@ export type CreateUser = {
 
   socialName: string;
   instagram: string;
+
+  logo?: string;
 }

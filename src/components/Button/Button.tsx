@@ -89,23 +89,29 @@ export function Button({
   return (
     <StyledButton
       style={{
-        ...baseStyle, 
+        ...baseStyle,
         ...variantStyle,
         ...style,
       }}
       disabled={loading}
       {...rest}
     >
-      {!loading ? <Content icon={icon}>{children}</Content> : <LoadingSpinner color={"inherit"} size={20}/>}
+      {!loading ? (
+        <Content icon={icon}>{children}</Content>
+      ) : (
+        <LoadingSpinner color={"inherit"} size={20} />
+      )}
     </StyledButton>
   );
 }
 
-function Content({ children, icon }: { children: ReactNode; icon?: IconName;}) {
+function Content({ children, icon }: { children: ReactNode; icon?: IconName }) {
   return (
     <>
       {children}
-      {icon && <Icon name={icon} size={20} style={{ marginLeft: children ? 10 : 0 }} />}
+      {icon && (
+        <Icon name={icon} size={20} style={{ marginLeft: children ? 10 : 0 }} />
+      )}
     </>
   );
 }

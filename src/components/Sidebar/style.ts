@@ -72,3 +72,8 @@ export const SectionTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
   letterSpacing: '0.05em',
 }));
+
+export const Logo = styled(Box)(({ theme }) => ({
+  width: 32,
+  height: 32,
+}))
