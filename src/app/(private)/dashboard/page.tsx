@@ -15,6 +15,8 @@ import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { useAuth } from "@hooks/useAuth";
 import OrdersTable from "@components/OrdersTable/OrdersTable";
 import { ordersMock } from "@/mocks/orders-mock";
+import ContractsTable from "@components/ContractsTable/ContractsTable";
+import { contractsMock } from "@/mocks/contracts-mock";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -117,11 +119,11 @@ export default function Dashboard() {
         <Card
           title="Contratos recentes"
           description="Últimos contratos gerados"
-          icon="layout-list"
+          icon="file"
           textVariant="body1"
           textColor="primary"
         >
-          <OrdersTable orders={ordersMock} />
+          <ContractsTable contracts={contractsMock} />
         </Card>
       </TableContainer>
     </Container>

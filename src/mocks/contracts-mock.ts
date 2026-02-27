@@ -3,7 +3,7 @@ import { Contract, ContractStatus } from "@/types/Contract";
 export const contractsMock: Contract[] = [
   {
     id: "contract-1",
-    code: "CT0001",
+    code: "0843",
     costumerId: "customer-1",
     orderId: "order-1",
     status: ContractStatus.ASSINATURA_PENDENTE,
@@ -11,7 +11,7 @@ export const contractsMock: Contract[] = [
   },
   {
     id: "contract-2",
-    code: "CT0002",
+    code: "3421",
     costumerId: "customer-2",
     orderId: "order-2",
     status: ContractStatus.ASSINADO,
@@ -19,7 +19,7 @@ export const contractsMock: Contract[] = [
   },
   {
     id: "contract-3",
-    code: "CT0003",
+    code: "3078",
     costumerId: "customer-3",
     orderId: "order-3",
     status: ContractStatus.CANCELADO,
@@ -27,7 +27,7 @@ export const contractsMock: Contract[] = [
   },
   {
     id: "contract-4",
-    code: "CT0004",
+    code: "6543",
     costumerId: "customer-4",
     orderId: "order-4",
     status: ContractStatus.ASSINATURA_PENDENTE,
@@ -35,7 +35,7 @@ export const contractsMock: Contract[] = [
   },
   {
     id: "contract-5",
-    code: "CT0005",
+    code: "5401",
     costumerId: "customer-5",
     orderId: "order-5",
     status: ContractStatus.ASSINADO,

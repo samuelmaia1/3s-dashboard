@@ -29,11 +29,10 @@ export function TextTag({ text, variant = 'info', icon }: TextTagProps) {
         info: theme.palette.info.contrastText,
     }
 
-
     return (
         <Container sx={{backgroundColor: variantBackground[variant]}}>
             <Content>
-                <Text variant="body2" sx={{color: variantText[variant]}} weight={'bold'}>
+                <Text variant="body2" sx={{color: variantText[variant]}} weight={'medium'}>
                     {text}
                 </Text>
                 {icon && (

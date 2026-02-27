@@ -65,9 +65,9 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             onClick={onClose}
           />
           <NavItem
-            href="/rents"
+            href="/orders"
             iconName="shopping-cart"
-            label="Alugueis"
+            label="Pedidos"
             currentPath={pathname}
             onClick={onClose}
           />

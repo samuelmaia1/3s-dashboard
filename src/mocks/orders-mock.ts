@@ -5,8 +5,8 @@ export const ordersMock: Order[] = [
     id: "order-1",
     costumer: {
       id: "customer-1",
-      name: "Maria",
-      lastName: "Silva"
+      name: "Silas",
+      lastName: "Daniel"
     },
     userId: "user-1",
     costumerId: "customer-1",
@@ -42,8 +42,8 @@ export const ordersMock: Order[] = [
     id: "order-2",
     costumer: {
       id: "customer-1",
-      name: "Maria",
-      lastName: "Silva"
+      name: "Samuel",
+      lastName: "Maia"
     },
     userId: "user-2",
     costumerId: "customer-2",
@@ -79,8 +79,8 @@ export const ordersMock: Order[] = [
     id: "order-3",
     costumer: {
       id: "customer-1",
-      name: "Maria",
-      lastName: "Silva"
+      name: "Rogéria",
+      lastName: "Maia"
     },
     userId: "user-3",
     costumerId: "customer-3",
@@ -117,8 +117,8 @@ export const ordersMock: Order[] = [
     id: "order-4",
     costumer: {
       id: "customer-1",
-      name: "Maria",
-      lastName: "Silva"
+      name: "Barbara",
+      lastName: "Soares"
     },
     userId: "user-4",
     costumerId: "customer-4",
@@ -154,8 +154,8 @@ export const ordersMock: Order[] = [
     id: "order-5",
     costumer: {
       id: "customer-1",
-      name: "Maria",
-      lastName: "Silva"
+      name: "Sara",
+      lastName: "Maia"
     },
     userId: "user-5",
     costumerId: "customer-5",
