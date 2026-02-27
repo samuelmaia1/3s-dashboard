@@ -74,7 +74,7 @@ export function Header({ onOpenSidebar, title }: HeaderProps) {
           name={isDark ? "moon-star" : "sun"}
           onClick={toggleTheme}
         />
-        <Icon size="16" name={"settings"} onClick={handleLogout} />
+        <Icon size="16" name={"log-out"} onClick={handleLogout} />
       </ButtonsContainer>
     </Container>
   );

@@ -9,7 +9,7 @@ export const AvatarContainer = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 
-  backgroundColor: theme.palette.primary.main,
+  backgroundColor: theme.palette.background.paper,
   color: theme.palette.primary.contrastText,
 
   fontSize: 14,

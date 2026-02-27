@@ -14,7 +14,9 @@ interface CustomImageProps {
   href?: string;
 }
 
-const ImageWrapper = styled(Box)<{ rounded?: boolean }>(({ rounded }) => ({
+const ImageWrapper = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "rounded",
+})<{ rounded?: boolean }>(({ rounded }) => ({
   display: "inline-block",
   overflow: "hidden",
   borderRadius: rounded ? "50%" : "0",

@@ -8,7 +8,6 @@ import {
   ListItemIcon,
   ListItemText,
   Box,
-  Avatar,
 } from "@mui/material";
 import type { IconName } from "lucide-react/dynamic";
 
@@ -23,7 +22,6 @@ import {
   StyledListItemButton,
   Logo,
 } from "./style";
-import Image from "next/image";
 import { CustomImage } from "@components/CustomImage/CustomImage";
 import { Text } from "@components/Text/Text";
 
@@ -39,28 +37,18 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
   const drawerContent = (
     <>
       <LogoContainer>
-        <Box
-          sx={{
-            width: 24,
-            height: 24,
-            bgcolor: "text.primary",
-            color: "background.paper",
-            borderRadius: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Logo>
+        <Logo>
+          {user?.logo ?
             <CustomImage
               src={user?.logo!}
               alt="logo"
               height={32}
               width={32}
               rounded
-            />
-          </Logo>
-        </Box>
+            /> :
+            <Icon name="users" size={24} />
+        }
+        </Logo>
         <Text variant="body1">
           {user?.socialName || `${user?.name} ${user?.lastName}`}
         </Text>

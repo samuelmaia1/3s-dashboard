@@ -10,9 +10,11 @@ interface CardProps {
   title?: string;
   description?: string;
   icon?: IconName;
+  textVariant?:"body1" | "body2";
+  textColor?: "primary" | "secondary";
 }
 
-export function Card({ children, title, description, icon }: CardProps) {
+export function Card({ children, title, description, icon, textVariant, textColor }: CardProps) {
   const theme = useTheme();
 
   return (
@@ -20,9 +22,9 @@ export function Card({ children, title, description, icon }: CardProps) {
       <TitleContainer>
         <TopContainer>
           <Text
-            variant="body1"
+            variant={textVariant || "body1"}
             weight="bold"
-            color={theme.palette.text.secondary}
+            color={textColor === "primary" ? theme.palette.primary.main : theme.palette.text.secondary}
           >
             {title}
           </Text>

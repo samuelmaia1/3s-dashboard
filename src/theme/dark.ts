@@ -1,6 +1,19 @@
 import { createTheme } from "@mui/material/styles";
 
+// old success: 22C55E
+
 const darkTheme = createTheme({
+   breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      md2: 1024,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+  
   palette: {
     mode: "dark",
 
@@ -20,7 +33,7 @@ const darkTheme = createTheme({
     },
 
     success: {
-      main: "#22C55E",   
+      main: "#16A34A",   
       contrastText: "#FFFFFF"
     },
 
