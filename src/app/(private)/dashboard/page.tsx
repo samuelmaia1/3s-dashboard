@@ -1,7 +1,12 @@
 "use client";
 
 import { Text } from "@components/Text/Text";
-import { CardContainer, Container, IconTextContainer, TableContainer } from "./style";
+import {
+  CardContainer,
+  Container,
+  IconTextContainer,
+  TableContainer,
+} from "./style";
 import { Card } from "@components/Card/Card";
 import { api } from "@/lib/axios";
 import { routes } from "@/constants/api-routes";
@@ -32,6 +37,7 @@ export default function Dashboard() {
   async function fetchDashboardSummary() {
     try {
       const response = await api.get(routes.dashboard.summary);
+      console.log(response.data);
       setSummary(response.data);
     } catch (error) {
       console.error("Erro ao buscar resumo do dashboard:", error);
@@ -114,7 +120,7 @@ export default function Dashboard() {
           textVariant="body1"
           textColor="primary"
         >
-          <OrdersTable orders={ordersMock} />
+          <OrdersTable orders={summary?.lastOrders || []} />
         </Card>
         <Card
           title="Contratos recentes"
@@ -123,7 +129,7 @@ export default function Dashboard() {
           textVariant="body1"
           textColor="primary"
         >
-          <ContractsTable contracts={contractsMock} />
+          <ContractsTable contracts={summary?.lastContracts || []} />
         </Card>
       </TableContainer>
     </Container>

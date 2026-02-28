@@ -1,3 +1,6 @@
+import { Contract } from "./Contract";
+import { Order } from "./Order";
+
 export type LoggedUser = {
   id: string;
   name: string;
@@ -25,6 +28,8 @@ export type DashboardSummary = {
   monthlyRevenue: number;
   costumersCount: number;
   openContracts: number;
+  lastOrders: Order[];
+  lastContracts: Contract[];
 }
 
 export type CreateUser = {

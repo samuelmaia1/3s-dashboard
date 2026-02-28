@@ -5,6 +5,11 @@ export interface Contract {
   orderId: string
   status: ContractStatus
   createdAt: string
+  costumer: {
+    id: string;
+    name: string;
+    lastName: string;
+  }
 }
 
 export enum ContractStatus {

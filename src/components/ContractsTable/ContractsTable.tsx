@@ -1,11 +1,11 @@
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableRow, 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Box,
-  useTheme, 
+  useTheme,
 } from "@mui/material";
 import { Text } from "@components/Text/Text";
 import { TextTag, TextTagVariant } from "@components/TextTag/TextTag";
@@ -18,10 +18,11 @@ interface ContractsTableProps {
 const statusBackground: Record<ContractStatus, TextTagVariant> = {
   [ContractStatus.CANCELADO]: "error",
   [ContractStatus.ASSINADO]: "success",
-  [ContractStatus.ASSINATURA_PENDENTE]: "warning"
+  [ContractStatus.ASSINATURA_PENDENTE]: "warning",
 };
 
 export default function ContractsTable({ contracts }: ContractsTableProps) {
+  const theme = useTheme();
 
   return (
     <TableContainer sx={{ bgcolor: "transparent" }}>
@@ -43,15 +44,25 @@ export default function ContractsTable({ contracts }: ContractsTableProps) {
                   bgcolor: "action.hover",
                   cursor: "pointer",
                 },
-                borderRadius: 8
+                borderRadius: 8,
               }}
             >
               <TableCell>
                 <Box>
-                  <Text variant="body1" weight="medium" sx={{ lineHeight: 1.2 }}>
-                    Contrato - {contract.code}
+                  <Text
+                    variant="body1"
+                    weight="medium"
+                    sx={{ lineHeight: 1.2 }}
+                  >
+                    {contract.costumer.name} {contract.costumer.lastName}
                   </Text>
                 </Box>
+              </TableCell>
+
+              <TableCell>
+                <Text color={theme.palette.text.secondary} variant="body2">
+                  N° {contract.code}
+                </Text>
               </TableCell>
 
               <TableCell align="right">

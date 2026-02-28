@@ -33,7 +33,7 @@ export enum OrderStatus {
     CONTRATO_ASSINADO = "Contrato Assinado",
     AGUARDANDO_PAGAMENTO = "Aguardando Pagamento",
     PAGAMENTO_APROVADO = 'Pagamento Aprovado',
-    AGUARDANDO_ENTREGA = 'Aguardando',
+    AGUARDANDO_ENTREGA = 'Aguardando Entrega',
     ENTREGUE = 'Entregue',
     CONCLUIDO = 'Concluído',
     CANCELADO = 'Cancelado'
