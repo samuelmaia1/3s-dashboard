@@ -6,6 +6,7 @@ import { IconName } from "lucide-react/dynamic";
 
 import { StyledButton } from "./style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
+import { Text } from "@components/Text/Text";
 
 type Variant = "outline" | "filled" | "text";
 type Color = "primary" | "error" | "success" | "info";
@@ -68,10 +69,7 @@ export function Button({
   const variantStyle: CSSProperties = {
     filled: {
       backgroundColor: paletteColor.main,
-      color:
-        color === "primary"
-          ? theme.palette.background.default
-          : theme.palette.text.primary,
+      color: paletteColor.contrastText,
       border: `1px solid ${paletteColor.main}`,
     },
     outline: {
@@ -108,9 +106,9 @@ export function Button({
 function Content({ children, icon }: { children: ReactNode; icon?: IconName }) {
   return (
     <>
-      {children}
+      <Text variant="body1" weight="medium" color="inherit">{children}</Text>
       {icon && (
-        <Icon name={icon} size={20} style={{ marginLeft: children ? 10 : 0 }} />
+        <Icon name={icon} size={18} style={{ marginLeft: children ? 10 : 0 }} />
       )}
     </>
   );

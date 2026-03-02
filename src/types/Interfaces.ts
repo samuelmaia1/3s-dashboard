@@ -5,3 +5,9 @@ export interface IFlashMessage {
     message: string;
     severity?: AlertProps["severity"];
 }
+
+export interface FormStepProps {
+    onBack?: () => void;
+    onNext?: () => void;
+    isLastStep?: boolean;
+}

@@ -10,6 +10,7 @@ export const routes = {
     list: "/users",
     create: "/users/create", 
     get: "/users",       
+    products: "/users/products",
   },
   dashboard: {
     summary: "/dashboard/summary",

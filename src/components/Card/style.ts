@@ -15,7 +15,7 @@ export const TitleContainer = styled(Box)(({ theme }) => ({
 
 export const TopContainer = styled(Box)(({ theme }) => ({
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
     gap: "0.5rem",
     justifyContent: "space-between"
 }));

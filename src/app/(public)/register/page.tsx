@@ -3,7 +3,7 @@
 import { Text } from "@components/Text/Text";
 import { Container } from "./style";
 import { Box } from "@mui/material";
-import RegisterForm from "./(components)/RegisterForm";
+import { RegisterForm } from "./(components)/RegisterForm";
 
 export default function Register() {
     return (

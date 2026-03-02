@@ -65,3 +65,16 @@ export function formatDate(dateInput: any, fullDate = false) {
 
   return formattedDate;
 };
+
+export function maskCurrency(value: string) {
+  const onlyNumbers = value.replace(/\D/g, "");
+
+  const number = Number(onlyNumbers) / 100;
+
+  if (Number.isNaN(number)) return "";
+
+  return number.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}

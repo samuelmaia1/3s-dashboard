@@ -23,6 +23,7 @@ import ContractsTable from "@components/ContractsTable/ContractsTable";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const { showMessage } = useFlashMessage();
 
@@ -33,12 +34,14 @@ export default function Dashboard() {
   const theme = useTheme();
 
   async function fetchDashboardSummary() {
+    setLoading(true);
     try {
       const response = await api.get(routes.dashboard.summary);
-      console.log(response.data);
       setSummary(response.data);
     } catch (error) {
       console.error("Erro ao buscar resumo do dashboard:", error);
+    } finally {
+      setLoading(false);
     }
   }
 

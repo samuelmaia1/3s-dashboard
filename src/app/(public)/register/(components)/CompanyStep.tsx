@@ -2,22 +2,16 @@ import { RHFInput } from "@components/RHFInput/RHFInput";
 import { useFormContext } from "react-hook-form";
 import { ButtonContainer } from "./style";
 import { Button } from "@components/Button/Button";
-import { maskInstagram } from "@/formatter";
 
 export function CompanyStep({
   onBack,
-  onCreate,
+  onSubmit,
 }: {
   onBack: () => void;
-  onCreate: () => void;
+  onSubmit: () => void;
 }) {
-  const { trigger, formState } = useFormContext();
+  const { formState } = useFormContext();
 
-  async function handleSubmitClick() {
-    const valid = await trigger(["socialName", "instagram"]);
-    if (!valid) return;
-    onCreate();
-  }
 
   return (
     <>
@@ -44,7 +38,7 @@ export function CompanyStep({
         fullWidth
         disabled={formState.isSubmitting}
         loading={formState.isSubmitting}
-        onClick={handleSubmitClick}
+        onClick={onSubmit}
         style={{ marginTop: 24 }}
       >
         Cadastrar

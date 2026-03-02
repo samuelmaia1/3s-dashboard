@@ -50,4 +50,20 @@ export const createUserSchema = z.object({
     .min(1, "Instagram é obrigatório"),
 });
 
+export const createProductSchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  description: z.string().min(1, "Descrição é obrigatória"),
+
+  price: z
+    .string()
+    .regex(/^\d+$/, "Preço inválido"),
+
+  stock: z.coerce
+    .number()
+    .int("Estoque deve ser um número inteiro")
+    .positive("Estoque deve ser um número positivo"),
+});
+
 export type CreateUserFormData = z.infer<typeof createUserSchema>;
+export type CreateProductFormInput = z.input<typeof createProductSchema>;
+export type CreateProductFormOutput = z.output<typeof createProductSchema>;

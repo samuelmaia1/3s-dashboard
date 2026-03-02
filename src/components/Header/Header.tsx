@@ -1,10 +1,7 @@
 "use client";
 
-import { Button } from "@components/Button/Button";
-
 import { useTheme } from "@hooks/useTheme";
 
-import { Avatar } from "@components/Avatar/Avatar";
 import {
   AvatarContainer,
   ButtonsContainer,
@@ -17,10 +14,11 @@ import { FlashMessage } from "@components/FlashMessage/FlashMessage";
 import { useState } from "react";
 import { IFlashMessage } from "@/types/Interfaces";
 import { Icon } from "@components/Icon/Icon";
+import { parsedPaths } from "@/constants/app-paths";
 
 interface HeaderProps {
   onOpenSidebar: () => void;
-  title: string;
+  title: keyof typeof parsedPaths;
 }
 
 export function Header({ onOpenSidebar, title }: HeaderProps) {
@@ -65,7 +63,7 @@ export function Header({ onOpenSidebar, title }: HeaderProps) {
       </AvatarContainer>
       <TitleContainer>
         <Text variant="h6" weight={500} fontSize={16}>
-          {title}
+          {parsedPaths[title]}
         </Text>
       </TitleContainer>
       <ButtonsContainer>

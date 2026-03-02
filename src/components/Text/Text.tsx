@@ -19,10 +19,18 @@ interface TextProps extends Omit<TypographyProps, "color"> {
   weight?: FontWeight;
   color?: TypographyProps["color"] | string;
   truncate?: boolean;
+  lines?: number;
 }
 
-export function Text({ weight, color = "text.primary", truncate = false, sx, children, ...rest }: TextProps) 
-{
+export function Text({
+  weight,
+  color = "text.primary",
+  truncate = false,
+  lines,
+  sx,
+  children,
+  ...rest
+}: TextProps) {
   return (
     <Typography
       color={color}
@@ -33,6 +41,12 @@ export function Text({ weight, color = "text.primary", truncate = false, sx, chi
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
         }),
+        ...(lines && {
+          display: "-webkit-box",
+          WebkitLineClamp: lines,
+          WebkitBoxOrient: "vertical",
+          overflow: "hidden",
+        }),
         ...sx,
       }}
       {...rest}
@@ -40,4 +54,4 @@ export function Text({ weight, color = "text.primary", truncate = false, sx, chi
       {children}
     </Typography>
   );
-};
+}

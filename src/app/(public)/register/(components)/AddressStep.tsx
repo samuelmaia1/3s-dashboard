@@ -12,8 +12,7 @@ interface AddressStepProps {
 }
 
 export function AddressStep({ onNext, onBack }: AddressStepProps) {
-    const { watch, setValue, trigger } = useFormContext();
-    const cep = watch("address.cep");
+    const { setValue, trigger } = useFormContext();
 
     async function handleFetchAddress(cep: string) {
         if (cep.length !== 8) return;
