@@ -3,11 +3,64 @@
 import { Modal } from "@components/Modal/Modal";
 import { Container, TopContainer } from "./style";
 import { Button } from "@components/Button/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateProductForm } from "./(components)/CreateProductForm";
+import ProductsTable from "@components/ProductsTable/ProductsTable";
+import { Product } from "@/types/Product";
+import { api } from "@/lib/axios";
+import { routes } from "@/constants/api-routes";
+import { useFlashMessage } from "@contexts/FlashMessageContext";
+import { ApiError } from "@/types/Error";
+import { Pageable } from "@/types/ApiResponse";
+import { Input } from "@components/Input/Input";
+import { LoadingContainer } from "../style";
+import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
+
+interface Filters {
+    page: number;
+    size: number;
+    sort: string;
+}
 
 export default function Products() {
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [filters, setFilters] = useState<Filters>({page: 0, size: 10, sort: ""});
+
+    const [products, setProducts] = useState<Product[]>([]);
+    const [page, setPage] = useState<Pageable>({number: 0, size: 10, totalElements: 0, totalPages: 0});
+
+    const { showMessage } = useFlashMessage();
+
+    async function fetchProducts() {
+        setLoading(true);
+        try {
+            const response = await api.get(routes.users.products, {
+                params: filters
+            });
+            setProducts(response.data.content);
+        } catch (error) {
+            if (error instanceof ApiError) {
+                showMessage(`Erro ao criar produto: ${error.message}`, "error");
+            }
+
+            showMessage("Erro ao buscar produtos", "error");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchProducts();
+    }, [filters]);
+
+    if (loading) {
+        return (
+            <LoadingContainer>
+                <LoadingSpinner size={24}/>
+            </LoadingContainer>
+        )
+    }
 
     return (
         <Container>
@@ -15,8 +68,10 @@ export default function Products() {
                 <CreateProductForm closeModal={() => setOpen(false)} />
             </Modal>
             <TopContainer>
-                <Button color="primary" onClick={() => setOpen(true)} icon="box">Novo Produto</Button>
+                <Input endIcon='search'/>
+                <Button color="primary" onClick={() => setOpen(true)} icon="plus"/>
             </TopContainer>
+            <ProductsTable products={products}/>
         </Container>
     );
 }

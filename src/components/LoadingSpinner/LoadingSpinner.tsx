@@ -6,7 +6,7 @@ interface LoadingSpinnerProps {
 }
 
 export function LoadingSpinner({
-  size,
+  size = 24,
   color = "primary",
 }: LoadingSpinnerProps) {
   return <CircularProgress size={size} color={color} />;

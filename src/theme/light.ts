@@ -36,7 +36,7 @@ const lightTheme = createTheme({
     },
 
     error: {
-      main: "#561213",
+      main: "#EF4444",
       contrastText: "#FFFFFF",   
     },
 

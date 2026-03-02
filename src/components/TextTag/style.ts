@@ -7,7 +7,7 @@ export const Container = styled(Box)(({theme}) => ({
     alignItems: "center",
     justifyContent: "center",
     maxWidth: '300px',
-    minWidth: '200px'
+    minWidth: '100px'
 }))
 
 export const Content = styled(Box)(({theme}) => ({

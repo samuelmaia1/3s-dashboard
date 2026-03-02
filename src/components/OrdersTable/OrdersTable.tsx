@@ -11,7 +11,7 @@ import {
 import { Text } from "@components/Text/Text";
 import { TextTag, TextTagVariant } from "@components/TextTag/TextTag";
 import { Order, OrderStatus } from "@/types/Order";
-import { formatDate, formatToCurrency } from "@/formatter";
+import { formatToCurrency } from "@/formatter";
 
 interface OrdersTableProps {
   orders: Order[];
