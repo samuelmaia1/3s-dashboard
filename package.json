@@ -14,6 +14,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.8",
     "@mui/material": "^7.3.8",
+    "@stomp/stompjs": "^7.3.0",
     "axios": "^1.13.5",
     "lucide-react": "^0.575.0",
     "next": "16.1.6",
@@ -21,6 +22,7 @@
     "react-dom": "19.2.3",
     "react-hook-form": "^7.71.2",
     "sass": "^1.97.3",
+    "sockjs-client": "^1.6.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sockjs-client": "^1.5.4",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "typescript": "^5"

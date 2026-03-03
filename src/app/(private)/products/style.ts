@@ -7,8 +7,16 @@ export const Container = styled(Box)(({ theme }) => ({
 
 export const TopContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     gap: 16,
     marginBottom: 48
+}))
+
+export const SearchContainer = styled(Box)(({ theme }) => ({
+    flex: 1,
+    
+    [theme.breakpoints.up('md')]: {
+        maxWidth: '50%'
+    }
 }))
