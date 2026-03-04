@@ -59,8 +59,8 @@ export default function ProductsTable({ products }: ProductsTableProps) {
 
               <TableCell align="right" sx={{ whiteSpace: "nowrap" }} width={50}>
                 <TextTag
-                  text={product.stock === 0 ? "Esgotado" : "Em estoque"}
-                  variant={product.stock === 0 ? "error" : "success"}
+                  text={product.stock === 0 ? "Esgotado" : product.stock <= 5 ? "Acabando" : "Disponível"}
+                  variant={product.stock === 0 ? "error" : product.stock <= 5 ? "warning" : "success"}
                 />
               </TableCell>
 

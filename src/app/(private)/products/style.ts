@@ -6,12 +6,11 @@ interface PageProps {
 }
 
 export const Container = styled(Box)(({ theme }) => ({
-    padding: 8,
-    position: 'relative',
-    minHeight: "90vh",
-    display: "flex",
-    flexDirection: "column",
-}))
+  padding: 8,
+  minHeight: "80vh",
+  display: "flex",
+  flexDirection: "column",
+}));
 
 export const TopContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -30,17 +29,14 @@ export const SearchContainer = styled(Box)(({ theme }) => ({
 }))
 
 export const PaginationContainer = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  bottom: theme.spacing(3),
-  left: 0,
-  right: 0,
+  marginTop: "auto",
 
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
   gap: theme.spacing(1),
 
-  zIndex: theme.zIndex.fab,
+  paddingTop: theme.spacing(2),
 }));
 
 export const Page = styled(Box)<PageProps>(({ theme, active }) => ({
