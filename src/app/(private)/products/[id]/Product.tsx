@@ -17,31 +17,33 @@ import { ApiError } from "@/types/Error";
 import { deleteProduct } from "@/services/product.service";
 import { NotFound } from "@components/NotFound/NotFound";
 import { useRouter } from "next/navigation";
+import { set } from "zod";
 
 interface ProductClientProps {
   product: Product | null;
 }
 
 export default function ProductClient({ product }: ProductClientProps) {
+  const [currentProduct, setCurrentProduct] = useState<Product | null>(product);
   const [editProductModalOpen, setEditProductModalOpen] = useState(false);
   const [deleteProductModalOpen, setDeleteProductModalOpen] = useState(false);
   const [imageSrc, setImageSrc] = useState<string | StaticImageData>(
-    product?.imageUri || FallbackImage
+    currentProduct?.imageUri || FallbackImage
   );
 
   const { showMessage } = useFlashMessage();
   const router = useRouter();
 
-  if (!product) {
+  if (!currentProduct) {
     return <NotFound title="Produto não encontrado." text={'Infelizmente, este produto não existe na base de dados.'}/>;
   }
 
   async function handleDeleteProduct() {
     try {
-      if (!product?.id)
+      if (!currentProduct?.id)
         return;
 
-      await deleteProduct(product.id);
+      await deleteProduct(currentProduct.id);
       showMessage("Produto excluido com sucesso!", "success");
       router.replace("/products");
     } catch (error) {
@@ -51,10 +53,16 @@ export default function ProductClient({ product }: ProductClientProps) {
     }
   }
 
+  function handleUpdateProduct(updatedProduct: Product) {
+    setCurrentProduct(updatedProduct);
+    showMessage("Produto atualizado com sucesso!", "success");
+    setEditProductModalOpen(false);
+  }
+
   return (
     <Container>
         <Modal onClose={() => setEditProductModalOpen(false)} open={editProductModalOpen} title="Editar Produto">
-          <EditProductForm />
+          <EditProductForm id={currentProduct.id} onUpdated={handleUpdateProduct}/>
         </Modal>
 
         <ConfirmationModal 
@@ -76,7 +84,7 @@ export default function ProductClient({ product }: ProductClientProps) {
       <ImageInfoContainer>
         <Image
             src={imageSrc}
-            alt={product.name}
+            alt={currentProduct.name}
             width={300}
             height={300}
             onError={() => setImageSrc(FallbackImage)}
@@ -86,10 +94,10 @@ export default function ProductClient({ product }: ProductClientProps) {
             }}
         />
 
-        <Text variant="h6" weight="bold">{product.name}</Text>
-        <Text variant="body1">Descrição: {product.description}</Text>
-        <Text variant="body1">Preço unitário: {formatToCurrency(product.price)}</Text>
-        <Text variant="body1">Estoque {product.stock}</Text>
+        <Text variant="h6" weight="bold">{currentProduct.name}</Text>
+        <Text variant="body1">Descrição: {currentProduct.description}</Text>
+        <Text variant="body1">Preço unitário: {formatToCurrency(currentProduct.price)}</Text>
+        <Text variant="body1">Estoque {currentProduct.stock}</Text>
       </ImageInfoContainer>
 
       

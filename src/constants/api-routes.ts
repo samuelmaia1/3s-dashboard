@@ -1,5 +1,3 @@
-import { get } from "http";
-
 export const routes = {
   auth: {
     login: "/auth/login",
@@ -18,5 +16,6 @@ export const routes = {
   product: {
     get: "/products",
     delete: "/products",
+    update: "/products",
   }
 }

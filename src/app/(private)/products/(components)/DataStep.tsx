@@ -25,8 +25,8 @@ export function DataStep({
 
       <Box sx={{mt: 4}}/>
 
-      <Button fullWidth type="submit" loading={formState.isSubmitting}>
-        Criar Produto
+      <Button fullWidth type="submit" loading={formState.isSubmitting} icon="check">
+        Confirmar
       </Button>
     </>
   );

@@ -2,7 +2,7 @@ import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
 import { ApiError } from "@/types/Error";
 import { Product, ProductPageable } from "@/types/Product";
-import { ProductFormOutput } from "@/types/Schemes";
+import { ProductFormOutput, UpdateProductFormOutput } from "@/types/Schemes";
 import axios from "axios";
 
 export async function createProduct(data: ProductFormOutput): Promise<void> {
@@ -60,4 +60,17 @@ export async function getProductById(id: string): Promise<Product> {
         throw new ApiError(error.response.data);
       }
     }
-  }
+}
+
+export async function updateProduct(product: UpdateProductFormOutput, id: string): Promise<Product> {
+    try {
+        const response = await api.put(`${routes.product.update}/${id}`, product);
+        return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.data) {
+        throw new ApiError(error.response.data);
+      }
+
+      throw error;
+    }
+}
