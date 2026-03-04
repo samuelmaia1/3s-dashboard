@@ -1,7 +1,6 @@
 "use client";
 
 import { Modal } from "@components/Modal/Modal";
-import { Container, SearchContainer, TopContainer } from "./style";
 import { Button } from "@components/Button/Button";
 import { useEffect, useState } from "react";
 import { CreateProductForm } from "./(components)/CreateProductForm";
@@ -17,6 +16,9 @@ import { LoadingContainer } from "../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
+import { Text } from "@components/Text/Text";
+import { Fab } from "@components/Fab/Fab";
+import { Container, Page, PaginationContainer, SearchContainer, TopContainer } from "./style";
 
 interface Filters {
   page: number;
@@ -29,8 +31,8 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     page: 0,
-    size: 10,
-    sort: "",
+    size: 2,
+    sort: "createdAt,desc",
   });
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,6 +44,8 @@ export default function Products() {
   });
 
   const { showMessage } = useFlashMessage();
+
+  const showPagination: boolean = page.totalPages > 1;
 
   async function fetchProducts() {
     setLoading(true);
@@ -105,9 +109,25 @@ export default function Products() {
   function resetFilters() {
     setFilters({
       page: 0,
-      size: 10,
-      sort: "",
+      size: 2,
+      sort: "createdAt,desc",
     });
+  }
+
+  function getVisiblePages(
+    current: number,
+    total: number,
+    range = 2,
+  ): number[] {
+    const start = Math.max(0, current - range);
+    const end = Math.min(total - 1, current + range);
+
+    const pages: number[] = [];
+    for (let i = start; i <= end; i++) {
+        pages.push(i);
+    }
+
+    return pages;
   }
 
   if (loading) {
@@ -133,6 +153,38 @@ export default function Products() {
         <Button color="primary" onClick={() => setOpen(true)} icon="plus" />
       </TopContainer>
       <ProductsTable products={products} />
+
+      {showPagination && 
+        <PaginationContainer>
+            {page.number > 0 && 
+                <Button
+                    icon="arrow-left"
+                    onClick={() => setFilters({ ...filters, page: page.number - 1 })}
+                    variant="text"
+                />
+            }
+            {getVisiblePages(page.number, page.totalPages).map((pageIndex) => (
+                <Page
+                    key={pageIndex}
+                    onClick={() =>
+                        setFilters({ ...filters, page: pageIndex })
+                    }
+                    active={page.number === pageIndex}
+                >
+                    <Text variant="body1" color="inherit">
+                    {pageIndex + 1}
+                    </Text>
+                </Page>
+            ))}
+            {page.number < page.totalPages - 1 && 
+                <Button
+                    icon="arrow-right"
+                    onClick={() => setFilters({ ...filters, page: page.number + 1 })}
+                    variant="text"
+                />
+            }
+        </PaginationContainer>
+      }
     </Container>
   );
 }

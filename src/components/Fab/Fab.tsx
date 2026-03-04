@@ -11,6 +11,7 @@ interface FabProps {
   size?: number;
   disabled?: boolean;
   style?: CSSProperties;
+  iconSize?: number;
 }
 
 export function Fab({
@@ -20,6 +21,7 @@ export function Fab({
   size = 50,
   disabled = false,
   style,
+  iconSize = 20
 }: FabProps) {
   return (
     <Container
@@ -31,7 +33,7 @@ export function Fab({
       {loading ? (
         <CircularProgress size={20} color="inherit" />
       ) : (
-        <Icon name={icon} size={20}/>
+        <Icon name={icon} size={iconSize}/>
       )}
     </Container>
   );
