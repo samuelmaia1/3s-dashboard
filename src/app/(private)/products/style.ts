@@ -48,5 +48,6 @@ export const Page = styled(Box)<PageProps>(({ theme, active }) => ({
     borderRadius: 8,
     backgroundColor: active ? theme.palette.primary.main : 'transparent',
     color: active ? theme.palette.primary.contrastText : 'inherit',
+    border: active ? '1px solid transparent' : `1px solid ${theme.palette.primary.main}`,
     cursor: 'pointer'
 }));

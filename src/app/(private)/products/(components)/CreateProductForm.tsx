@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  CreateProductFormInput,
-  CreateProductFormOutput,
-  createProductSchema,
+  ProductFormInput,
+  ProductFormOutput,
+  productSchema,
 } from "@/types/Schemes";
 import { MultiStepForm } from "@components/MultStepForm/MultStepForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -24,16 +24,16 @@ export function CreateProductForm({
 }: CreateProductFormProps) {
   const { showMessage } = useFlashMessage();
 
-  const methods = useForm<CreateProductFormInput, any, CreateProductFormOutput>(
+  const methods = useForm<ProductFormInput, any, ProductFormOutput>(
     {
-      resolver: zodResolver(createProductSchema),
+      resolver: zodResolver(productSchema),
       mode: "onChange",
     },
   );
 
   const steps = [DataStep];
 
-  async function onSubmit(data: CreateProductFormOutput) {
+  async function onSubmit(data: ProductFormOutput) {
     const isValid = await methods.trigger();
 
     if (!isValid) return;

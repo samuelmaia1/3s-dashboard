@@ -17,7 +17,6 @@ import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { Text } from "@components/Text/Text";
-import { Fab } from "@components/Fab/Fab";
 import { Container, Page, PaginationContainer, SearchContainer, TopContainer } from "./style";
 
 interface Filters {

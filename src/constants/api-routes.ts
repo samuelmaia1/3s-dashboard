@@ -14,5 +14,9 @@ export const routes = {
   },
   dashboard: {
     summary: "/dashboard/summary",
+  },
+  product: {
+    get: "/products",
+    delete: "/products",
   }
 }

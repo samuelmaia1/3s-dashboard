@@ -6,22 +6,28 @@ import {
 } from "@mui/material";
 import { Icon } from "@components/Icon/Icon";
 import { Text } from "@components/Text/Text";
+import { ModalProps } from "@components/Modal/Modal";
+import { Button } from "@components/Button/Button";
 
-export interface ModalProps {
+interface ConfirmationModalProps extends ModalProps{
   open: boolean;
   onClose: () => void;
   title?: string;
   children: ReactNode;
   width?: number | string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-export function Modal({
+export function ConfirmationModal({
   open,
   onClose,
   title,
   children,
   width = 500,
-}: ModalProps) {
+  onCancel,
+  onConfirm
+}: ConfirmationModalProps) {
   const theme = useTheme();
 
   return (
@@ -66,6 +72,11 @@ export function Modal({
         </Box>
 
         {children}
+        
+        <Box sx={{ display: 'flex', marginTop: 2, gap: 2 }}>
+            <Button fullWidth onClick={onCancel}>Cancelar</Button>
+            <Button variant="outline" fullWidth onClick={onConfirm}>Excluir</Button>
+        </Box>
       </Box>
     </MuiModal>
   );
