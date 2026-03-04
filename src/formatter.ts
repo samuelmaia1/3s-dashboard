@@ -13,7 +13,8 @@ export function formatPath(path = "") {
       part =>
         part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
     )
-    .join(" ");
+    .join(" ")
+    .split(" ")[0];
 }
 
 export function maskCpf(value: string) {

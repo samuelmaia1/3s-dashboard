@@ -1,16 +1,19 @@
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableRow, 
+"use client";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Box,
-  useTheme, 
+  useTheme,
 } from "@mui/material";
 import { Text } from "@components/Text/Text";
 import { TextTag } from "@components/TextTag/TextTag";
 import { formatToCurrency } from "@/formatter";
 import { Product } from "@/types/Product";
+import Link from "next/link";
 
 interface ProductsTableProps {
   products: Product[];
@@ -21,13 +24,12 @@ export default function ProductsTable({ products }: ProductsTableProps) {
 
   return (
     <TableContainer sx={{ bgcolor: "transparent" }}>
-      <Table
-        sx={{ tableLayout: "auto" }}
-        aria-label="tabela de produtos"
-      >
+      <Table sx={{ tableLayout: "auto" }} aria-label="tabela de produtos">
         <TableBody>
           {products.map((product) => (
             <TableRow
+              component={Link}
+              href={`/products/${product.id}`}
               key={product.id}
               sx={{
                 "& td": {
@@ -39,32 +41,41 @@ export default function ProductsTable({ products }: ProductsTableProps) {
                   bgcolor: "action.hover",
                   cursor: "pointer",
                 },
-                borderRadius: 8
+                borderRadius: 8,
               }}
             >
               <TableCell sx={{ width: "80%" }}>
                 <Box>
-                  <Text variant="body2" weight="medium" sx={{ lineHeight: 1.2 }} truncate>
+                  <Text
+                    variant="body2"
+                    weight="medium"
+                    sx={{ lineHeight: 1.2 }}
+                    truncate
+                  >
                     {product.name}
                   </Text>
                 </Box>
               </TableCell>
 
               <TableCell align="right" sx={{ whiteSpace: "nowrap" }} width={50}>
-                <TextTag 
-                  text={product.stock === 0 ? "Esgotado" : "Em estoque"} 
-                  variant={product.stock === 0 ? "error" : "success"} 
+                <TextTag
+                  text={product.stock === 0 ? "Esgotado" : "Em estoque"}
+                  variant={product.stock === 0 ? "error" : "success"}
                 />
               </TableCell>
 
               <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                    <Text variant="body2" weight="medium" sx={{ lineHeight: 1.2 }} color={theme.palette.text.secondary}>
-                        {formatToCurrency(product.price)}
-                    </Text>
+                  <Text
+                    variant="body2"
+                    weight="medium"
+                    sx={{ lineHeight: 1.2 }}
+                    color={theme.palette.text.secondary}
+                  >
+                    {formatToCurrency(product.price)}
+                  </Text>
                 </Box>
               </TableCell>
-
             </TableRow>
           ))}
         </TableBody>
