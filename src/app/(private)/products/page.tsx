@@ -23,6 +23,7 @@ interface Filters {
   page: number;
   size: number;
   sort: string;
+  name?: string;
 }
 
 export default function Products() {
@@ -30,8 +31,9 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     page: 0,
-    size: 10,
+    size: 2,
     sort: "createdAt,desc",
+    name: "",
   });
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -66,7 +68,11 @@ export default function Products() {
   }
 
   useEffect(() => {
-    fetchProducts();
+    const delayDebounce = setTimeout(() => {
+      fetchProducts();
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
   }, [filters]);
 
   useEffect(() => {
@@ -83,8 +89,6 @@ export default function Products() {
           setProducts((prevProducts) => {
             return [newProduct, ...prevProducts];
           });
-
-          resetFilters();
         });
       },
       onStompError: (frame) => {
@@ -108,7 +112,7 @@ export default function Products() {
   function resetFilters() {
     setFilters({
       page: 0,
-      size: 10,
+      size: 2,
       sort: "createdAt,desc",
     });
   }
@@ -129,14 +133,6 @@ export default function Products() {
     return pages;
   }
 
-  if (loading) {
-    return (
-      <LoadingContainer>
-        <LoadingSpinner size={24} />
-      </LoadingContainer>
-    );
-  }
-
   return (
     <Container>
       <Modal onClose={() => setOpen(false)} open={open} title="Novo Produto">
@@ -147,13 +143,23 @@ export default function Products() {
       </Modal>
       <TopContainer>
         <SearchContainer>
-          <Input endIcon="search" />
+          <Input
+            endIcon="search"
+            value={filters.name || ""}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                page: 0,
+                name: e.target.value,
+              })
+            }
+          />
         </SearchContainer>
         <Button color="primary" onClick={() => setOpen(true)} icon="plus" />
       </TopContainer>
-      <ProductsTable products={products} />
+      {!loading && <ProductsTable products={products} />}
 
-      {showPagination && 
+      {showPagination && !loading && 
         <PaginationContainer>
             {page.number > 0 && 
                 <Button
@@ -183,6 +189,12 @@ export default function Products() {
                 />
             }
         </PaginationContainer>
+      }
+
+      {loading && 
+        <LoadingContainer heightToShow={'50vh'}>
+          <LoadingSpinner size={24} />
+        </LoadingContainer>
       }
     </Container>
   );

@@ -64,7 +64,11 @@ export async function getProductById(id: string): Promise<Product> {
 
 export async function updateProduct(product: UpdateProductFormOutput, id: string): Promise<Product> {
     try {
-        const response = await api.put(`${routes.product.update}/${id}`, product);
+       const payload = {
+            ...product,
+            price: product.price ? Number(product.price) / 100 : undefined
+        };
+        const response = await api.put(`${routes.product.update}/${id}`, payload);
         return response.data;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.data) {

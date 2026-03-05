@@ -106,7 +106,7 @@ export function Button({
 function Content({ children, icon }: { children: ReactNode; icon?: IconName }) {
   return (
     <>
-      <Text variant="body1" weight="medium" color="inherit">{children}</Text>
+      <Text variant="body2" weight="medium" color="inherit">{children}</Text>
       {icon && (
         <Icon name={icon} size={18} style={{ marginLeft: children ? 10 : 0 }} />
       )}

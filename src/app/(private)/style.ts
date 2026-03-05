@@ -1,8 +1,12 @@
 import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-export const LoadingContainer = styled(Box)(({ theme }) => ({
-    height: "80vh",
+interface LoadingContainerProps {
+    heightToShow: any
+}
+
+export const LoadingContainer = styled(Box)<LoadingContainerProps>(({ theme, heightToShow }) => ({
+    height: heightToShow ?? "80vh",
     width: "100%",
     display: "flex",
     justifyContent: "center",

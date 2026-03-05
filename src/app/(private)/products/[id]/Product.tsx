@@ -76,7 +76,6 @@ export default function ProductClient({ product }: ProductClientProps) {
         </ConfirmationModal>
 
       <ButtonContainer>
-        <Button onClick={() => setEditProductModalOpen(true)} color="info">Adicionar Estoque</Button>
         <Button icon="pencil-line" onClick={() => setEditProductModalOpen(true)}/>
         <Button color="error" icon="trash" onClick={() => setDeleteProductModalOpen(true)}/>
       </ButtonContainer>
@@ -85,8 +84,8 @@ export default function ProductClient({ product }: ProductClientProps) {
         <Image
             src={imageSrc}
             alt={currentProduct.name}
-            width={300}
-            height={300}
+            width={250}
+            height={250}
             onError={() => setImageSrc(FallbackImage)}
             style={{
                 borderRadius: "12px",
@@ -95,9 +94,15 @@ export default function ProductClient({ product }: ProductClientProps) {
         />
 
         <Text variant="h6" weight="bold">{currentProduct.name}</Text>
-        <Text variant="body1">Descrição: {currentProduct.description}</Text>
-        <Text variant="body1">Preço unitário: {formatToCurrency(currentProduct.price)}</Text>
-        <Text variant="body1">Estoque {currentProduct.stock}</Text>
+        <Text variant="body1">
+          Descrição: <Text color="text.secondary" component='span'>{currentProduct.description}</Text>
+        </Text>
+        <Text variant="body1">
+          Preço unitário: <Text color="text.secondary" component='span'>{formatToCurrency(currentProduct.price)}</Text>
+        </Text>
+        <Text variant="body1">
+          Estoque: <Text color="text.secondary" component='span'>{currentProduct.stock}</Text>
+        </Text>
       </ImageInfoContainer>
 
       

@@ -41,7 +41,6 @@ export function CreateProductForm({
     try {
       await createProduct(data);
       showMessage("Produto criado com sucesso!", "success");
-      cleanFilters();
       closeModal();
     } catch (error) {
       if (error instanceof ApiError) {
