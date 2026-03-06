@@ -1,5 +1,5 @@
 import { Product } from "./Product"
-import { Address } from "./User"
+import { Address } from "./ValueObjects"
 
 export interface Order {
   id: string
