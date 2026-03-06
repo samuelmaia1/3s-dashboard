@@ -9,6 +9,7 @@ export const routes = {
     create: "/users/create", 
     get: "/users",       
     products: "/users/products",
+    costumers: "/users/costumers"
   },
   dashboard: {
     summary: "/dashboard/summary",

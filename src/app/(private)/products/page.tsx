@@ -31,7 +31,7 @@ export default function Products() {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState<Filters>({
     page: 0,
-    size: 2,
+    size: 10,
     sort: "createdAt,desc",
     name: "",
   });
@@ -112,7 +112,7 @@ export default function Products() {
   function resetFilters() {
     setFilters({
       page: 0,
-      size: 2,
+      size: 10,
       sort: "createdAt,desc",
     });
   }

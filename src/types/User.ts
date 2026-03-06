@@ -1,5 +1,6 @@
 import { Contract } from "./Contract";
 import { Order } from "./Order";
+import { Address } from "./ValueObjects";
 
 export type LoggedUser = {
   id: string;
@@ -14,14 +15,6 @@ export type LoggedUser = {
   cpf: string;
   logo: string;
 };
-
-export type Address = {
-  cep: string;
-  street: string;
-  neighborhood: string;
-  city: string;
-  number: string;
-}
 
 export type DashboardSummary = {
   activeRentals: number;

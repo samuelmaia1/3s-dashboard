@@ -9,5 +9,6 @@ export const parsedPaths = {
     Register: 'Register',
     Orders: 'Pedidos',
     Contracts: 'Contratos',
-    Products: 'Produtos'
+    Products: 'Produtos',
+    Costumers: 'Clientes'
 }
