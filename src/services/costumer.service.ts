@@ -1,15 +1,9 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
-import { CostumerPageable } from "@/types/Costumer";
+import { Filters } from "@/types/ApiTypes";
+import { CostumerPageable, CreateCostumer } from "@/types/Costumer";
 import { ApiError } from "@/types/Error";
 import axios from "axios";
-
-interface Filters {
-  page: number;
-  size: number;
-  sort: string;
-  name?: string;
-}
 
 export async function getCostumers(filters: Filters): Promise<CostumerPageable> {
     try {
@@ -23,5 +17,15 @@ export async function getCostumers(filters: Filters): Promise<CostumerPageable> 
         }
 
         throw error;
+    }
+}
+
+export async function createCostumer(data: CreateCostumer) {
+    try {
+        await api.post(routes.costumers.create, data);
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.data) {
+            throw new ApiError(error.response.data);
+        }
     }
 }

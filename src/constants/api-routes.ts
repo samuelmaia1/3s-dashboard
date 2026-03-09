@@ -18,5 +18,8 @@ export const routes = {
     get: "/products",
     delete: "/products",
     update: "/products",
+  },
+  costumers: {
+    create: "/costumers/create",
   }
 }

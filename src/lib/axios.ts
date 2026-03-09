@@ -1,12 +1,26 @@
 import { routes } from "@/constants/api-routes";
+import { Filters } from "@/types/ApiTypes";
 import axios from "axios";
+import qs from "qs";
 
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
+  paramsSerializer: (params) => {
+    return qs.stringify(params, { arrayFormat: "repeat" })
+  },
   withCredentials: true, 
   headers: {
     "Content-Type": "application/json",
   },
+  
+});
+
+api.interceptors.request.use((config) => {
+  if (config.params) {
+    config.params = buildParams(config.params);
+  }
+
+  return config;
 });
 
 api.interceptors.response.use(
@@ -32,3 +46,10 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+function buildParams(filters: Filters) {
+  return {
+    ...filters,
+    sort: filters.sort?.map(s => `${s.field},${s.direction}`)
+  };
+}

@@ -6,11 +6,9 @@ import { useEffect, useState } from "react";
 import { CreateProductForm } from "./(components)/CreateProductForm";
 import ProductsTable from "@components/ProductsTable/ProductsTable";
 import { Product } from "@/types/Product";
-import { api } from "@/lib/axios";
-import { routes } from "@/constants/api-routes";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { ApiError } from "@/types/Error";
-import { Pageable } from "@/types/ApiResponse";
+import { Filters, Pageable } from "@/types/ApiTypes";
 import { Input } from "@components/Input/Input";
 import { LoadingContainer } from "../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
@@ -18,13 +16,7 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { Text } from "@components/Text/Text";
 import { Container, Page, PaginationContainer, SearchContainer, TopContainer } from "./style";
-
-interface Filters {
-  page: number;
-  size: number;
-  sort: string;
-  name?: string;
-}
+import { getProducts } from "@/services/product.service";
 
 export default function Products() {
   const [open, setOpen] = useState(false);
@@ -32,7 +24,7 @@ export default function Products() {
   const [filters, setFilters] = useState<Filters>({
     page: 0,
     size: 10,
-    sort: "createdAt,desc",
+    sort: [{field: "name", direction: "asc"}],
     name: "",
   });
 
@@ -51,17 +43,16 @@ export default function Products() {
   async function fetchProducts() {
     setLoading(true);
     try {
-      const response = await api.get(routes.users.products, {
-        params: filters,
-      });
-      setProducts(response.data.content);
-      setPage(response.data.page);
+      const response = await getProducts(filters);
+      setProducts(response.content);
+      setPage(response.page);
     } catch (error) {
       if (error instanceof ApiError) {
         showMessage(`Erro ao criar produto: ${error.message}`, "error");
+      } else {
+        showMessage("Erro ao buscar produtos", "error");
       }
 
-      showMessage("Erro ao buscar produtos", "error");
     } finally {
       setLoading(false);
     }
@@ -113,7 +104,7 @@ export default function Products() {
     setFilters({
       page: 0,
       size: 10,
-      sort: "createdAt,desc",
+      sort: [{field: "name", direction: "asc"}],
     });
   }
 

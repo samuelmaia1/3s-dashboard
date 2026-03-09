@@ -8,7 +8,7 @@ import { Button } from "@components/Button/Button";
 import { CostumersTable } from "@components/CostumersTable/CostumersTable";
 import { ApiError } from "@/types/Error";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
-import { Pageable } from "@/types/ApiResponse";
+import { Filters, Pageable } from "@/types/ApiTypes";
 import { Costumer } from "@/types/Costumer";
 import { Text } from "@components/Text/Text";
 import { LoadingContainer } from "../style";
@@ -16,13 +16,7 @@ import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import { getCostumers } from "@/services/costumer.service";
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-
-interface Filters {
-  page: number;
-  size: number;
-  sort: string;
-  name?: string;
-}
+import { CreateCostumerForm } from "./(components)/CreateCostumerForm";
 
 export default function Costumers() {
     const [open, setOpen] = useState(false);
@@ -30,7 +24,7 @@ export default function Costumers() {
     const [filters, setFilters] = useState<Filters>({
         page: 0,
         size: 10,
-        sort: "createdAt,desc",
+        sort: [{field: "name", direction: "asc"}],
         name: "",
     });
 
@@ -50,15 +44,15 @@ export default function Costumers() {
         setLoading(true);
         try {
             const response = await getCostumers(filters);
-            console.log(response);
             setCostumers(response.content);
             setPage(response.page);
         } catch (error) {
             if (error instanceof ApiError) {
-                showMessage(`Erro ao criar produto: ${error.message}`, "error");
+                showMessage(`Erro ao criar cliente: ${error.message}`, "error");
+            } else {
+                showMessage("Erro ao buscar clientes", "error");
             }
 
-            showMessage("Erro ao buscar produtos", "error");
         } finally {
             setLoading(false);
         }
@@ -68,7 +62,7 @@ export default function Costumers() {
         setFilters({
             page: 0,
             size: 10,
-            sort: "createdAt,desc",
+            sort: [{field: "name", direction: "asc"}],
         });
     }
     
@@ -133,8 +127,8 @@ export default function Costumers() {
 
     return (
         <Container>
-            <Modal onClose={() => setOpen(false)} open={open} title="Novo Produto">
-                <h1></h1>
+            <Modal onClose={() => setOpen(false)} open={open} title="Novo Cliente">
+                <CreateCostumerForm closeModal={() => setOpen(false)}/>
             </Modal>
             <TopContainer>
             <SearchContainer>
@@ -143,14 +137,14 @@ export default function Costumers() {
                 value={filters.name || ""}
                 onChange={(e) =>
                     setFilters({
-                    ...filters,
-                    page: 0,
-                    name: e.target.value,
+                        ...filters,
+                        page: 0,
+                        name: e.target.value,
                     })
                 }
                 />
             </SearchContainer>
-            <Button color="primary" onClick={() => setOpen(true)} icon="plus" >Adicionar Cliente</Button>
+            <Button color="primary" onClick={() => setOpen(true)} icon="plus" />
             </TopContainer>
             {!loading && <CostumersTable costumers={costumers} />}
     

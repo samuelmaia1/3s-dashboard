@@ -1,4 +1,4 @@
-import { Pageable } from "./ApiResponse";
+import { Pageable } from "./ApiTypes";
 import { Address } from "./ValueObjects";
 
 export interface Costumer {
@@ -15,4 +15,12 @@ export interface Costumer {
 export interface CostumerPageable {
     content: Costumer[];
     page: Pageable;
+}
+
+export interface CreateCostumer {
+    name: string;
+    lastName: string;
+    email: string;
+    cpf: string;
+    address: Address;
 }

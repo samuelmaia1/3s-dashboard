@@ -1,5 +1,6 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
+import { Filters } from "@/types/ApiTypes";
 import { ApiError } from "@/types/Error";
 import { Product, ProductPageable } from "@/types/Product";
 import { ProductFormOutput, UpdateProductFormOutput } from "@/types/Schemes";
@@ -26,9 +27,11 @@ export async function createProduct(data: ProductFormOutput): Promise<void> {
     }
 }
 
-export async function getProducts(): Promise<ProductPageable> {
+export async function getProducts(params: Filters): Promise<ProductPageable> {
     try {
-        const response = await api.get(routes.users.products);
+        const response = await api.get(routes.users.products, {
+            params
+        });
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {

@@ -32,9 +32,9 @@ export function EditProductForm({ id, onUpdated }: EditProductFormProps) {
         } catch (error) {
             if (error instanceof ApiError) {
                 showMessage(`Erro ao atualizar produto: ${error.message}`, "error");
+            } else {
+                showMessage("Erro ao atualizar produto", "error");
             }
-
-            showMessage("Erro ao atualizar produto", "error");
         }
     }
 

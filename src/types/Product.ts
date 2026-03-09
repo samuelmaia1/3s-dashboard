@@ -1,4 +1,4 @@
-import { Pageable } from "./ApiResponse"
+import { Pageable } from "./ApiTypes"
 
 export interface Product {
   id: string
