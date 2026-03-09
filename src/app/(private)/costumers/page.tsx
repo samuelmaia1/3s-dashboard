@@ -99,7 +99,6 @@ export default function Costumers() {
         webSocketFactory: () => socket,
         onConnect: () => {
             client.subscribe("/topic/costumers", (message: any) => {
-                console.log(message.body);
                 const newCostumer: Costumer = JSON.parse(message.body);
         
                 setCostumers((prevCostumers) => {

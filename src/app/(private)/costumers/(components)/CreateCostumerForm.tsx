@@ -7,12 +7,19 @@ import { AddressStep } from "./AddressStep";
 import { createCostumer } from "@/services/costumer.service";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { ApiError } from "@/types/Error";
+import { useState } from "react";
 
 interface CreateCostumerFormProps {
     closeModal: () => void;
 }
 
+const fieldStep: Partial<Record<keyof CreateCostumerFormData, number>> = {
+    email: 0,
+    cpf: 0
+};
+
 export function CreateCostumerForm({ closeModal }: CreateCostumerFormProps) {
+    const [step, setStep] = useState(0);
 
     const { showMessage } = useFlashMessage();
 
@@ -26,18 +33,33 @@ export function CreateCostumerForm({ closeModal }: CreateCostumerFormProps) {
             showMessage("Cliente criado com sucesso!", "success");
             closeModal();
         } catch (error) {
-            console.log(error);
             if (error instanceof ApiError) {
-                showMessage(`Erro ao criar cliente: ${error.message}`, "error");
-            } else {
-                showMessage("Erro ao criar cliente", "error");
-            }
+                if (error.fields) {
+                    let earliestStep = Infinity;
+
+                    Object.entries(error.fields).forEach(([field, message]) => {
+                        methods.setError(field as any, { message });
+
+                        const stepIndex = fieldStep[field as keyof CreateCostumerFormData];
+
+                        if (stepIndex !== undefined && stepIndex < earliestStep) {
+                            earliestStep = stepIndex;
+                        }
+                    });
+
+                    if (earliestStep !== Infinity) {
+                        setStep(earliestStep);
+                    }
+                }
+            } 
+
+            showMessage("Erro ao criar cliente", "error");
         }
     }
 
     const steps = [PersonalStep, AddressStep];
 
     return (
-        <MultiStepForm steps={steps} onSubmit={onSubmit} methods={methods}/>
+        <MultiStepForm steps={steps} onSubmit={onSubmit} methods={methods} currentStep={step} setCurrentStep={setStep}/>
     )
 }

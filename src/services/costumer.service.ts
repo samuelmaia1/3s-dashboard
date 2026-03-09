@@ -22,10 +22,12 @@ export async function getCostumers(filters: Filters): Promise<CostumerPageable> 
 
 export async function createCostumer(data: CreateCostumer) {
     try {
-        await api.post(routes.costumers.create, data);
+        const response = await api.post(routes.costumers.create, data);
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {
             throw new ApiError(error.response.data);
+        } else {
+            throw error;
         }
     }
 }
