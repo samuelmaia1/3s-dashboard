@@ -25,7 +25,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
           {costumers.map((costumer) => (
             <TableRow
               component={Link}
-              href={`/products/${costumer.id}`}
+              href={`/costumers/${costumer.id}`}
               key={costumer.id}
               sx={{
                 "& td": {

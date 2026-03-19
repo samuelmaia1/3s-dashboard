@@ -2,7 +2,7 @@ import { Box, styled } from "@mui/material";
 
 export const Container = styled(Box)(({theme}) => ({
     borderRadius: 16,
-    padding: 4,
+    padding: 6,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
