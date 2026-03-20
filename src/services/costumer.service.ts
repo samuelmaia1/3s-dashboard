@@ -5,7 +5,7 @@ import { CostumerPageable, CreateCostumer } from "@/types/Costumer";
 import { ApiError } from "@/types/Error";
 import axios from "axios";
 
-export async function getCostumers(filters: Filters): Promise<CostumerPageable> {
+export async function getCostumers(filters?: Filters): Promise<CostumerPageable> {
     try {
         const response = await api.get(routes.users.costumers, {
             params: filters

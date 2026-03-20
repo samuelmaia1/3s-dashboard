@@ -7,9 +7,10 @@ export interface Pageable {
 
 export interface Filters {
   page: number;
-  size: number;
-  sort: Sort[];
+  size?: number;
+  sort?: Sort[];
   name?: string;
+  category?: string;
 }
 
 export type SortDirection = "asc" | "desc";

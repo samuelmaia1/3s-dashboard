@@ -1,20 +1,17 @@
 'use client';
 
 import { Button } from "@components/Button/Button";
-import { Container } from "./style";
-import { Modal } from "@components/Modal/Modal";
-import { useState } from "react";
-import { RegisterForm } from "@/app/(public)/register/(components)/RegisterForm";
+import { Container, TopContainer } from "./style";
+import { useRouter } from "next/navigation";
 
 export default function Orders() {
-    const [open, setOpen] = useState(false);
+    const router = useRouter();
 
     return (
         <Container>
-            <Modal onClose={() => setOpen(false)} open={open} title="Novo Pedido">
-                <RegisterForm />
-            </Modal>
-            <Button color="success" icon="plus" onClick={() => setOpen(true)}/>
+            <TopContainer>
+                <Button onClick={() => router.push('/orders/create')}>Novo Pedido</Button>
+            </TopContainer>
         </Container>
     );
-}   
+}

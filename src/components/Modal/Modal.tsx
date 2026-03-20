@@ -39,6 +39,8 @@ export function Modal({
           p: 3,
           outline: "none",
           maxWidth: "80%",
+          maxHeight: "80%",
+          overflowY: "auto",
         }}
       >
         

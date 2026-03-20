@@ -11,6 +11,7 @@ interface MultiStepFormProps<TIn extends FieldValues, TOut extends FieldValues =
 
   currentStep?: number;
   setCurrentStep?: React.Dispatch<React.SetStateAction<number>>;
+  stepProps?: Record<string, any>;
 }
 
 export function MultiStepForm<TIn extends FieldValues, TOut extends FieldValues = TIn>({
@@ -18,7 +19,8 @@ export function MultiStepForm<TIn extends FieldValues, TOut extends FieldValues 
   onSubmit,
   steps,
   currentStep,
-  setCurrentStep
+  setCurrentStep,
+  stepProps
 }: MultiStepFormProps<TIn, TOut>) {
   const [internalStep, setInternalStep] = useState(0);
 
@@ -42,6 +44,7 @@ export function MultiStepForm<TIn extends FieldValues, TOut extends FieldValues 
             onNext={next} 
             onBack={back} 
             isLastStep={currentStep === totalSteps - 1} 
+            {...stepProps}
           />
         </form>
       </FormProvider>

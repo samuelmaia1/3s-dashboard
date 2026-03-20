@@ -38,3 +38,20 @@ export enum OrderStatus {
     CONCLUIDO = 'Concluído',
     CANCELADO = 'Cancelado'
 }   
+
+export interface CartItem {
+    product: Product
+    quantity: number
+}
+
+export interface OrderItemRequest {
+    productId: string
+    quantity: number
+}
+
+export interface CreateOrder {
+    costumerId: string
+    deliveryAddress?: Address
+    deliveryDate?: string
+    items: OrderItemRequest[]
+}

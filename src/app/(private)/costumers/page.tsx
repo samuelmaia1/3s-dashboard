@@ -141,6 +141,7 @@ export default function Costumers() {
                         name: e.target.value,
                     })
                 }
+                label="Pesquise por clientes..."
                 />
             </SearchContainer>
             <Button color="primary" onClick={() => setOpen(true)} icon="plus" />

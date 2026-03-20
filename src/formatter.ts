@@ -79,3 +79,21 @@ export function maskCurrency(value: string) {
     currency: "BRL",
   });
 }
+
+export function maskDate(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .replace(/(\d{2})(\d)/, "$1/$2")
+    .replace(/(\d{2})(\d)/, "$1/$2")
+    .replace(/(\d{4})(\d+?)$/, "$1");
+}
+
+export function parseToLocalDateTime(value: string) {
+  if (!value || value.length !== 8) return value; // Retorna o que tiver se não estiver completo
+
+  const day = value.substring(0, 2);
+  const month = value.substring(2, 4);
+  const year = value.substring(4, 8);
+
+  return `${year}-${month}-${day}T00:00:00`;
+}

@@ -27,7 +27,7 @@ export async function createProduct(data: ProductFormOutput): Promise<void> {
     }
 }
 
-export async function getProducts(params: Filters): Promise<ProductPageable> {
+export async function getProducts(params?: Filters): Promise<ProductPageable> {
     try {
         const response = await api.get(routes.users.products, {
             params
