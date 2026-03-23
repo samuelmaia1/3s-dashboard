@@ -20,6 +20,8 @@ import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { useAuth } from "@hooks/useAuth";
 import OrdersTable from "@components/OrdersTable/OrdersTable";
 import ContractsTable from "@components/ContractsTable/ContractsTable";
+import { LoadingContainer } from "../style";
+import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -57,82 +59,92 @@ export default function Dashboard() {
 
   return (
     <Container>
-      <CardContainer>
-        <Card
-          title="Pedidos ativos"
-          description="Aluguéis pendentes de entrega e devolução"
-          icon="shopping-cart"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <Text variant="h6" weight="bold">
-            {summary?.activeRentals || 0}
-          </Text>
-        </Card>
-        <Card
-          title="Receita do mês"
-          description="Total arrecadado em Fevereiro de 2026"
-          icon="dollar-sign"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <IconTextContainer>
-            <Text variant="h6" weight="bold">
-              {summary
-                ? formatToCurrency(summary.monthlyRevenue)
-                : formatToCurrency(0)}
-            </Text>
-            <Icon
-              name="trending-up"
-              size={20}
-              color={theme.palette.success.main}
-            />
-          </IconTextContainer>
-        </Card>
-        <Card
-          title="Clientes cadastrados"
-          description="Clientes cadastrados"
-          icon="users"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <Text variant="h6" weight="bold">
-            {summary?.costumersCount || 0}
-          </Text>
-        </Card>
-        <Card
-          title="Contratos em aberto"
-          description="Contratos gerados mas ainda não concluídos"
-          icon="file-text"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <Text variant="h6" weight="bold">
-            {summary?.openContracts || 0}
-          </Text>
-        </Card>
-      </CardContainer>
+      {!loading && 
+        <>
+          <CardContainer>
+            <Card
+              title="Pedidos ativos"
+              description="Aluguéis pendentes de entrega e devolução"
+              icon="shopping-cart"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <Text variant="h6" weight="bold">
+                {summary?.activeRentals || 0}
+              </Text>
+            </Card>
+            <Card
+              title="Receita do mês"
+              description="Total arrecadado em Fevereiro de 2026"
+              icon="dollar-sign"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <IconTextContainer>
+                <Text variant="h6" weight="bold">
+                  {summary
+                    ? formatToCurrency(summary.monthlyRevenue)
+                    : formatToCurrency(0)}
+                </Text>
+                <Icon
+                  name="trending-up"
+                  size={20}
+                  color={theme.palette.success.main}
+                />
+              </IconTextContainer>
+            </Card>
+            <Card
+              title="Clientes cadastrados"
+              description="Clientes cadastrados"
+              icon="users"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <Text variant="h6" weight="bold">
+                {summary?.costumersCount || 0}
+              </Text>
+            </Card>
+            <Card
+              title="Contratos em aberto"
+              description="Contratos gerados mas ainda não concluídos"
+              icon="file-text"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <Text variant="h6" weight="bold">
+                {summary?.openContracts || 0}
+              </Text>
+            </Card>
+          </CardContainer>
 
-      <TableContainer>
-        <Card
-          title="Pedidos recentes"
-          description="Últimas movimentações"
-          icon="layout-list"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <OrdersTable orders={summary?.lastOrders || []} />
-        </Card>
-        <Card
-          title="Contratos recentes"
-          description="Últimos contratos gerados"
-          icon="file"
-          textVariant="body1"
-          textColor="primary"
-        >
-          <ContractsTable contracts={summary?.lastContracts || []} />
-        </Card>
-      </TableContainer>
+          <TableContainer>
+            <Card
+              title="Pedidos recentes"
+              description="Últimas movimentações"
+              icon="layout-list"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <OrdersTable orders={summary?.lastOrders || []} />
+            </Card>
+            <Card
+              title="Contratos recentes"
+              description="Últimos contratos gerados"
+              icon="file"
+              textVariant="body1"
+              textColor="primary"
+            >
+              <ContractsTable contracts={summary?.lastContracts || []} />
+            </Card>
+          </TableContainer>
+        </>
+      }
+
+      {loading && (
+        <LoadingContainer heightToShow="60vh">
+          <LoadingSpinner />
+        </LoadingContainer>
+      )}
     </Container>
   );
 }

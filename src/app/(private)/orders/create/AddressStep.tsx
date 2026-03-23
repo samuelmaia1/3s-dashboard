@@ -5,7 +5,7 @@ import { Button } from "@components/Button/Button";
 import { maskCep, maskDate } from "@/formatter";
 import { fetchAddressByCep } from "@/services/viacep.service";
 import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface AddressStepProps {
     onBack: () => void;
@@ -13,8 +13,7 @@ interface AddressStepProps {
 
 export function AddressStep({ onBack }: AddressStepProps) {
   const [deliveryType, setDeliveryType] = useState<'delivery' | 'pickup'>('delivery');
-  const [deliveryDate, setDeliveryDate] = useState<Date | undefined>();
-  const { setValue, trigger, formState } = useFormContext();
+  const { setValue, trigger, formState, clearErrors } = useFormContext();
 
   async function handleFetchAddress(cep: string) {
     if (cep.length !== 8) return;
@@ -31,19 +30,21 @@ export function AddressStep({ onBack }: AddressStepProps) {
     }
   }
 
-  const { formState: { errors } } = useFormContext();
-
-  useEffect(() => {
-    console.log("Erros de validação:", errors)
-  }, [formState.errors]);
+  const handleDeliveryChange = (type: 'delivery' | 'pickup') => {
+    setDeliveryType(type);
+    if (type === 'pickup') {
+      setValue("address", undefined); 
+      clearErrors("address");
+    }
+  };
 
   return (
     <>
       <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', marginBottom: 2 }}>
-        <Button icon="truck" onClick={() => setDeliveryType('delivery')} variant={deliveryType === 'delivery' ? 'filled' : 'outline'}>
+        <Button icon="truck" onClick={() => handleDeliveryChange('delivery')} variant={deliveryType === 'delivery' ? 'filled' : 'outline'} type="button">
           Entrega
         </Button>
-        <Button icon="check" onClick={() => setDeliveryType('pickup')} variant={deliveryType === 'delivery' ? 'outline' : 'filled'}>
+        <Button icon="check" onClick={() => handleDeliveryChange('pickup')} variant={deliveryType === 'delivery' ? 'outline' : 'filled'} type="button">
           Retirada
         </Button>
       </Box>

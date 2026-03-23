@@ -132,16 +132,16 @@ export default function Costumers() {
             <TopContainer>
             <SearchContainer>
                 <Input
-                endIcon="search"
-                value={filters.name || ""}
-                onChange={(e) =>
-                    setFilters({
-                        ...filters,
-                        page: 0,
-                        name: e.target.value,
-                    })
-                }
-                label="Pesquise por clientes..."
+                    endIcon="search"
+                    value={filters.name || ""}
+                    onChange={(e) =>
+                        setFilters({
+                            ...filters,
+                            page: 0,
+                            name: e.target.value,
+                        })
+                    }
+                    placeholder="Pesquise por clientes..."
                 />
             </SearchContainer>
             <Button color="primary" onClick={() => setOpen(true)} icon="plus" />

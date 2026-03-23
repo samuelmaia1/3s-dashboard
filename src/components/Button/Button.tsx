@@ -49,6 +49,7 @@ export function Button({
   children,
   icon,
   loading = false,
+  type = "button",
   ...rest
 }: ButtonProps) {
   const theme: Theme = useTheme();

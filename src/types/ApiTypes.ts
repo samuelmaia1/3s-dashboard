@@ -19,3 +19,8 @@ export interface Sort {
   field: string;
   direction: SortDirection;
 }
+
+export interface EntityPageable<T> {
+  content: T[]
+  page: Pageable
+}

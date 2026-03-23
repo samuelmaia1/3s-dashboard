@@ -14,7 +14,7 @@ import { LoadingContainer } from "../../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import { ProductCard } from "@components/ProductCard/ProductCard";
 import CartSidebar from "@components/CartSidebar/CartSidebar";
-import { Box } from "@mui/material";
+import { Badge, Box } from "@mui/material";
 import { Modal } from "@components/Modal/Modal";
 import { formatToCurrency } from "@/formatter";
 import { CartItem } from "@/types/Order";
@@ -142,13 +142,15 @@ export default function CreateOrder() {
                         }
                     />
                 </SearchContainer>
-                
-                <Button 
-                    color="primary" 
-                    onClick={() => setIsCartOpen(true)} 
-                    icon="shopping-cart" 
-                    shape="square"
-                />
+                <Badge badgeContent={cartProducts.length} color="primary">
+                    <Button 
+                        color="primary" 
+                        onClick={() => setIsCartOpen(true)} 
+                        icon="shopping-cart" 
+                        shape="square"
+                        variant="text"
+                    />
+                </Badge>
             </TopContainer>
 
             <Text variant="body1" sx={{ marginBottom: 4 }}>
@@ -158,7 +160,7 @@ export default function CreateOrder() {
             {!loading && (
                 <ProductsGrid>
                     {products.map((product) => (
-                        <ProductCard key={product.id || product.name} product={product} onQuantityChange={handleCartUpdate}/>
+                        <ProductCard key={product.id || product.name} product={product} onQuantityChange={handleCartUpdate} showQuantityControls/>
                     ))}
                 </ProductsGrid>
             )}

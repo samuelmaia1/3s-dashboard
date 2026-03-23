@@ -153,7 +153,7 @@ export default function Products() {
             }
           />
         </SearchContainer>
-        <Button color="primary" onClick={() => setOpen(true)} icon="plus" />
+        <Button color="primary" onClick={() => setOpen(true)}>Novo Produto</Button>
       </TopContainer>
 
       {!loading && (

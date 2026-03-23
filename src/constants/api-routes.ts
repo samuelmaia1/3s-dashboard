@@ -23,4 +23,10 @@ export const routes = {
   costumers: {
     create: "/costumers/create",
   },
+  contract: {
+    generate: "/contracts/generate",
+  },
+  orders: {
+    updateStatus: "/orders/status",
+  }
 }
