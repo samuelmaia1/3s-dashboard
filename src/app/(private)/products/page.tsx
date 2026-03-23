@@ -15,8 +15,16 @@ import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { Text } from "@components/Text/Text";
-import { Container, Page, PaginationContainer, SearchContainer, TopContainer } from "./style";
+import {
+  Container,
+  Page,
+  PaginationContainer,
+  ProductsGrid,
+  SearchContainer,
+  TopContainer,
+} from "./style";
 import { getProducts } from "@/services/product.service";
+import { ProductCard } from "@components/ProductCard/ProductCard";
 
 export default function Products() {
   const [open, setOpen] = useState(false);
@@ -24,7 +32,7 @@ export default function Products() {
   const [filters, setFilters] = useState<Filters>({
     page: 0,
     size: 10,
-    sort: [{field: "name", direction: "asc"}],
+    sort: [{ field: "name", direction: "asc" }],
     name: "",
   });
 
@@ -52,7 +60,6 @@ export default function Products() {
       } else {
         showMessage("Erro ao buscar produtos", "error");
       }
-
     } finally {
       setLoading(false);
     }
@@ -104,7 +111,7 @@ export default function Products() {
     setFilters({
       page: 0,
       size: 10,
-      sort: [{field: "name", direction: "asc"}],
+      sort: [{ field: "name", direction: "asc" }],
     });
   }
 
@@ -118,7 +125,7 @@ export default function Products() {
 
     const pages: number[] = [];
     for (let i = start; i <= end; i++) {
-        pages.push(i);
+      pages.push(i);
     }
 
     return pages;
@@ -148,45 +155,50 @@ export default function Products() {
         </SearchContainer>
         <Button color="primary" onClick={() => setOpen(true)} icon="plus" />
       </TopContainer>
-      {!loading && <ProductsTable products={products} />}
 
-      {showPagination && !loading && 
+      {!loading && (
+        <ProductsGrid>
+          {products.map((product) => (
+            <ProductCard key={product.id || product.name} product={product} />
+          ))}
+        </ProductsGrid>
+      )}
+
+      {showPagination && !loading && (
         <PaginationContainer>
-            {page.number > 0 && 
-                <Button
-                    icon="arrow-left"
-                    onClick={() => setFilters({ ...filters, page: page.number - 1 })}
-                    variant="text"
-                />
-            }
-            {getVisiblePages(page.number, page.totalPages).map((pageIndex) => (
-                <Page
-                    key={pageIndex}
-                    onClick={() =>
-                        setFilters({ ...filters, page: pageIndex })
-                    }
-                    active={page.number === pageIndex}
-                >
-                    <Text variant="body1" color="inherit">
-                    {pageIndex + 1}
-                    </Text>
-                </Page>
-            ))}
-            {page.number < page.totalPages - 1 && 
-                <Button
-                    icon="arrow-right"
-                    onClick={() => setFilters({ ...filters, page: page.number + 1 })}
-                    variant="text"
-                />
-            }
+          {page.number > 0 && (
+            <Button
+              icon="arrow-left"
+              onClick={() => setFilters({ ...filters, page: page.number - 1 })}
+              variant="text"
+            />
+          )}
+          {getVisiblePages(page.number, page.totalPages).map((pageIndex) => (
+            <Page
+              key={pageIndex}
+              onClick={() => setFilters({ ...filters, page: pageIndex })}
+              active={page.number === pageIndex}
+            >
+              <Text variant="body1" color="inherit">
+                {pageIndex + 1}
+              </Text>
+            </Page>
+          ))}
+          {page.number < page.totalPages - 1 && (
+            <Button
+              icon="arrow-right"
+              onClick={() => setFilters({ ...filters, page: page.number + 1 })}
+              variant="text"
+            />
+          )}
         </PaginationContainer>
-      }
+      )}
 
-      {loading && 
-        <LoadingContainer heightToShow={'50vh'}>
+      {loading && (
+        <LoadingContainer heightToShow={"50vh"}>
           <LoadingSpinner size={24} />
         </LoadingContainer>
-      }
+      )}
     </Container>
   );
 }

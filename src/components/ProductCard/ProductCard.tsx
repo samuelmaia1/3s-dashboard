@@ -1,29 +1,43 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import { Text } from "@components/Text/Text";
 import { Button } from "@components/Button/Button";
-import { Product } from '@/types/Product';
-import { formatToCurrency } from '@/formatter';
-import { CardContainer, ContentContainer, FooterContainer, HeaderRow, ImageWrapper, OutOfStockBadge, QuantityControls } from './style';
+import { Product } from "@/types/Product";
+import { formatToCurrency } from "@/formatter";
+import {
+  CardContainer,
+  ContentContainer,
+  FooterContainer,
+  HeaderRow,
+  ImageWrapper,
+  OutOfStockBadge,
+  QuantityControls,
+} from "./style";
+import { TextTag } from "@components/TextTag/TextTag";
 
 interface ProductCardProps {
   product: Product;
   onQuantityChange?: (product: Product, quantity: number) => void;
+  showQuantityControls?: boolean;
 }
 
-export function ProductCard({ product, onQuantityChange }: ProductCardProps) {
+export function ProductCard({
+  product,
+  onQuantityChange,
+  showQuantityControls,
+}: ProductCardProps) {
   const [quantity, setQuantity] = useState(0);
 
   const isOutOfStock = product.stock <= 0;
 
-  function handleIncrement () {
+  function handleIncrement() {
     if (quantity < (product.stock ?? 0)) {
       const newQuantity = quantity + 1;
       setQuantity(newQuantity);
       onQuantityChange?.(product, newQuantity);
     }
-  };
+  }
 
   function handleDecrement() {
     if (quantity > 0) {
@@ -31,15 +45,11 @@ export function ProductCard({ product, onQuantityChange }: ProductCardProps) {
       setQuantity(newQuantity);
       onQuantityChange?.(product, newQuantity);
     }
-  };
+  }
 
   return (
     <CardContainer $isOutOfStock={isOutOfStock}>
-        {isOutOfStock && (
-            <OutOfStockBadge>
-            Indisponível
-            </OutOfStockBadge>
-        )}
+      {isOutOfStock && <OutOfStockBadge>Indisponível</OutOfStockBadge>}
       <ImageWrapper>
         <img src={product.imageUri} alt={product.name} loading="lazy" />
       </ImageWrapper>
@@ -63,31 +73,35 @@ export function ProductCard({ product, onQuantityChange }: ProductCardProps) {
             Estoque: {product.stock} un.
           </Text>
 
-          <QuantityControls>
-            <Button
-              variant="text"
-              size="small"
-              onClick={handleDecrement}
-              disabled={quantity === 0}
-              style={{ minWidth: '36px' }}
-            >
-              -
-            </Button>
+          {showQuantityControls && (
+            <QuantityControls>
+              <Button
+                variant="text"
+                size="small"
+                onClick={handleDecrement}
+                disabled={quantity === 0}
+                style={{ minWidth: "36px" }}
+              >
+                -
+              </Button>
 
-            <Text weight="bold" color="text.primary">{quantity}</Text>
+              <Text weight="bold" color="text.primary">
+                {quantity}
+              </Text>
 
-            <Button
-              variant="filled"
-              size="small"
-              color="primary"
-              onClick={handleIncrement}
-              disabled={quantity >= (product.stock ?? 0)}
-              style={{ minWidth: '36px' }}
-              shape="square"
-            >
-              +
-            </Button>
-          </QuantityControls>
+              <Button
+                variant="filled"
+                size="small"
+                color="primary"
+                onClick={handleIncrement}
+                disabled={quantity >= (product.stock ?? 0)}
+                style={{ minWidth: "36px" }}
+                shape="square"
+              >
+                +
+              </Button>
+            </QuantityControls>
+          )}
         </FooterContainer>
       </ContentContainer>
     </CardContainer>

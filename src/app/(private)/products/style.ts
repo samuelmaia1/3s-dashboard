@@ -47,3 +47,21 @@ export const Page = styled(Box)<PageProps>(({ theme, active }) => ({
     border: active ? '1px solid transparent' : `1px solid ${theme.palette.primary.main}`,
     cursor: 'pointer'
 }));
+
+export const ProductsGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gap: theme.spacing(3),
+  gridTemplateColumns: 'repeat(1, 1fr)',
+  
+  [theme.breakpoints.up('sm')]: {
+    gridTemplateColumns: 'repeat(2, 1fr)',
+  },
+  
+  [theme.breakpoints.up('lg')]: {
+    gridTemplateColumns: 'repeat(3, 1fr)',
+  },
+  
+  [theme.breakpoints.up('xl')]: {
+    gridTemplateColumns: 'repeat(4, 1fr)',
+  },
+}));
