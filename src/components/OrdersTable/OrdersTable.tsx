@@ -119,7 +119,7 @@ export default function OrdersTable({
                 </TableCell>
 
                 {onRequestStatusChange && (
-                  <TableCell align="right">
+                  <TableCell align="right" sx={{width: '100px'}}>
                     <IconButton
                       onClick={(e) => handleOpenMenu(e, order)}
                       aria-controls={openMenu ? "order-menu" : undefined}

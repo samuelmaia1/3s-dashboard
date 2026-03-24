@@ -6,8 +6,10 @@ export const Container = styled(Box)(({theme}) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: '80%',
     maxWidth: '300px',
-    minWidth: '100px'
+    minWidth: '100px',
+    textAlign: 'center'
 }))
 
 export const Content = styled(Box)(({theme}) => ({
