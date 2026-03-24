@@ -151,9 +151,12 @@ export default function Products() {
                 name: e.target.value,
               })
             }
+            placeholder="Busque por produtos..."
           />
         </SearchContainer>
-        <Button color="primary" onClick={() => setOpen(true)}>Novo Produto</Button>
+        <Button color="primary" onClick={() => setOpen(true)}>
+          Novo Produto
+        </Button>
       </TopContainer>
 
       {!loading && (

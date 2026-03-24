@@ -2,13 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import {
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Box,
-} from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText, Box } from "@mui/material";
 import type { IconName } from "lucide-react/dynamic";
 
 import { Icon } from "@components/Icon/Icon";
@@ -38,16 +32,17 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
     <>
       <LogoContainer>
         <Logo>
-          {user?.logo ?
+          {user?.logo ? (
             <CustomImage
               src={user?.logo!}
               alt="logo"
               height={32}
               width={32}
               rounded
-            /> :
+            />
+          ) : (
             <Icon name="users" size={24} />
-        }
+          )}
         </Logo>
         <Text variant="body1">
           {user?.socialName || `${user?.name} ${user?.lastName}`}
@@ -82,13 +77,6 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             href="/costumers"
             iconName="users"
             label="Clientes"
-            currentPath={pathname}
-            onClick={onClose}
-          />
-          <NavItem
-            href="/contracts"
-            iconName="file-text"
-            label="Contratos"
             currentPath={pathname}
             onClick={onClose}
           />

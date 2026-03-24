@@ -1,5 +1,9 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
+import { EntityPageable } from "@/types/ApiTypes";
+import { ContractWithDetails } from "@/types/Contract";
+import { ApiError } from "@/types/Error";
+import axios from "axios";
 
 export async function downloadContractPdf(orderId: string, costumerId: string) {
     try {
@@ -34,6 +38,33 @@ export async function downloadContractPdf(orderId: string, costumerId: string) {
     window.URL.revokeObjectURL(fileUrl);
 
   } catch (error) {
-    console.error("Erro ao fazer o download do contrato:", error);
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
+    }
+
+    throw error;
+  }
+}
+
+export async function fetchContracts(): Promise<EntityPageable<ContractWithDetails>> {
+  try {
+    const response = await api.get(routes.users.contracts);
+    return response.data;
+  } catch (error) {
+     if (axios.isAxiosError(error) && error.response?.data) {
+        throw new ApiError(error.response.data);
+      }
+
+    throw error;
+  }
+}
+
+export async function updateContractStatus(contractId: string, newStatus: string) {
+  try {
+    const response = await api.put(`${routes.contract.generate}/${contractId}/status`, { status: newStatus });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar status do contrato:", error);
+    throw error;
   }
 }

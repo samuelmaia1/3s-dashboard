@@ -42,51 +42,45 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
             >
               <TableCell sx={{ width: "60%" }}>
                 <Box>
-                  <Text
-                    variant="body2"
-                    weight="medium"
-                    sx={{ lineHeight: 1.2 }}
-                    truncate
-                  >
+                  <Text variant="body2" sx={{ lineHeight: 1.2 }} truncate>
                     {`${costumer.name} ${costumer.lastName.split(" ")[0]}`}
                   </Text>
                 </Box>
               </TableCell>
 
               <TableCell>
-                
                 <Text
-                    variant="body2"
-                    weight="medium"
-                    sx={{ lineHeight: 1.2 }}
-                    truncate
-                    color="text.secondary"
+                  variant="body2"
+                  weight="medium"
+                  sx={{ lineHeight: 1.2 }}
+                  truncate
+                  color="text.secondary"
                 >
-                    {costumer.email}
+                  {costumer.email}
                 </Text>
               </TableCell>
 
               <TableCell>
                 <Text
-                    variant="body2"
-                    weight="medium"
-                    sx={{ lineHeight: 1.2 }}
-                    truncate
-                    color="text.secondary"
+                  variant="body2"
+                  weight="medium"
+                  sx={{ lineHeight: 1.2 }}
+                  truncate
+                  color="text.secondary"
                 >
-                    {`${costumer.address.neighborhood} - ${costumer.address.city}`}
+                  {`${costumer.address.neighborhood} - ${costumer.address.city}`}
                 </Text>
               </TableCell>
 
               <TableCell>
                 <Text
-                    variant="body2"
-                    weight="medium"
-                    sx={{ lineHeight: 1.2 }}
-                    truncate
-                    color="text.secondary"
+                  variant="body2"
+                  weight="medium"
+                  sx={{ lineHeight: 1.2 }}
+                  truncate
+                  color="text.secondary"
                 >
-                    {costumer.cpf}
+                  {costumer.cpf}
                 </Text>
               </TableCell>
             </TableRow>

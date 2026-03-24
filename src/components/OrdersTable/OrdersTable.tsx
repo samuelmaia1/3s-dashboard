@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableRow, 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Box,
   useTheme,
   IconButton,
-  Menu, 
-  MenuItem
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import { Text } from "@components/Text/Text";
 import { TextTag, TextTagVariant } from "@components/TextTag/TextTag";
@@ -20,7 +20,7 @@ import { downloadContractPdf } from "@/services/contract.service";
 
 interface OrdersTableProps {
   orders: Order[];
-  onRequestStatusChange?: (order: Order) => void
+  onRequestStatusChange?: (order: Order) => void;
 }
 
 const statusBackground: Record<OrderStatus, TextTagVariant> = {
@@ -35,16 +35,22 @@ const statusBackground: Record<OrderStatus, TextTagVariant> = {
   [OrderStatus.CANCELADO]: "error",
 };
 
-export default function OrdersTable({ orders, onRequestStatusChange }: OrdersTableProps) {
+export default function OrdersTable({
+  orders,
+  onRequestStatusChange,
+}: OrdersTableProps) {
   const theme = useTheme();
-  
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  
+
   const openMenu = Boolean(anchorEl);
 
-  const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>, order: Order) => {
-    event.stopPropagation(); 
+  const handleOpenMenu = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    order: Order,
+  ) => {
+    event.stopPropagation();
     setAnchorEl(event.currentTarget);
     setSelectedOrder(order);
   };
@@ -57,13 +63,12 @@ export default function OrdersTable({ orders, onRequestStatusChange }: OrdersTab
   async function handleGenerateContract() {
     downloadContractPdf(selectedOrder?.id!, selectedOrder?.costumerId!);
     handleCloseMenu();
-  };
+  }
 
   async function handleChangeStatus() {
-    if (onRequestStatusChange)
-      onRequestStatusChange(selectedOrder!);
+    if (onRequestStatusChange) onRequestStatusChange(selectedOrder!);
     handleCloseMenu();
-  };
+  }
 
   return (
     <>
@@ -86,13 +91,14 @@ export default function OrdersTable({ orders, onRequestStatusChange }: OrdersTab
                     bgcolor: "action.hover",
                     cursor: "pointer",
                   },
-                  borderRadius: 8
+                  borderRadius: 8,
                 }}
               >
                 <TableCell>
                   <Box>
-                    <Text variant="body1" weight="medium" sx={{ lineHeight: 1.2 }}>
-                      {order.costumer.name} {order.costumer.lastName.split(" ")[0]}
+                    <Text variant="body1" sx={{ lineHeight: 1.2 }}>
+                      {order.costumer.name}{" "}
+                      {order.costumer.lastName.split(" ")[0]}
                     </Text>
                   </Box>
                 </TableCell>
@@ -112,16 +118,18 @@ export default function OrdersTable({ orders, onRequestStatusChange }: OrdersTab
                   </Box>
                 </TableCell>
 
-                {onRequestStatusChange && <TableCell align="right">
-                  <IconButton 
-                    onClick={(e) => handleOpenMenu(e, order)}
-                    aria-controls={openMenu ? 'order-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openMenu ? 'true' : undefined}
-                  >
-                    <Icon name="ellipsis" />
-                  </IconButton>
-                </TableCell>}
+                {onRequestStatusChange && (
+                  <TableCell align="right">
+                    <IconButton
+                      onClick={(e) => handleOpenMenu(e, order)}
+                      aria-controls={openMenu ? "order-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={openMenu ? "true" : undefined}
+                    >
+                      <Icon name="ellipsis" />
+                    </IconButton>
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>
@@ -134,22 +142,28 @@ export default function OrdersTable({ orders, onRequestStatusChange }: OrdersTab
         open={openMenu}
         onClose={handleCloseMenu}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
+          vertical: "bottom",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
+          vertical: "top",
+          horizontal: "right",
         }}
         PaperProps={{
-          sx: { borderRadius: 2, minWidth: 180 }
+          sx: { borderRadius: 2, minWidth: 180 },
         }}
       >
-        <MenuItem onClick={handleGenerateContract} sx={{display: 'flex', justifyContent: 'space-between'}}>
+        <MenuItem
+          onClick={handleGenerateContract}
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Text variant="body1">Gerar contrato</Text>
           <Icon name="download" size={18} style={{ marginLeft: 10 }} />
         </MenuItem>
-        <MenuItem onClick={handleChangeStatus} sx={{display: 'flex', justifyContent: 'space-between'}}>
+        <MenuItem
+          onClick={handleChangeStatus}
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
           <Text variant="body1">Atualizar status</Text>
           <Icon name="square-pen" size={18} style={{ marginLeft: 10 }} />
         </MenuItem>

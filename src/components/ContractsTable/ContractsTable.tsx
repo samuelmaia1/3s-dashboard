@@ -49,11 +49,7 @@ export default function ContractsTable({ contracts }: ContractsTableProps) {
             >
               <TableCell>
                 <Box>
-                  <Text
-                    variant="body1"
-                    weight="medium"
-                    sx={{ lineHeight: 1.2 }}
-                  >
+                  <Text variant="body1" sx={{ lineHeight: 1.2 }}>
                     {contract.costumer.name} {contract.costumer.lastName}
                   </Text>
                 </Box>

@@ -10,7 +10,8 @@ export const routes = {
     get: "/users",       
     products: "/users/products",
     costumers: "/users/costumers",
-    orders: "/users/orders"
+    orders: "/users/orders",
+    contracts: "/users/contracts",
   },
   dashboard: {
     summary: "/dashboard/summary",
