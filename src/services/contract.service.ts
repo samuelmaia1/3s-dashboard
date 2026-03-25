@@ -92,17 +92,27 @@ export async function downloadContractByCode(code: string) {
 function generateBlob(response: any) {
   const pdfBlob = new Blob([response.data], { type: "application/pdf" });
 
-    const fileUrl = window.URL.createObjectURL(pdfBlob);
+  const fileUrl = window.URL.createObjectURL(pdfBlob);
 
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    
-    link.setAttribute("download", "contrato.pdf");
+  const link = document.createElement("a");
+  link.href = fileUrl;
 
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+  const contentDisposition = response.headers["content-disposition"];
 
-    window.URL.revokeObjectURL(fileUrl);
+  let filename = "contrato.pdf";
 
+  if (contentDisposition) {
+    const match = contentDisposition.match(/filename="?(.+?)"?$/);
+    if (match?.[1]) {
+      filename = match[1];
+    }
+  }
+
+  link.setAttribute("download", filename);
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  window.URL.revokeObjectURL(fileUrl);
 }
