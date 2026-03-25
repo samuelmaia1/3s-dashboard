@@ -1,3 +1,5 @@
+import { sign } from "crypto";
+
 export const routes = {
   auth: {
     login: "/auth/login",
@@ -26,6 +28,8 @@ export const routes = {
   },
   contract: {
     generate: "/contracts/generate",
+    download: "/contracts/download",
+    sign: "/contracts/sign",
   },
   orders: {
     updateStatus: "/orders/status",

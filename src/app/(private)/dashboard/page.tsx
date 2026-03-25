@@ -22,6 +22,7 @@ import OrdersTable from "@components/OrdersTable/OrdersTable";
 import ContractsTable from "@components/ContractsTable/ContractsTable";
 import { LoadingContainer } from "../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
+import { ContractStatus } from "@/types/Contract";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
@@ -45,6 +46,26 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function onMarkContractAsSigned(contractId: string) {
+    setSummary((prev) => {
+      if (prev) {
+        return {
+          ...prev,
+          lastContracts: prev.lastContracts.map((contract) => {
+            if (contract.id === contractId) {
+              return {
+                ...contract,
+                status: ContractStatus.ASSINADO,
+              };
+            }
+            return contract;
+          })
+        };
+      }
+      return prev;
+    })
   }
 
   useEffect(() => {
@@ -134,7 +155,7 @@ export default function Dashboard() {
               textVariant="body1"
               textColor="primary"
             >
-              <ContractsTable contracts={summary?.lastContracts || []} />
+              <ContractsTable contracts={summary?.lastContracts || []} onMarkContractAsSigned={onMarkContractAsSigned}/>
             </Card>
           </TableContainer>
         </>

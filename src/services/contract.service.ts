@@ -22,20 +22,7 @@ export async function downloadContractPdf(orderId: string, costumerId: string) {
       }
     );
 
-    const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-
-    const fileUrl = window.URL.createObjectURL(pdfBlob);
-
-    const link = document.createElement("a");
-    link.href = fileUrl;
-    
-    link.setAttribute("download", "contrato.pdf");
-
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-
-    window.URL.revokeObjectURL(fileUrl);
+    generateBlob(response);
 
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.data) {
@@ -51,9 +38,9 @@ export async function fetchContracts(): Promise<EntityPageable<ContractWithDetai
     const response = await api.get(routes.users.contracts);
     return response.data;
   } catch (error) {
-     if (axios.isAxiosError(error) && error.response?.data) {
-        throw new ApiError(error.response.data);
-      }
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
+    }
 
     throw error;
   }
@@ -64,7 +51,58 @@ export async function updateContractStatus(contractId: string, newStatus: string
     const response = await api.put(`${routes.contract.generate}/${contractId}/status`, { status: newStatus });
     return response.data;
   } catch (error) {
-    console.error("Erro ao atualizar status do contrato:", error);
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
+    }
     throw error;
   }
+}
+
+export async function signContract(contractId: string) {
+  try {
+    const response = await api.put(`${routes.contract.sign}/${contractId}`);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
+    }
+    throw error;
+  }
+}
+
+export async function downloadContractByCode(code: string) {
+  try {
+    const response = await api.get(`${routes.contract.download}/${code}`, {
+      responseType: "blob",
+    });
+
+    generateBlob(response);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data instanceof Blob) {
+
+      const errorText = await error.response.data.text();
+      const errorJson = JSON.parse(errorText);
+      
+      throw new ApiError(errorJson);
+    }
+    throw error;
+  }
+}
+
+function generateBlob(response: any) {
+  const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+
+    const fileUrl = window.URL.createObjectURL(pdfBlob);
+
+    const link = document.createElement("a");
+    link.href = fileUrl;
+    
+    link.setAttribute("download", "contrato.pdf");
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.URL.revokeObjectURL(fileUrl);
+
 }
