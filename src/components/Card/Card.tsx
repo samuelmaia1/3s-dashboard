@@ -13,6 +13,7 @@ interface CardProps {
   textVariant?: "body1" | "body2";
   textColor?: "primary" | "secondary";
   loading?: boolean;
+  iconColor?: string;
 }
 
 export function Card({
@@ -23,6 +24,7 @@ export function Card({
   textVariant,
   textColor,
   loading,
+  iconColor
 }: CardProps) {
   const theme = useTheme();
 
@@ -66,18 +68,18 @@ export function Card({
           </Text>
 
           {icon && (
-            <Icon name={icon} size={20} color={theme.palette.text.secondary} />
+            <Icon name={icon} size={20} color={iconColor ?? theme.palette.text.secondary} />
           )}
         </TopContainer>
 
-        <Text
+        {description && <Text
           variant="body2"
           color={theme.palette.text.secondary}
           sx={{ mt: 1 }}
           lines={2}
         >
           {description}
-        </Text>
+        </Text>}
       </TitleContainer>
 
       {children}

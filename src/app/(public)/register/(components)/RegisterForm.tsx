@@ -11,6 +11,7 @@ import { createUser } from "@/services/user.service";
 import { useAuth } from "@hooks/useAuth";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { MultiStepForm } from "@components/MultStepForm/MultStepForm";
+import { CompanyImageStep } from "./ImageStep";
 
 export function RegisterForm() {
   const methods = useForm<CreateUserFormData>({
@@ -40,7 +41,7 @@ export function RegisterForm() {
     }
   };
 
-  const formSteps = [PersonalStep, AddressStep, CompanyStep];
+  const formSteps = [PersonalStep, AddressStep, CompanyStep, CompanyImageStep];
 
   return (
     <MultiStepForm

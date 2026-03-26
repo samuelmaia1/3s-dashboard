@@ -1,12 +1,16 @@
 import { Box, styled } from "@mui/material";
 
-export const Container = styled(Box)(({theme}) => ({
+interface ContainerProps {
+  width?: string;
+}
+
+export const Container = styled(Box)<ContainerProps>(({theme, width}) => ({
     borderRadius: 16,
     padding: 6,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: '80%',
+    width: width || "80%",
     maxWidth: '300px',
     minWidth: '100px',
     textAlign: 'center'

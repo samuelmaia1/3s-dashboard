@@ -23,7 +23,7 @@ export const routes = {
   },
   costumers: {
     create: "/costumers/create",
-    getById: "/costumers",
+    getById: (id: string) => `/costumers/${id}`,
   },
   contract: {
     generate: "/contracts/generate",

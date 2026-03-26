@@ -12,6 +12,7 @@ interface FabProps {
   disabled?: boolean;
   style?: CSSProperties;
   iconSize?: number;
+  type?: "button" | "submit" | "reset";
 }
 
 export function Fab({
@@ -21,7 +22,8 @@ export function Fab({
   size = 50,
   disabled = false,
   style,
-  iconSize = 20
+  iconSize = 20,
+  type = 'button'
 }: FabProps) {
   return (
     <Container
@@ -29,6 +31,7 @@ export function Fab({
       onClick={onClick}
       disabled={disabled || loading}
       style={style}
+      type={type}
     >
       {loading ? (
         <CircularProgress size={20} color="inherit" />

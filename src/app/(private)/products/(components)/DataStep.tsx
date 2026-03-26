@@ -6,15 +6,12 @@ import { Fab } from "@components/Fab/Fab";
 import { FormStepProps } from "@/types/Interfaces";
 import { useFormContext } from "react-hook-form";
 import { maskCurrency } from "@/formatter";
-import { Button } from "@components/Button/Button";
 import { Box } from "@mui/material";
 
 export function DataStep({
   onBack,
   onNext
 }: FormStepProps) {
-
-  const { formState } = useFormContext();
 
   return (
     <>
@@ -25,9 +22,9 @@ export function DataStep({
 
       <Box sx={{mt: 4}}/>
 
-      <Button fullWidth type="submit" loading={formState.isSubmitting} icon="check">
-        Confirmar
-      </Button>
+      <ButtonContainer>
+        <Fab icon="arrow-right" onClick={onNext} />
+      </ButtonContainer>
     </>
   );
 }

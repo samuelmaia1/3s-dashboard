@@ -1,3 +1,5 @@
+import { Address } from "./types/ValueObjects";
+
 export function formatToCurrency(value: number, locale: string = "pt-BR", currency: string = "BRL"): string {
  return value.toLocaleString(locale, {
     style: 'currency',
@@ -96,4 +98,8 @@ export function parseToLocalDateTime(value: string) {
   const year = value.substring(4, 8);
 
   return `${year}-${month}-${day}T00:00:00`;
+}
+
+export function formatAddressToString(address: Address) {
+  return `${address.street} ${address.number}, ${address.neighborhood}, ${address.city}`;
 }

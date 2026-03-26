@@ -10,9 +10,10 @@ interface TextTagProps {
     text: string;
     variant?: TextTagVariant;
     icon?: IconName;
+    width?: string;
 }
 
-export function TextTag({ text, variant = 'info', icon }: TextTagProps) {
+export function TextTag({ text, variant = 'info', icon, width }: TextTagProps) {
     const theme = useTheme();
 
     const variantBackground = {
@@ -30,7 +31,7 @@ export function TextTag({ text, variant = 'info', icon }: TextTagProps) {
     }
 
     return (
-        <Container sx={{backgroundColor: variantBackground[variant]}}>
+        <Container sx={{backgroundColor: variantBackground[variant]}} width={width}>
             <Content>
                 <Text variant="body2" sx={{color: variantText[variant]}} weight={'medium'}>
                     {text}

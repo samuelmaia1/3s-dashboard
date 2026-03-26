@@ -1,48 +1,27 @@
 import { RHFInput } from "@components/RHFInput/RHFInput";
 import { useFormContext } from "react-hook-form";
-import { ButtonContainer } from "./style";
+import { ButtonContainer, ButtonWrapper } from "./style";
 import { Button } from "@components/Button/Button";
+import { Fab } from "@components/Fab/Fab";
 
 export function CompanyStep({
   onBack,
-  onSubmit,
+  onNext,
 }: {
   onBack: () => void;
-  onSubmit: () => void;
+  onNext: () => void;
 }) {
-  const { formState } = useFormContext();
-
-
   return (
     <>
       <RHFInput name="socialName" label="Nome Social" />
       <RHFInput name="instagram" label="Instagram" />
 
       <ButtonContainer>
-        <Button
-          type="submit"
-          variant="text"
-          color="primary"
-          shape="square"
-          icon="arrow-left"
-          onClick={onBack}
-        />
+        <ButtonWrapper>
+            <Button onClick={onBack} variant="text" color="primary" shape="square" icon="arrow-left" />
+            <Fab icon="arrow-right" onClick={onNext} />
+        </ButtonWrapper>
       </ButtonContainer>
-
-      <Button
-        type="submit"
-        variant="filled"
-        color="primary"
-        shape="rounded"
-        icon="check"
-        fullWidth
-        disabled={formState.isSubmitting}
-        loading={formState.isSubmitting}
-        onClick={onSubmit}
-        style={{ marginTop: 24 }}
-      >
-        Cadastrar
-      </Button>
     </>
   );
 }

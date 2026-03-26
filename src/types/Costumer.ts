@@ -1,4 +1,5 @@
 import { Pageable } from "./ApiTypes";
+import { Order } from "./Order";
 import { Address } from "./ValueObjects";
 
 export interface Costumer {
@@ -23,4 +24,8 @@ export interface CreateCostumer {
     email: string;
     cpf: string;
     address: Address;
+}
+
+export interface FullCostumer extends Costumer {
+    orders: Order[];
 }

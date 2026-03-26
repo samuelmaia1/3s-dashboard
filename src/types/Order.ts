@@ -11,6 +11,7 @@ export interface Order {
   deliveryDate: string
   returnDate?: string
   createdAt: string
+  code: string
   items: OrderItem[]
   costumer: {
     id: string

@@ -93,6 +93,7 @@ export function Button({
         ...style,
       }}
       disabled={loading}
+      type={type}
       {...rest}
     >
       {!loading ? (

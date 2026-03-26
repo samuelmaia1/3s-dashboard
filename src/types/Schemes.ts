@@ -48,6 +48,8 @@ export const createUserSchema = z.object({
   instagram: z
     .string()
     .min(1, "Instagram é obrigatório"),
+
+  logo: z.string().url().optional(),
 });
 
 export const productSchema = z.object({
@@ -62,6 +64,8 @@ export const productSchema = z.object({
     .number()
     .int("Estoque deve ser um número inteiro")
     .positive("Estoque deve ser um número positivo"),
+
+  imageUri: z.string().url().optional()
 });
 
 export const createCostumerSchema = z.object({

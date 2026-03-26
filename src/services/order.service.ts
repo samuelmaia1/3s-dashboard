@@ -50,3 +50,30 @@ export async function updateStatus(orderId: string, status: OrderStatus) {
         throw error;
     }
 }
+
+export function agroupOrderByStatus(orders: Order[]) {
+    const canceledOrders: Order[] = [];
+    const pendingOrders: Order[] = [];
+    const finishedOrders: Order[] = [];
+
+    for (const order of orders) {
+        switch (order.status) {
+            case OrderStatus.CANCELADO:
+                canceledOrders.push(order);
+                break;
+            
+            case OrderStatus.CONCLUIDO:
+                finishedOrders.push(order);
+                break;
+
+            default:
+                pendingOrders.push(order);
+                break;
+        }
+    }
+    return {
+        canceledOrders,
+        pendingOrders,
+        finishedOrders
+    };
+}

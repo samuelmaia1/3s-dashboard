@@ -7,24 +7,24 @@ import { ProductFormOutput, UpdateProductFormOutput } from "@/types/Schemes";
 import axios from "axios";
 
 export async function createProduct(data: ProductFormOutput): Promise<void> {
-    const princeInCents = Number(data.price)
+  const priceInCents = Number(data.price);
+  const price = priceInCents / 100;
 
-    const price = princeInCents / 100
+  const productToCreate = {
+    name: data.name,
+    description: data.description,
+    price,
+    stock: data.stock,
+    imageUri: data.imageUri ?? null,
+  };
 
-    const productToCreate = {
-        name: data.name,
-        description: data.description,
-        price,
-        stock: data.stock,
+  try {
+    await api.post(routes.users.products, productToCreate);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
     }
-
-    try {
-        await api.post(routes.users.products, productToCreate);
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.data) {
-            throw new ApiError(error.response.data);
-        }
-    }
+  }
 }
 
 export async function getProducts(params?: Filters): Promise<ProductPageable> {
@@ -80,4 +80,36 @@ export async function updateProduct(product: UpdateProductFormOutput, id: string
 
       throw error;
     }
+}
+
+export async function uploadProductImage(file: File): Promise<string> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudName || !uploadPreset) {
+    throw new Error("Cloudinary não configurado corretamente.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", uploadPreset);
+
+  try {
+    const response = await api.post(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      formData,
+      {
+        baseURL: "", 
+        withCredentials: false,
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+
+    return response.data.secure_url as string;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.data) {
+      throw new ApiError(error.response.data);
+    }
+    throw error;
+  }
 }

@@ -12,6 +12,7 @@ import { DataStep } from "./DataStep";
 import { createProduct } from "@/services/product.service";
 import { ApiError } from "@/types/Error";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
+import { ImageStep } from "./ImageStep";
 
 interface CreateProductFormProps {
   closeModal: () => void;
@@ -31,7 +32,7 @@ export function CreateProductForm({
     },
   );
 
-  const steps = [DataStep];
+  const steps = [DataStep, ImageStep];
 
   async function onSubmit(data: ProductFormOutput) {
     const isValid = await methods.trigger();
