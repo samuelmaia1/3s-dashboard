@@ -1,5 +1,3 @@
-import { sign } from "crypto";
-
 export const routes = {
   auth: {
     login: "/auth/login",
@@ -25,6 +23,7 @@ export const routes = {
   },
   costumers: {
     create: "/costumers/create",
+    getById: "/costumers",
   },
   contract: {
     generate: "/contracts/generate",
