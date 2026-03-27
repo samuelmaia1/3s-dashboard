@@ -15,6 +15,7 @@ import {
   QuantityControls,
 } from "./style";
 import { TextTag } from "@components/TextTag/TextTag";
+import { useRouter } from "next/navigation";
 
 interface ProductCardProps {
   product: Product;
@@ -30,6 +31,8 @@ export function ProductCard({
   const [quantity, setQuantity] = useState(0);
 
   const isOutOfStock = product.stock <= 0;
+
+  const router = useRouter();
 
   function handleIncrement() {
     if (quantity < (product.stock ?? 0)) {
@@ -48,7 +51,10 @@ export function ProductCard({
   }
 
   return (
-    <CardContainer $isOutOfStock={isOutOfStock}>
+    <CardContainer
+      $isOutOfStock={isOutOfStock}
+      onClick={() => router.push(`/products/${product.id}`)}
+    >
       {isOutOfStock && <OutOfStockBadge>Indisponível</OutOfStockBadge>}
       <ImageWrapper>
         <img src={product.imageUri} alt={product.name} loading="lazy" />
