@@ -32,5 +32,8 @@ export const routes = {
   },
   orders: {
     updateStatus: "/orders/status",
+  },
+  clauses: {
+    getAllByUser: "/clauses",
   }
 }

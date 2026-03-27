@@ -34,7 +34,6 @@ export function CreateOrderForm({ items, onSubmitSuccess }: CreateOrderFormProps
     const steps = [ConfirmationStep , CustomerStep , AddressStep];
 
     async function onSubmit(data: CreateOrderFormData) {
-        console.log(data);
         try {
             const payload: CreateOrder = {
                 ...data,

@@ -61,7 +61,6 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned }: Co
       await downloadContractByCode(selectedContract.code);
       showMessage("Contrato gerado com sucesso!", "success");
     } catch (error) {
-      console.log(error instanceof ApiError);
       if (error instanceof ApiError) {
         showMessage(`${error.message}`, "error");
       } else {
@@ -80,7 +79,6 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned }: Co
       onMarkContractAsSigned(selectedContract.id);
       showMessage("Contrato assinado com sucesso!", "success");
     } catch (error) {
-      console.log(JSON.stringify(error));
       if (error instanceof ApiError) {
         showMessage(`${error.message}`, "error");
       }

@@ -38,7 +38,6 @@ export async function getCostumerById(id: string): Promise<FullCostumer> {
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {
-            console.log(error.response.data);
             throw new ApiError(error.response.data);
         } else {
             throw error;

@@ -9,6 +9,7 @@ import { CartContent, CartFooter, CartHeader, StyledCartDrawer, TotalRow } from 
 import { useEffect, useState } from "react";
 import { formatToCurrency } from "@/formatter";
 import { CartItem } from "@/types/Order";
+import { CartProduct } from "./CartProduct";
 
 interface CartSidebarProps {
   open: boolean;
@@ -60,7 +61,7 @@ export default function CartSidebar({ open, onClose, cartItems, onSetCartItems, 
                 <Text color="text.secondary">Seu carrinho está vazio</Text>
             </Box> : 
             cartItems.map(item => (
-                <Text>{item.product.name}</Text>
+                <CartProduct key={item.product.id} item={item} />
             ))
         }
       </CartContent>

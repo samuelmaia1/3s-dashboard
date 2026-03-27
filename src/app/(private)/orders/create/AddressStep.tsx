@@ -2,10 +2,12 @@ import { RHFInput } from "@components/RHFInput/RHFInput";
 import { useFormContext } from "react-hook-form";
 import { ButtonContainer, ButtonWrapper } from "./style";
 import { Button } from "@components/Button/Button";
-import { maskCep, maskDate } from "@/formatter";
+import { formatToCurrency, maskCep, maskDate } from "@/formatter";
 import { fetchAddressByCep } from "@/services/viacep.service";
 import { Box } from "@mui/material";
 import { useState } from "react";
+import { useAuth } from "@hooks/useAuth";
+import { Text } from "@components/Text/Text";
 
 interface AddressStepProps {
     onBack: () => void;
@@ -13,7 +15,10 @@ interface AddressStepProps {
 
 export function AddressStep({ onBack }: AddressStepProps) {
   const [deliveryType, setDeliveryType] = useState<'delivery' | 'pickup'>('delivery');
+  const [deliveryTax, setDeliveryTax] = useState<string | number>(0);
+
   const { setValue, trigger, formState, clearErrors } = useFormContext();
+  const { user } = useAuth();
 
   async function handleFetchAddress(cep: string) {
     if (cep.length !== 8) return;
@@ -25,6 +30,8 @@ export function AddressStep({ onBack }: AddressStepProps) {
       setValue("address.city", address.city);
 
       await trigger("address");
+
+      calculateTax(cep);
     } catch (error) {
       console.error(error);
     }
@@ -37,6 +44,18 @@ export function AddressStep({ onBack }: AddressStepProps) {
       clearErrors("address");
     }
   };
+
+  async function calculateTax(cep: string) {
+    const response = await fetch("/api/delivery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ originCep: user?.address.cep, destinationCep: cep }),
+    });
+
+    const body = await response.json();
+
+    setDeliveryTax(formatToCurrency(Number(body.deliveryTax)));
+  }
 
   return (
     <>
@@ -59,6 +78,8 @@ export function AddressStep({ onBack }: AddressStepProps) {
           <RHFInput name="deliveryDate" label="Data de entrega" mask={maskDate}/>
         </>
       )}
+
+      <Text sx={{marginTop: 2}}>Taxa de entrega: {deliveryTax}</Text>
 
       <ButtonContainer>
         <Button icon="arrow-left" onClick={onBack} variant="text"/>

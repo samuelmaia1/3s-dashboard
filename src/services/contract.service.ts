@@ -6,13 +6,17 @@ import { ApiError } from "@/types/Error";
 import axios from "axios";
 
 export async function downloadContractPdf(orderId: string, costumerId: string) {
-    try {
+  try {
+    const clausesResponse = await api.get(routes.clauses.getAllByUser);
+
+    const clauses = clausesResponse.data;
+
     const response = await api.post(
       routes.contract.generate, 
       { 
         orderId,
         costumerId: costumerId,
-        clausesIds: ['4fb58ab2-b6f3-4326-af0e-346ba334c8fb', '1ce714a9-07b9-477d-bcf2-bcbfde680dd5', '26aba21f-1818-4f80-bf4b-2d8efb5a9909', '3bc32ac1-09b3-4d17-a3df-f838febf4faa']
+        clausesIds: clauses.map((clause: any) => clause.id)
       },
       {
         responseType: "blob", 

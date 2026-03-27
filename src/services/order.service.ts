@@ -21,12 +21,9 @@ export async function createOrder(data: CreateOrder) {
 export async function getOrders(params?: Filters): Promise<EntityPageable<Order>> {
     try {
         const response = await api.get(routes.users.orders, {params});
-        console.log(response.data);
         return response.data;
     } catch (error) {
-        console.log(error);
         if (axios.isAxiosError(error) && error.response?.data) {
-            console.log(error.response.data);
             throw new ApiError(error.response.data);
         }
 
@@ -76,4 +73,55 @@ export function agroupOrderByStatus(orders: Order[]) {
         pendingOrders,
         finishedOrders
     };
+}
+
+export async function calculateDeliveryTax(originCode: string, destinationCode: string) {
+ const OpenRoutesServiceKey = process.env.NEXT_PUBLIC_OPEN_ROUTE_API_KEY
+
+  try {
+    const originGeo = await api.get("https://api.openrouteservice.org/geocode/search", {
+      params: {
+        api_key: OpenRoutesServiceKey,
+        text: originCode,
+        size: 1,
+      },
+    });
+
+    const originCoords = originGeo.data.features[0].geometry.coordinates; 
+
+    const destGeo = await api.get("https://api.openrouteservice.org/geocode/search", {
+      params: {
+        api_key: OpenRoutesServiceKey,
+        text: destinationCode,
+        size: 1,
+      },
+    });
+    const destCoords = destGeo.data.features[0].geometry.coordinates;
+
+    const route = await api.post(
+      "https://api.openrouteservice.org/v2/directions/driving-car",
+      {
+        coordinates: [originCoords, destCoords],
+      },
+      {
+        headers: {
+          Authorization: OpenRoutesServiceKey,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const distanceMeters = route.data.routes[0].summary.distance;
+    const distanceKm = distanceMeters / 1000;
+
+    const deliveryTax = distanceKm * 6;
+
+    return {
+      distanceKm: distanceKm.toFixed(2),
+      deliveryTax: deliveryTax.toFixed(2),
+    };
+  } catch (error) {
+    console.error("Erro ao calcular frete:", error);
+    throw new Error("Não foi possível calcular o frete");
+  }
 }

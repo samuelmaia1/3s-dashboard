@@ -45,8 +45,6 @@ export function CostumerClient({ id }: CostumerProps) {
 
       const {canceledOrders, pendingOrders, finishedOrders} = agroupOrderByStatus(response.orders);
 
-      console.log(pendingOrders)
-
       setGroupedOrders({
         canceledOrders,
         pendingOrders,

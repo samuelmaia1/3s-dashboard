@@ -46,7 +46,6 @@ export function CustomerStep({ onBack, onNext }: CustomerStepProps) {
     }
 
     function handleSelectCustomer(costumerId: string) {
-        console.log(costumerId);
         setSelectedCostumerId(costumerId);
         setValue("costumerId", costumerId, { shouldValidate: true });
     }

@@ -80,7 +80,7 @@ export function ProductCard({
           </Text>
 
           {showQuantityControls && (
-            <QuantityControls>
+            <QuantityControls onClick={(e) => e.stopPropagation()}> 
               <Button
                 variant="text"
                 size="small"
