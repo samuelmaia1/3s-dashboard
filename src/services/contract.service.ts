@@ -1,7 +1,7 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
 import { EntityPageable } from "@/types/ApiTypes";
-import { ContractWithDetails } from "@/types/Contract";
+import { Contract, ContractWithDetails } from "@/types/Contract";
 import { ApiError } from "@/types/Error";
 import axios from "axios";
 
@@ -37,7 +37,7 @@ export async function downloadContractPdf(orderId: string, costumerId: string) {
   }
 }
 
-export async function fetchContracts(): Promise<EntityPageable<ContractWithDetails>> {
+export async function fetchContracts(): Promise<EntityPageable<Contract>> {
   try {
     const response = await api.get(routes.users.contracts);
     return response.data;

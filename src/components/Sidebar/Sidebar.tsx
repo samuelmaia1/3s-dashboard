@@ -80,6 +80,13 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             currentPath={pathname}
             onClick={onClose}
           />
+          <NavItem
+            href="/contracts"
+            iconName="file-text"
+            label="Contratos"
+            currentPath={pathname}
+            onClick={onClose}
+          />
         </List>
 
         <SectionTitle>Sistema</SectionTitle>
