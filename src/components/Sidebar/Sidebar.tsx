@@ -87,6 +87,13 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
             currentPath={pathname}
             onClick={onClose}
           />
+          <NavItem
+            href="/rents"
+            iconName="refresh-cw"
+            label="Aluguéis"
+            currentPath={pathname}
+            onClick={onClose}
+          />
         </List>
 
         <SectionTitle>Sistema</SectionTitle>

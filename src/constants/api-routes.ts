@@ -12,6 +12,7 @@ export const routes = {
     costumers: "/users/costumers",
     orders: "/users/orders",
     contracts: "/users/contracts",
+    rents: "/users/rents",
   },
   dashboard: {
     summary: "/dashboard/summary",
@@ -35,5 +36,11 @@ export const routes = {
   },
   clauses: {
     getAllByUser: "/clauses",
-  }
+  },
+  rents: {
+    list: "/rents",
+    getById: (id: string) => `/rents/${id}`,
+    update: (id: string) => `/rents/${id}`,
+    delete: (id: string) => `/rents/${id}`,
+  },
 }
