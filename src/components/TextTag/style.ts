@@ -6,13 +6,13 @@ interface ContainerProps {
 
 export const Container = styled(Box)<ContainerProps>(({theme, width}) => ({
     borderRadius: 16,
-    padding: 6,
+    padding: 4,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     width: width || "80%",
     maxWidth: '300px',
-    minWidth: '100px',
+    minWidth: '80px',
     textAlign: 'center'
 }))
 

@@ -10,9 +10,7 @@ interface OrderRowProps {
 
 const statusBackground: Record<OrderStatus, TextTagVariant> = {
   [OrderStatus.REALIZADO]: "info",
-  [OrderStatus.AGUARDANDO_ASSINATURA_CLIENTE]: "warning",
   [OrderStatus.CONTRATO_ASSINADO]: "info",
-  [OrderStatus.AGUARDANDO_PAGAMENTO]: "warning",
   [OrderStatus.PAGAMENTO_APROVADO]: "success",
   [OrderStatus.AGUARDANDO_ENTREGA]: "warning",
   [OrderStatus.ENTREGUE]: "success",

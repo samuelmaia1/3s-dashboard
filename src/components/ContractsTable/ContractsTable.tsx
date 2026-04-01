@@ -22,6 +22,7 @@ import { ApiError } from "@/types/Error";
 interface ContractsTableProps {
   contracts: Contract[];
   onMarkContractAsSigned: (contractId: string) => void;
+  hideMenu?: boolean;
 }
 
 const statusBackground: Record<ContractStatus, TextTagVariant> = {
@@ -30,7 +31,7 @@ const statusBackground: Record<ContractStatus, TextTagVariant> = {
   [ContractStatus.ASSINATURA_PENDENTE]: "warning",
 };
 
-export default function ContractsTable({ contracts, onMarkContractAsSigned }: ContractsTableProps) {
+export default function ContractsTable({ contracts, onMarkContractAsSigned, hideMenu = false }: ContractsTableProps) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -122,8 +123,8 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned }: Co
                 </TableCell>
 
                 <TableCell>
-                  <Text color={theme.palette.text.secondary} variant="body2">
-                    N° {contract.code}
+                  <Text color={theme.palette.text.secondary} variant="body2" lines={1}>
+                    {contract.code}
                   </Text>
                 </TableCell>
 
@@ -136,16 +137,18 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned }: Co
                   </Box>
                 </TableCell>
 
-                <TableCell align="right" sx={{ width: '100px' }}>
-                  <IconButton
-                    onClick={(e) => handleOpenMenu(e, contract)}
-                    aria-controls={openMenu ? "contract-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openMenu ? "true" : undefined}
-                  >
-                    <Icon name="ellipsis" />
-                  </IconButton>
-                </TableCell>
+                {!hideMenu && 
+                  <TableCell align="right">
+                    <IconButton
+                      onClick={(e) => handleOpenMenu(e, contract)}
+                      aria-controls={openMenu ? "contract-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={openMenu ? "true" : undefined}
+                    >
+                      <Icon name="ellipsis" />
+                    </IconButton>
+                  </TableCell>
+                }
               </TableRow>
             ))}
           </TableBody>

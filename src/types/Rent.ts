@@ -1,18 +1,18 @@
 import { Product } from "./Product"
 import { Address } from "./ValueObjects"
 
-export interface Order {
+export interface Rent {
   id: string
   userId: string
   costumerId: string
-  status: OrderStatus
+  status: RentStatus
   total: number
   deliveryAddress: Address
   deliveryDate: string
   returnDate?: string
   createdAt: string
   code: string
-  items: OrderItem[]
+  items: RentItem[]
   costumer: {
     id: string
     name: string
@@ -20,7 +20,7 @@ export interface Order {
   }
 }
 
-export interface OrderItem {
+export interface RentItem {
   id: string
   quantity: number
   unitValue: number
@@ -28,7 +28,7 @@ export interface OrderItem {
   product: Product
 }
 
-export enum OrderStatus {
+export enum RentStatus {
     REALIZADO = "Realizado",
     CONTRATO_ASSINADO = "Contrato Assinado",
     PAGAMENTO_APROVADO = 'Pagamento Aprovado',
@@ -43,14 +43,15 @@ export interface CartItem {
     quantity: number
 }
 
-export interface OrderItemRequest {
+export interface RentItemRequest {
     productId: string
     quantity: number
 }
 
-export interface CreateOrder {
+export interface CreateRent {
     costumerId: string
     deliveryAddress?: Address
-    deliveryDate?: string
-    items: OrderItemRequest[]
+    deliveryDate: string
+    returnDate: string
+    items: RentItemRequest[]
 }

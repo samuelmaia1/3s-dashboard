@@ -3,7 +3,7 @@
 import { UpdateProductFormInput, UpdateProductFormOutput, updateProductSchema } from "@/types/Schemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { DataStep } from "../../(components)/DataStep";
+import { DataStep } from "./DataStep";
 import { MultiStepForm } from "@components/MultStepForm/MultStepForm";
 import { updateProduct } from "@/services/product.service";
 import { Product } from "@/types/Product";

@@ -96,7 +96,7 @@ export default function Dashboard() {
             </Card>
             <Card
               title="Receita do mês"
-              description="Total arrecadado em Fevereiro de 2026"
+              description="Pagamentos recebidos em Fevereiro de 2026"
               icon="dollar-sign"
               textVariant="body1"
               textColor="primary"
@@ -155,7 +155,11 @@ export default function Dashboard() {
               textVariant="body1"
               textColor="primary"
             >
-              <ContractsTable contracts={summary?.lastContracts || []} onMarkContractAsSigned={onMarkContractAsSigned}/>
+              <ContractsTable 
+                contracts={summary?.lastContracts || []} 
+                onMarkContractAsSigned={onMarkContractAsSigned} 
+                hideMenu={true}
+              />
             </Card>
           </TableContainer>
         </>

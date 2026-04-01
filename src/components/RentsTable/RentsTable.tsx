@@ -13,57 +13,57 @@ import {
 } from "@mui/material";
 import { Text } from "@components/Text/Text";
 import { TextTag, TextTagVariant } from "@components/TextTag/TextTag";
-import { Order, OrderStatus } from "@/types/Order";
+import { Rent, RentStatus } from "@/types/Rent";
 import { Icon } from "@components/Icon/Icon";
 import { downloadContractPdf } from "@/services/contract.service";
 
-interface OrdersTableProps {
-  orders: Order[];
-  onRequestStatusChange?: (order: Order) => void;
+interface RentsTableProps {
+  rents: Rent[];
+  onRequestStatusChange?: (rent: Rent) => void;
 }
 
-const statusBackground: Record<OrderStatus, TextTagVariant> = {
-  [OrderStatus.REALIZADO]: "info",
-  [OrderStatus.CONTRATO_ASSINADO]: "info",
-  [OrderStatus.PAGAMENTO_APROVADO]: "success",
-  [OrderStatus.AGUARDANDO_ENTREGA]: "warning",
-  [OrderStatus.ENTREGUE]: "success",
-  [OrderStatus.CONCLUIDO]: "success",
-  [OrderStatus.CANCELADO]: "error",
+const statusBackground: Record<RentStatus, TextTagVariant> = {
+  [RentStatus.REALIZADO]: "info",
+  [RentStatus.CONTRATO_ASSINADO]: "info",
+  [RentStatus.PAGAMENTO_APROVADO]: "success",
+  [RentStatus.AGUARDANDO_ENTREGA]: "warning",
+  [RentStatus.ENTREGUE]: "success",
+  [RentStatus.CONCLUIDO]: "success",
+  [RentStatus.CANCELADO]: "error",
 };
 
-export default function OrdersTable({
-  orders,
+export default function RentsTable({
+  rents,
   onRequestStatusChange,
-}: OrdersTableProps) {
+}: RentsTableProps) {
   const theme = useTheme();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [selectedRent, setSelectedRent] = useState<Rent | null>(null);
 
   const openMenu = Boolean(anchorEl);
 
   const handleOpenMenu = (
     event: React.MouseEvent<HTMLButtonElement>,
-    order: Order,
+    rent: Rent,
   ) => {
     event.stopPropagation();
     setAnchorEl(event.currentTarget);
-    setSelectedOrder(order);
+    setSelectedRent(rent);
   };
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
-    setSelectedOrder(null);
+    setSelectedRent(null);
   };
 
   async function handleGenerateContract() {
-    downloadContractPdf(selectedOrder?.id!, selectedOrder?.costumerId!);
+    downloadContractPdf(selectedRent?.id!, selectedRent?.costumerId!);
     handleCloseMenu();
   }
 
   async function handleChangeStatus() {
-    if (onRequestStatusChange) onRequestStatusChange(selectedOrder!);
+    if (onRequestStatusChange) onRequestStatusChange(selectedRent!);
     handleCloseMenu();
   }
 
@@ -75,9 +75,9 @@ export default function OrdersTable({
           aria-label="tabela de aluguéis"
         >
           <TableBody>
-            {orders.map((order) => (
+            {rents.map((rent) => (
               <TableRow
-                key={order.id}
+                key={rent.id}
                 sx={{
                   "& td": {
                     border: "none",
@@ -94,32 +94,32 @@ export default function OrdersTable({
                 <TableCell>
                   <Box>
                     <Text variant="body1" sx={{ lineHeight: 1.2 }}>
-                      {order.costumer.name}{" "}
-                      {order.costumer.lastName.split(" ")[0]}
+                      {rent.costumer.name}{" "}
+                      {rent.costumer.lastName.split(" ")[0]}
                     </Text>
                   </Box>
                 </TableCell>
 
                 <TableCell>
                   <Text color={theme.palette.text.secondary} variant="body2">
-                    {order.code}
+                    {rent.code}
                   </Text>
                 </TableCell>
 
                 <TableCell align="right">
                   <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                     <TextTag
-                      text={order.status}
-                      variant={statusBackground[order.status]}
+                      text={rent.status}
+                      variant={statusBackground[rent.status]}
                     />
                   </Box>
                 </TableCell>
 
                 {onRequestStatusChange && (
-                  <TableCell align="right">
+                  <TableCell align="right" sx={{width: '100px'}}>
                     <IconButton
-                      onClick={(e) => handleOpenMenu(e, order)}
-                      aria-controls={openMenu ? "order-menu" : undefined}
+                      onClick={(e) => handleOpenMenu(e, rent)}
+                      aria-controls={openMenu ? "rent-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openMenu ? "true" : undefined}
                     >
@@ -134,7 +134,7 @@ export default function OrdersTable({
       </TableContainer>
 
       <Menu
-        id="order-menu"
+        id="rent-menu"
         anchorEl={anchorEl}
         open={openMenu}
         onClose={handleCloseMenu}
