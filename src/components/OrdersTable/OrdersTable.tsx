@@ -58,7 +58,7 @@ export default function OrdersTable({
   };
 
   async function handleGenerateContract() {
-    downloadContractPdf(selectedOrder?.id!, selectedOrder?.costumerId!);
+    downloadContractPdf(selectedOrder?.id!, selectedOrder?.costumerId!, "ORDER");
     handleCloseMenu();
   }
 
@@ -71,8 +71,8 @@ export default function OrdersTable({
     <>
       <TableContainer sx={{ bgcolor: "transparent" }}>
         <Table
-          sx={{ minWidth: 400, tableLayout: "auto" }}
-          aria-label="tabela de aluguéis"
+          sx={{ width: "100%", minWidth: 400, tableLayout: "auto" }}
+          aria-label="tabela de pedidos"
         >
           <TableBody>
             {orders.map((order) => (
@@ -91,7 +91,7 @@ export default function OrdersTable({
                   borderRadius: 8,
                 }}
               >
-                <TableCell>
+                <TableCell sx={{ width: "100%" }}>
                   <Box>
                     <Text variant="body1" sx={{ lineHeight: 1.2 }}>
                       {order.costumer.name}{" "}
@@ -100,23 +100,24 @@ export default function OrdersTable({
                   </Box>
                 </TableCell>
 
-                <TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
                   <Text color={theme.palette.text.secondary} variant="body2">
-                    {order.code}
+                    N° {order.code}
                   </Text>
                 </TableCell>
 
-                <TableCell align="right">
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
                   <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                     <TextTag
                       text={order.status}
                       variant={statusBackground[order.status]}
+                      width="100%"
                     />
                   </Box>
                 </TableCell>
 
                 {onRequestStatusChange && (
-                  <TableCell align="right">
+                  <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
                     <IconButton
                       onClick={(e) => handleOpenMenu(e, order)}
                       aria-controls={openMenu ? "order-menu" : undefined}

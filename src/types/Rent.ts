@@ -1,3 +1,4 @@
+import { IconName } from "lucide-react/dynamic"
 import { Product } from "./Product"
 import { Address } from "./ValueObjects"
 
@@ -55,3 +56,13 @@ export interface CreateRent {
     returnDate: string
     items: RentItemRequest[]
 }
+
+export const rentStatusIcons: Record<RentStatus, IconName> = {
+    [RentStatus.REALIZADO]: "clipboard",
+    [RentStatus.CONTRATO_ASSINADO]: "file-signature",
+    [RentStatus.PAGAMENTO_APROVADO]: "credit-card",
+    [RentStatus.AGUARDANDO_ENTREGA]: "clock",
+    [RentStatus.ENTREGUE]: "truck",
+    [RentStatus.CONCLUIDO]: "check",
+    [RentStatus.CANCELADO]: "x",
+};

@@ -1,7 +1,11 @@
 import { styled } from "@mui/material";
 
-export const StyledButton = styled("button")({
+interface StyledButtonProps {
+  alignLeft?: boolean;
+}
+
+export const StyledButton = styled("button")<StyledButtonProps>(({ theme, alignLeft }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
-});
+  justifyContent: !alignLeft ? "center" : "flex-start"
+}));

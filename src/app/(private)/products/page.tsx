@@ -4,7 +4,6 @@ import { Modal } from "@components/Modal/Modal";
 import { Button } from "@components/Button/Button";
 import { useEffect, useState } from "react";
 import { CreateProductForm } from "./(components)/CreateProductForm";
-import ProductsTable from "@components/ProductsTable/ProductsTable";
 import { Product } from "@/types/Product";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { ApiError } from "@/types/Error";

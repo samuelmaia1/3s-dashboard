@@ -22,6 +22,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
   icon?: IconName;
   loading?: boolean;
+  alignLeft?: boolean;
 }
 
 const sizeMap: Record<Size, CSSProperties> = {
@@ -50,6 +51,7 @@ export function Button({
   icon,
   loading = false,
   type = "button",
+  alignLeft = false,
   ...rest
 }: ButtonProps) {
   const theme: Theme = useTheme();
@@ -94,6 +96,7 @@ export function Button({
       }}
       disabled={loading}
       type={type}
+      alignLeft={alignLeft}
       {...rest}
     >
       {!loading ? (

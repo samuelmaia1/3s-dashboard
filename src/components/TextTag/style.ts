@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container = styled(Box)<ContainerProps>(({theme, width}) => ({
     borderRadius: 16,
-    padding: 4,
+    padding: 6,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

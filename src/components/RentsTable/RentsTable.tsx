@@ -58,7 +58,7 @@ export default function RentsTable({
   };
 
   async function handleGenerateContract() {
-    downloadContractPdf(selectedRent?.id!, selectedRent?.costumerId!);
+    downloadContractPdf(selectedRent?.id!, selectedRent?.costumerId!, "RENT");
     handleCloseMenu();
   }
 
@@ -71,7 +71,7 @@ export default function RentsTable({
     <>
       <TableContainer sx={{ bgcolor: "transparent" }}>
         <Table
-          sx={{ minWidth: 400, tableLayout: "auto" }}
+          sx={{ width: "100%", minWidth: 400, tableLayout: "auto" }}
           aria-label="tabela de aluguéis"
         >
           <TableBody>
@@ -91,7 +91,7 @@ export default function RentsTable({
                   borderRadius: 8,
                 }}
               >
-                <TableCell>
+                <TableCell sx={{ width: "100%" }}>
                   <Box>
                     <Text variant="body1" sx={{ lineHeight: 1.2 }}>
                       {rent.costumer.name}{" "}
@@ -100,33 +100,34 @@ export default function RentsTable({
                   </Box>
                 </TableCell>
 
-                <TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
                   <Text color={theme.palette.text.secondary} variant="body2">
-                    {rent.code}
+                    N° {rent.code}
                   </Text>
                 </TableCell>
 
-                <TableCell align="right">
+                <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
                   <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                     <TextTag
                       text={rent.status}
                       variant={statusBackground[rent.status]}
+                      width="100%"
                     />
                   </Box>
                 </TableCell>
 
-                {onRequestStatusChange && (
-                  <TableCell align="right" sx={{width: '100px'}}>
-                    <IconButton
-                      onClick={(e) => handleOpenMenu(e, rent)}
-                      aria-controls={openMenu ? "rent-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openMenu ? "true" : undefined}
-                    >
-                      <Icon name="ellipsis" />
-                    </IconButton>
-                  </TableCell>
-                )}
+                
+                <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
+                  <IconButton
+                    onClick={(e) => handleOpenMenu(e, rent)}
+                    aria-controls={openMenu ? "rent-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openMenu ? "true" : undefined}
+                  >
+                    <Icon name="ellipsis" />
+                  </IconButton>
+                </TableCell>
+                
               </TableRow>
             ))}
           </TableBody>
@@ -157,13 +158,15 @@ export default function RentsTable({
           <Text variant="body1">Gerar contrato</Text>
           <Icon name="download" size={18} style={{ marginLeft: 10 }} />
         </MenuItem>
-        <MenuItem
-          onClick={handleChangeStatus}
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Text variant="body1">Atualizar status</Text>
-          <Icon name="square-pen" size={18} style={{ marginLeft: 10 }} />
-        </MenuItem>
+        {onRequestStatusChange && 
+          <MenuItem
+            onClick={handleChangeStatus}
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Text variant="body1">Atualizar status</Text>
+            <Icon name="square-pen" size={18} style={{ marginLeft: 10 }} />
+          </MenuItem>
+        }
       </Menu>
     </>
   );

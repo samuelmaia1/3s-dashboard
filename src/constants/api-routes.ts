@@ -42,5 +42,6 @@ export const routes = {
     getById: (id: string) => `/rents/${id}`,
     update: (id: string) => `/rents/${id}`,
     delete: (id: string) => `/rents/${id}`,
+    updateStatus: (id: string) => `/rents/status/${id}`,
   },
 }

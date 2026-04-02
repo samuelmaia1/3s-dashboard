@@ -1,3 +1,4 @@
+import { IconName } from "lucide-react/dynamic"
 import { Product } from "./Product"
 import { Address } from "./ValueObjects"
 
@@ -54,3 +55,13 @@ export interface CreateOrder {
     deliveryDate?: string
     items: OrderItemRequest[]
 }
+
+export const orderStatusIcons: Record<OrderStatus, IconName> = {
+    [OrderStatus.REALIZADO]: "clipboard",
+    [OrderStatus.CONTRATO_ASSINADO]: "file-signature",
+    [OrderStatus.PAGAMENTO_APROVADO]: "credit-card",
+    [OrderStatus.AGUARDANDO_ENTREGA]: "clock",
+    [OrderStatus.ENTREGUE]: "truck",
+    [OrderStatus.CONCLUIDO]: "check",
+    [OrderStatus.CANCELADO]: "x",
+};

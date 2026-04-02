@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import OrdersTable from "@components/OrdersTable/OrdersTable";
 import { useEffect, useState } from "react";
 import { Filters, Pageable } from "@/types/ApiTypes";
-import { Order, OrderStatus } from "@/types/Order";
+import { Order, OrderStatus, orderStatusIcons } from "@/types/Order";
 import { Page, PaginationContainer } from "./create/style";
 import { Text } from "@components/Text/Text";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
@@ -85,8 +85,9 @@ export default function Orders() {
             if (error instanceof ApiError) {
                 showMessage(`Erro ao atualizar status: ${error.message}`, "error");
             }
-
-            showMessage("Erro ao atualizar status", "error");
+            else {
+                showMessage("Erro ao atualizar status", "error");
+            }
         } finally {
             setOrderToUpdate(null);
             setSelectedStatus(null);
@@ -132,24 +133,26 @@ export default function Orders() {
             <OrdersTable orders={orders} onRequestStatusChange={handleOpenStatusModal}/>
 
             <Modal onClose={handleCloseModal} open={isModalOpen}>
-                <Text variant="body1">Atualizar status do pedido</Text>
+                <Text variant="h6">Atualizar status do pedido</Text>
     
                 <Box sx={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "16px", marginBottom: "24px" }}>
-                    {Object.entries(OrderStatus).map(([key, value]) => (
+                    {Object.values(OrderStatus).map((status) => (
                         <Button
-                            key={key}
-                            variant={selectedStatus === value ? "filled" : "outline"} 
+                            key={status}
+                            variant={selectedStatus === status ? "filled" : "text"} 
                             onClick={() => {
-                                setSelectedStatus(value as OrderStatus); 
+                                setSelectedStatus(status); 
                             }}
+                            alignLeft
+                            icon={orderStatusIcons[status]}
                         >
-                            {value}
+                            {status}
                         </Button>
                     ))}
                 </Box>
 
                 <Box sx={{ display: "flex", justifyContent: "space-between", gap: "12px" }}>
-                    <Button variant="outline" onClick={handleCloseModal} fullWidth>
+                    <Button onClick={handleCloseModal} fullWidth color="error">
                         Cancelar
                     </Button>
                     <Button 
@@ -157,8 +160,9 @@ export default function Orders() {
                         onClick={handleSaveStatus}
                         disabled={!selectedStatus || selectedStatus === orderToUpdate?.status}
                         fullWidth
+                        color="success"
                     >
-                        Confirmar
+                        Atualizar
                     </Button>
                 </Box>
             </Modal>

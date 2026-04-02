@@ -83,8 +83,9 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned, hide
       if (error instanceof ApiError) {
         showMessage(`${error.message}`, "error");
       }
-
-      showMessage("Erro ao assinar contrato", "error");
+      else {
+        showMessage("Erro ao assinar contrato", "error");
+      }
     } finally {
       handleCloseMenu();
     }
@@ -94,7 +95,7 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned, hide
     <>
       <TableContainer sx={{ bgcolor: "transparent" }}>
         <Table
-          sx={{ minWidth: 400, tableLayout: "auto" }}
+          sx={{ width: "100%", minWidth: 400, tableLayout: "auto" }}
           aria-label="tabela de contratos"
         >
           <TableBody>
@@ -114,7 +115,7 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned, hide
                   borderRadius: 8,
                 }}
               >
-                <TableCell>
+                <TableCell sx={{ width: "100%" }}>
                   <Box>
                     <Text variant="body1" sx={{ lineHeight: 1.2 }}>
                       {contract.costumer.name} {contract.costumer.lastName}
@@ -122,13 +123,13 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned, hide
                   </Box>
                 </TableCell>
 
-                <TableCell>
+                <TableCell sx={{ whiteSpace: "nowrap" }}>
                   <Text color={theme.palette.text.secondary} variant="body2" lines={1}>
-                    {contract.code}
+                    N °{contract.code}
                   </Text>
                 </TableCell>
 
-                <TableCell align="right">
+                <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
                   <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                     <TextTag
                       text={contract.status}
@@ -138,7 +139,7 @@ export default function ContractsTable({ contracts, onMarkContractAsSigned, hide
                 </TableCell>
 
                 {!hideMenu && 
-                  <TableCell align="right">
+                  <TableCell align="right" sx={{ whiteSpace: "nowrap" }}>
                     <IconButton
                       onClick={(e) => handleOpenMenu(e, contract)}
                       aria-controls={openMenu ? "contract-menu" : undefined}

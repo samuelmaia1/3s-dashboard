@@ -20,7 +20,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
 
   return (
     <TableContainer sx={{ bgcolor: "transparent" }}>
-      <Table sx={{ tableLayout: "auto" }} aria-label="tabela de produtos">
+      <Table sx={{ width: "100%", minWidth: 400, tableLayout: "auto" }} aria-label="tabela de produtos">
         <TableBody>
           {costumers.map((costumer) => (
             <TableRow
@@ -40,7 +40,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
                 borderRadius: 8,
               }}
             >
-              <TableCell sx={{ width: "60%" }}>
+              <TableCell sx={{ width: "100%" }}>
                 <Box>
                   <Text variant="body2" sx={{ lineHeight: 1.2 }} truncate>
                     {`${costumer.name} ${costumer.lastName.split(" ")[0]}`}
@@ -48,7 +48,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
                 </Box>
               </TableCell>
 
-              <TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
                 <Text
                   variant="body2"
                   weight="medium"
@@ -60,7 +60,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
                 </Text>
               </TableCell>
 
-              <TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
                 <Text
                   variant="body2"
                   weight="medium"
@@ -72,7 +72,7 @@ export function CostumersTable({ costumers }: CostumersTableProps) {
                 </Text>
               </TableCell>
 
-              <TableCell>
+              <TableCell sx={{ whiteSpace: "nowrap" }}>
                 <Text
                   variant="body2"
                   weight="medium"

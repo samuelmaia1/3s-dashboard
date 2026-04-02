@@ -5,7 +5,7 @@ import { Contract, ContractWithDetails } from "@/types/Contract";
 import { ApiError } from "@/types/Error";
 import axios from "axios";
 
-export async function downloadContractPdf(orderId: string, costumerId: string) {
+export async function downloadContractPdf(referenceId: string, costumerId: string, referenceType: "ORDER" | "RENT") {
   try {
     const clausesResponse = await api.get(routes.clauses.getAllByUser);
 
@@ -14,9 +14,10 @@ export async function downloadContractPdf(orderId: string, costumerId: string) {
     const response = await api.post(
       routes.contract.generate, 
       { 
-        orderId,
+        referenceId,
         costumerId: costumerId,
-        clausesIds: clauses.map((clause: any) => clause.id)
+        clausesIds: clauses.map((clause: any) => clause.id),
+        referenceType
       },
       {
         responseType: "blob", 
