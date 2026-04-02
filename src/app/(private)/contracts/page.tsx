@@ -1,6 +1,5 @@
 "use client";
 
-import { Modal } from "@components/Modal/Modal";
 import {
   Container,
   Page,
@@ -15,7 +14,7 @@ import ContractsTable from "@components/ContractsTable/ContractsTable";
 import { ApiError } from "@/types/Error";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { Filters, Pageable } from "@/types/ApiTypes";
-import { Contract, ContractStatus } from "@/types/Contract";
+import { Contract, ContractRealtimePayload, ContractStatus } from "@/types/Contract";
 import { Text } from "@components/Text/Text";
 import { LoadingContainer } from "../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
@@ -97,6 +96,40 @@ export default function Contracts() {
 
     return () => clearTimeout(delayDebounce);
   }, [filters]);
+
+  useEffect(() => {
+    const socket = new SockJS(
+      `${process.env.NEXT_PUBLIC_API_URL?.replace("/api", "")}/ws-contracts`,
+    );
+
+    const client = new Client({
+      webSocketFactory: () => socket,
+      onConnect: () => {
+        client.subscribe("/topic/contracts", (message) => {
+          const newContract: ContractRealtimePayload = JSON.parse(message.body);
+
+          setContracts((prevContracts) => {
+            return [newContract.summary, ...prevContracts];
+          });
+        });
+      },
+      onStompError: (frame) => {
+        console.error("Erro no STOMP:", frame);
+        showMessage("Erro na conexão em tempo real dos contratos", "error");
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
+
+    client.activate();
+
+    return () => {
+      if (client.active) {
+        client.deactivate();
+      }
+    };
+  }, []);
 
   return (
     <Container>

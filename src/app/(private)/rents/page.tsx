@@ -14,6 +14,8 @@ import { LoadingContainer } from "../style";
 import { Container, Page, PaginationContainer } from "./style";
 import { Modal } from "@components/Modal/Modal";
 import { Box } from "@mui/material";
+import SockJS from "sockjs-client";
+import { Client, IMessage } from "@stomp/stompjs";
 
 export default function RentsPage() {
   const [loading, setLoading] = useState(true);
@@ -79,7 +81,7 @@ export default function RentsPage() {
         });
       });
       showMessage("Status atualizado com sucesso", "success");
-    } catch (error) {
+    } catch {
       showMessage("Erro ao atualizar status", "error");
     } finally {
       handleCloseModal();
@@ -111,6 +113,40 @@ export default function RentsPage() {
 
     return () => clearTimeout(delayDebounce);
   }, [filters, showMessage]);
+
+  useEffect(() => {
+    const socket = new SockJS(
+      `${process.env.NEXT_PUBLIC_API_URL?.replace("/api", "")}/ws-rents`,
+    );
+
+    const client = new Client({
+      webSocketFactory: () => socket,
+      onConnect: () => {
+        client.subscribe("/topic/rents", (message: IMessage) => {
+          const newRent: Rent = JSON.parse(message.body);
+
+          setRents((prevRents) => {
+            return [newRent, ...prevRents];
+          });
+        });
+      },
+      onStompError: (frame) => {
+        console.error("Erro no STOMP:", frame);
+        showMessage("Erro na conexão em tempo real das locacoes", "error");
+      },
+      reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
+    });
+
+    client.activate();
+
+    return () => {
+      if (client.active) {
+        client.deactivate();
+      }
+    };
+  }, []);
 
   return (
     <Container>

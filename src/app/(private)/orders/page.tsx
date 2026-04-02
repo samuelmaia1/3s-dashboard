@@ -16,6 +16,8 @@ import { LoadingContainer } from "../style";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
 import { Modal } from "@components/Modal/Modal";
 import { Box } from "@mui/material";
+import SockJS from "sockjs-client";
+import { Client, IMessage } from "@stomp/stompjs";
 
 export default function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -107,6 +109,40 @@ export default function Orders() {
 
         return () => clearTimeout(delayDebounce);
     }, [filters]);
+
+    useEffect(() => {
+        const socket = new SockJS(
+            `${process.env.NEXT_PUBLIC_API_URL?.replace("/api", "")}/ws-orders`,
+        );
+
+        const client = new Client({
+            webSocketFactory: () => socket,
+            onConnect: () => {
+                client.subscribe("/topic/orders", (message: IMessage) => {
+                    const newOrder: Order = JSON.parse(message.body);
+
+                    setOrders((prevOrders) => {
+                        return [newOrder, ...prevOrders];
+                    });
+                });
+            },
+            onStompError: (frame) => {
+                console.error("Erro no STOMP:", frame);
+                showMessage("Erro na conexão em tempo real dos pedidos", "error");
+            },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+        });
+
+        client.activate();
+
+        return () => {
+            if (client.active) {
+                client.deactivate();
+            }
+        };
+    }, []);
 
     function getVisiblePages(
         current: number,
