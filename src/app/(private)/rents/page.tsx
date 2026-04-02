@@ -115,7 +115,7 @@ export default function RentsPage() {
     }, 500);
 
     return () => clearTimeout(delayDebounce);
-  }, [filters, showMessage]);
+  }, [filters]);
 
   useEffect(() => {
     const socket = new SockJS(
