@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { AddressStep } from "./AddressStep";
 import { CartItem, CreateOrder } from "@/types/Order";
 import { ConfirmationStep } from "./ConfirmationStep";
-import { creasteOrderSchema, CreateOrderFormData } from "@/types/Schemes";
+import { creasteOrderSchema, CreateOrderFormData, CreateOrderFormInput } from "@/types/Schemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CustomerStep } from "./CustomerStep";
 import { createOrder } from "@/services/order.service";
@@ -19,7 +19,7 @@ interface CreateOrderFormProps {
 export function CreateOrderForm({ items, onSubmitSuccess }: CreateOrderFormProps) {
     const { showMessage } = useFlashMessage();
 
-    const methods = useForm<CreateOrderFormData>({
+    const methods = useForm<CreateOrderFormInput, unknown, CreateOrderFormData>({
         resolver: zodResolver(creasteOrderSchema),
         defaultValues: {
             products: items.map(item => ({

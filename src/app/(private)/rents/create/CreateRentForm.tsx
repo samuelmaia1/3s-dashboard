@@ -2,7 +2,7 @@ import { MultiStepForm } from "@components/MultStepForm/MultStepForm";
 import { useForm } from "react-hook-form";
 import { CartItem, CreateRent } from "@/types/Rent";
 import { ConfirmationStep } from "./ConfirmationStep";
-import { createRentSchema, CreateRentFormData } from "@/types/Schemes";
+import { createRentSchema, CreateRentFormData, CreateRentFormInput } from "@/types/Schemes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CustomerStep } from "./CustomerStep";
 import { createRent } from "@/services/rent.service";
@@ -19,7 +19,7 @@ interface CreateRentFormProps {
 export function CreateRentForm({ items, onSubmitSuccess }: CreateRentFormProps) {
   const { showMessage } = useFlashMessage();
 
-  const methods = useForm<CreateRentFormData>({
+  const methods = useForm<CreateRentFormInput, unknown, CreateRentFormData>({
     resolver: zodResolver(createRentSchema),
     defaultValues: {
       products: items.map((item) => ({
