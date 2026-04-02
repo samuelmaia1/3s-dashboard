@@ -8,6 +8,7 @@ export interface Rent {
   costumerId: string
   status: RentStatus
   total: number
+  deliveryTax?: number
   deliveryAddress?: Address
   deliveryDate: string
   returnDate?: string
@@ -54,6 +55,7 @@ export interface CreateRent {
     deliveryAddress?: Address
     deliveryDate: string
     returnDate: string
+    deliveryTax?: number
     items: RentItemRequest[]
 }
 

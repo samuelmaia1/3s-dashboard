@@ -4,9 +4,7 @@ import { Box, IconButton } from "@mui/material";
 import { Icon } from "@components/Icon/Icon";
 import { Text } from "@components/Text/Text";
 import { Button } from "@components/Button/Button";
-import { Product } from "@/types/Product";
 import { CartContent, CartFooter, CartHeader, StyledCartDrawer, TotalRow } from "./style";
-import { useEffect, useState } from "react";
 import { formatToCurrency } from "@/formatter";
 import { CartItem } from "@/types/Order";
 import { CartProduct } from "./CartProduct";
@@ -17,23 +15,24 @@ interface CartSidebarProps {
   cartItems: CartItem[];
   onSetCartItems: (items: CartItem[]) => void;
   onFinish?: () => void;
+  title?: string;
+  finishLabel?: string;
 }
 
-export default function CartSidebar({ open, onClose, cartItems, onSetCartItems, onFinish }: CartSidebarProps) {
-    const [total, setTotal] = useState(0);
+export default function CartSidebar({
+  open,
+  onClose,
+  cartItems,
+  onSetCartItems,
+  onFinish,
+  title = "Meu Carrinho",
+  finishLabel = "Finalizar Pedido",
+}: CartSidebarProps) {
+    const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
     function clearCart() {
         onSetCartItems([]);
     }
-
-    function calculateTotal() {
-        const total = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
-        setTotal(total);
-    }
-
-    useEffect(() => {
-        calculateTotal();
-    }, [cartItems])
 
   return (
     <StyledCartDrawer
@@ -44,7 +43,7 @@ export default function CartSidebar({ open, onClose, cartItems, onSetCartItems, 
       <CartHeader>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Icon name="shopping-cart" size={20} />
-          <Text weight="bold" variant="body1">Meu Carrinho</Text>
+          <Text weight="bold" variant="body1">{title}</Text>
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
             <Button size="small" onClick={clearCart} icon="trash" color="error" shape="square"/>
@@ -82,7 +81,7 @@ export default function CartSidebar({ open, onClose, cartItems, onSetCartItems, 
           disabled={cartItems.length === 0}
           onClick={onFinish}
         >
-          Finalizar Pedido
+          {finishLabel}
         </Button>
       </CartFooter>
     </StyledCartDrawer>

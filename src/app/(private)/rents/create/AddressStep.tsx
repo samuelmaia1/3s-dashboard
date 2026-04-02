@@ -8,17 +8,20 @@ import { Box } from "@mui/material";
 import { useState } from "react";
 import { useAuth } from "@hooks/useAuth";
 import { Text } from "@components/Text/Text";
+import { CreateRentFormData } from "@/types/Schemes";
 
 interface AddressStepProps {
-    onBack: () => void;
+  onBack: () => void;
 }
 
 export function AddressStep({ onBack }: AddressStepProps) {
-  const [deliveryType, setDeliveryType] = useState<'delivery' | 'pickup'>('delivery');
   const [deliveryTax, setDeliveryTax] = useState<string | number>(0);
 
-  const { setValue, trigger, formState, clearErrors } = useFormContext();
+  const { setValue, trigger, formState, clearErrors, watch } =
+    useFormContext<CreateRentFormData>();
   const { user } = useAuth();
+
+  const deliveryType = watch("deliveryType");
 
   async function handleFetchAddress(cep: string) {
     if (cep.length !== 8) return;
@@ -30,28 +33,27 @@ export function AddressStep({ onBack }: AddressStepProps) {
       setValue("address.city", address.city);
 
       await trigger("address");
-
       calculateTax(cep);
     } catch (error) {
       console.error(error);
     }
   }
 
-  const handleDeliveryChange = (type: 'delivery' | 'pickup') => {
-    setDeliveryType(type);
-    if (type === 'pickup') {
-      setValue("address", undefined); 
+  function handleDeliveryChange(type: "delivery" | "pickup") {
+    setValue("deliveryType", type, { shouldValidate: true });
+    if (type === "pickup") {
+      setValue("address", undefined);
       setValue("deliveryTax", 0);
       clearErrors("address");
       setDeliveryTax(0);
     }
-  };
+  }
 
   async function calculateTax(cep: string) {
     const response = await fetch("/api/delivery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ originCep: user?.address.cep, destinationCep: cep }),
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ originCep: user?.address.cep, destinationCep: cep }),
     });
 
     const body = await response.json();
@@ -68,40 +70,53 @@ export function AddressStep({ onBack }: AddressStepProps) {
 
   return (
     <>
-      <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', marginBottom: 2 }}>
-        <Button icon="truck" onClick={() => handleDeliveryChange('delivery')} variant={deliveryType === 'delivery' ? 'filled' : 'outline'} type="button">
+      <Box sx={{ display: "flex", gap: 2, justifyContent: "center", marginBottom: 2 }}>
+        <Button
+          icon="truck"
+          onClick={() => handleDeliveryChange("delivery")}
+          variant={deliveryType === "delivery" ? "filled" : "outline"}
+          type="button"
+        >
           Entrega
         </Button>
-        <Button icon="check" onClick={() => handleDeliveryChange('pickup')} variant={deliveryType === 'delivery' ? 'outline' : 'filled'} type="button">
+        <Button
+          icon="check"
+          onClick={() => handleDeliveryChange("pickup")}
+          variant={deliveryType === "pickup" ? "filled" : "outline"}
+          type="button"
+        >
           Retirada
         </Button>
       </Box>
 
-      {deliveryType === 'delivery' && (
+      {deliveryType === "delivery" && (
         <>
-          <RHFInput name="address.cep" label="CEP" mask={maskCep} onBlur={handleFetchAddress}/>
+          <RHFInput name="address.cep" label="CEP" mask={maskCep} onBlur={handleFetchAddress} />
           <RHFInput name="address.street" label="Rua" />
           <RHFInput name="address.neighborhood" label="Bairro" />
           <RHFInput name="address.city" label="Cidade" />
           <RHFInput name="address.number" label="Número" />
-          <RHFInput name="deliveryDate" label="Data de entrega" mask={maskDate}/>
         </>
       )}
 
-      <Text sx={{marginTop: 2}}>Taxa de entrega: {deliveryTax}</Text>
+      <RHFInput
+        name="deliveryDate"
+        label={deliveryType === "delivery" ? "Data de entrega" : "Data de retirada"}
+        mask={maskDate}
+      />
+      <RHFInput name="returnDate" label="Data de devolução" mask={maskDate} />
+
+      <Text sx={{ marginTop: 2 }}>
+        Taxa de entrega: {deliveryType === "delivery" ? deliveryTax : "Não aplicável"}
+      </Text>
 
       <ButtonContainer>
-        <Button icon="arrow-left" onClick={onBack} variant="text"/>
+        <Button icon="arrow-left" onClick={onBack} variant="text" />
       </ButtonContainer>
 
       <ButtonWrapper>
-        <Button
-          color="primary"
-          fullWidth
-          type="submit"
-          loading={formState.isSubmitting}
-        >
-          Criar Pedido
+        <Button color="primary" fullWidth type="submit" loading={formState.isSubmitting}>
+          Criar Aluguel
         </Button>
       </ButtonWrapper>
     </>

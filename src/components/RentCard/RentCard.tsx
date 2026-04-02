@@ -71,6 +71,15 @@ export function RentCard({ rent, onRequestStatusChange }: RentCardProps) {
 
         <MetricItem>
           <Text variant="caption" color="text.secondary">
+            Frete
+          </Text>
+          <Text variant="body1" weight="medium">
+            {rent.deliveryAddress ? formatToCurrency(rent.deliveryTax ?? 0) : "Sem frete"}
+          </Text>
+        </MetricItem>
+
+        <MetricItem>
+          <Text variant="caption" color="text.secondary">
             Período
           </Text>
           <Text variant="body1" weight="medium">

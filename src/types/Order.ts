@@ -8,7 +8,8 @@ export interface Order {
   costumerId: string
   status: OrderStatus
   total: number
-  deliveryAddress: Address
+  deliveryTax?: number
+  deliveryAddress?: Address
   deliveryDate: string
   returnDate?: string
   createdAt: string
@@ -53,6 +54,7 @@ export interface CreateOrder {
     costumerId: string
     deliveryAddress?: Address
     deliveryDate?: string
+    deliveryTax?: number
     items: OrderItemRequest[]
 }
 

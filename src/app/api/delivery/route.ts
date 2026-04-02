@@ -25,6 +25,16 @@ export async function POST(req: NextRequest) {
     const originAddress = await getAddressFromCep(originCep);
     const destAddress = await getAddressFromCep(destinationCep);
 
+    const normalizedOriginCep = String(originCep).replace(/\D/g, "");
+    const normalizedDestinationCep = String(destinationCep).replace(/\D/g, "");
+
+    if (normalizedOriginCep === normalizedDestinationCep) {
+      return NextResponse.json({
+        distanceKm: "0.00",
+        deliveryTax: "0.00",
+      });
+    }
+
     const axiosConfig = {
       headers: { Authorization: OpenRouteApiKey, "Content-Type": "application/json" }
     };
@@ -47,7 +57,16 @@ export async function POST(req: NextRequest) {
       axiosConfig
     );
 
-    const distanceKm = route.data.routes[0].summary.distance / 1000;
+    const distanceMeters = route.data?.routes?.[0]?.summary?.distance;
+
+    if (typeof distanceMeters !== "number" || Number.isNaN(distanceMeters)) {
+      return NextResponse.json(
+        { error: "Não foi possível calcular a distância da rota." },
+        { status: 502 }
+      );
+    }
+
+    const distanceKm = distanceMeters / 1000;
     const deliveryTax = distanceKm * 6;
 
     return NextResponse.json({
@@ -55,8 +74,9 @@ export async function POST(req: NextRequest) {
       deliveryTax: deliveryTax.toFixed(2),
     });
 
-  } catch (error: any) {
-    if (error.message && error.message.includes("ViaCEP")) {
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : undefined;
+    if (errorMessage && errorMessage.includes("ViaCEP")) {
       return NextResponse.json({ error: "Um dos CEPs fornecidos é inválido." }, { status: 400 });
     }
 

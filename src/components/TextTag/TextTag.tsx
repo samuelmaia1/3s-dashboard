@@ -33,7 +33,12 @@ export function TextTag({ text, variant = 'info', icon, width }: TextTagProps) {
     return (
         <Container sx={{backgroundColor: variantBackground[variant]}} width={width}>
             <Content>
-                <Text variant="body2" sx={{color: variantText[variant]}} weight={'medium'} lines={1}>
+                <Text
+                    variant="body2"
+                    sx={{color: variantText[variant], minWidth: 0, flex: 1}}
+                    weight={'medium'}
+                    truncate
+                >
                     {text}
                 </Text>
                 {icon && (

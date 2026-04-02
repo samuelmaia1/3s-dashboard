@@ -77,6 +77,15 @@ export function OrderCard({ order, onRequestStatusChange }: OrderCardProps) {
 
         <MetricItem>
           <Text variant="caption" color="text.secondary">
+            Frete
+          </Text>
+          <Text variant="body1" weight="medium">
+            {order.deliveryAddress ? formatToCurrency(order.deliveryTax ?? 0) : "Sem frete"}
+          </Text>
+        </MetricItem>
+
+        <MetricItem>
+          <Text variant="caption" color="text.secondary">
             Entrega
           </Text>
           <Text variant="body1" weight="medium">

@@ -17,6 +17,7 @@ import { Modal } from "@components/Modal/Modal";
 import { Box } from "@mui/material";
 import SockJS from "sockjs-client";
 import { Client, IMessage } from "@stomp/stompjs";
+import { useRouter } from "next/navigation";
 
 export default function RentsPage() {
   const [loading, setLoading] = useState(true);
@@ -37,6 +38,7 @@ export default function RentsPage() {
   });
 
   const { showMessage } = useFlashMessage();
+  const router = useRouter();
 
   const showPagination = page.totalPages > 1;
 
@@ -151,6 +153,10 @@ export default function RentsPage() {
 
   return (
     <Container>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 6 }}>
+        <Button onClick={() => router.push("/rents/create")}>Novo Aluguel</Button>
+      </Box>
+
       {/* {!loading && <RentsTable rents={rents} onRequestStatusChange={handleOpenStatusModal}/>} */}
       {!loading && (
         <RentsGrid>

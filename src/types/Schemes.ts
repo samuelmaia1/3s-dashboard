@@ -117,6 +117,7 @@ export const creasteOrderSchema = z.object({
       .int("Quantidade deve ser um número inteiro")
       .positive("Quantidade deve ser um número positivo"),
   })),
+  deliveryTax: z.coerce.number().min(0).optional(),
   address: z.object({
     cep: z.string().min(8, "CEP inválido"),
     street: z.string().min(1, "Rua é obrigatória"),
@@ -124,6 +125,52 @@ export const creasteOrderSchema = z.object({
     city: z.string().min(1, "Cidade é obrigatória"),
     number: z.string().min(1, "Número é obrigatório"),
   }).optional()
+});
+
+export const createRentSchema = z.object({
+  costumerId: z.string().min(1, "Selecione o cliente do aluguel"),
+  deliveryType: z.enum(["delivery", "pickup"]),
+  deliveryDate: z
+    .string()
+    .min(8, "Informe a data completa (DD/MM/AAAA)")
+    .max(8, "Data inválida")
+    .refine((val) => {
+      const day = parseInt(val.substring(0, 2));
+      const month = parseInt(val.substring(2, 4));
+      return day >= 1 && day <= 31 && month >= 1 && month <= 12;
+    }, "Data inválida"),
+  returnDate: z
+    .string()
+    .min(8, "Informe a data completa (DD/MM/AAAA)")
+    .max(8, "Data inválida")
+    .refine((val) => {
+      const day = parseInt(val.substring(0, 2));
+      const month = parseInt(val.substring(2, 4));
+      return day >= 1 && day <= 31 && month >= 1 && month <= 12;
+    }, "Data inválida"),
+  products: z.array(z.object({
+    productId: z.string().min(1, "Selecione ao menos 1 produto"),
+    quantity: z.coerce
+      .number()
+      .int("Quantidade deve ser um número inteiro")
+      .positive("Quantidade deve ser um número positivo"),
+  })),
+  deliveryTax: z.coerce.number().min(0).optional(),
+  address: z.object({
+    cep: z.string().min(8, "CEP inválido"),
+    street: z.string().min(1, "Rua é obrigatória"),
+    neighborhood: z.string().min(1, "Bairro é obrigatório"),
+    city: z.string().min(1, "Cidade é obrigatória"),
+    number: z.string().min(1, "Número é obrigatório"),
+  }).optional(),
+}).superRefine((data, ctx) => {
+  if (data.deliveryType === "delivery" && !data.address) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Informe o endereço para entrega",
+      path: ["address"],
+    });
+  }
 });
 
 export const updateProductSchema = productSchema.partial();
@@ -135,3 +182,4 @@ export type ProductFormOutput = z.output<typeof productSchema>;
 export type UpdateProductFormInput = z.input<typeof updateProductSchema>;
 export type UpdateProductFormOutput = z.output<typeof updateProductSchema>;
 export type CreateOrderFormData = z.input<typeof creasteOrderSchema>;
+export type CreateRentFormData = z.input<typeof createRentSchema>;

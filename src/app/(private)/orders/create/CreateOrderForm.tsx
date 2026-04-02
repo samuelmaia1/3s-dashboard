@@ -10,7 +10,6 @@ import { createOrder } from "@/services/order.service";
 import { parseToLocalDateTime } from "@/formatter";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { ApiError } from "@/types/Error";
-import { on } from "events";
 
 interface CreateOrderFormProps {
     items: CartItem[];
@@ -28,6 +27,7 @@ export function CreateOrderForm({ items, onSubmitSuccess }: CreateOrderFormProps
                 quantity: item.quantity
             })),
             costumerId: "",
+            deliveryTax: 0,
         }
     });
 
@@ -43,7 +43,8 @@ export function CreateOrderForm({ items, onSubmitSuccess }: CreateOrderFormProps
                 })),
                 costumerId: data.costumerId,
                 deliveryDate: data.deliveryDate ? parseToLocalDateTime(data.deliveryDate) : undefined,
-                deliveryAddress: data.address
+                deliveryAddress: data.address,
+                deliveryTax: data.deliveryTax ?? 0,
             }
 
             await createOrder(payload);
