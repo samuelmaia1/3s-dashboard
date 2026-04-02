@@ -8,7 +8,7 @@ export interface Rent {
   costumerId: string
   status: RentStatus
   total: number
-  deliveryAddress: Address
+  deliveryAddress?: Address
   deliveryDate: string
   returnDate?: string
   createdAt: string

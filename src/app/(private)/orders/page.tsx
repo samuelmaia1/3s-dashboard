@@ -1,9 +1,10 @@
 'use client';
 
 import { Button } from "@components/Button/Button";
-import { Container, TopContainer } from "./style";
+import { Container, OrdersGrid, TopContainer } from "./style";
 import { useRouter } from "next/navigation";
-import OrdersTable from "@components/OrdersTable/OrdersTable";
+// import OrdersTable from "@components/OrdersTable/OrdersTable";
+import { OrderCard } from "@components/OrderCard/OrderCard";
 import { useEffect, useState } from "react";
 import { Filters, Pageable } from "@/types/ApiTypes";
 import { Order, OrderStatus, orderStatusIcons } from "@/types/Order";
@@ -166,7 +167,16 @@ export default function Orders() {
                 <Button onClick={() => router.push('/orders/create')}>Novo Pedido</Button>
             </TopContainer>
 
-            <OrdersTable orders={orders} onRequestStatusChange={handleOpenStatusModal}/>
+            {/* <OrdersTable orders={orders} onRequestStatusChange={handleOpenStatusModal}/> */}
+            <OrdersGrid>
+                {orders.map((order) => (
+                    <OrderCard
+                        key={order.id}
+                        order={order}
+                        onRequestStatusChange={handleOpenStatusModal}
+                    />
+                ))}
+            </OrdersGrid>
 
             <Modal onClose={handleCloseModal} open={isModalOpen}>
                 <Text variant="h6">Atualizar status do pedido</Text>

@@ -8,10 +8,11 @@ import { Rent, RentStatus, rentStatusIcons } from "@/types/Rent";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
 import { Button } from "@components/Button/Button";
 import { LoadingSpinner } from "@components/LoadingSpinner/LoadingSpinner";
-import RentsTable from "@components/RentsTable/RentsTable";
+// import RentsTable from "@components/RentsTable/RentsTable";
+import { RentCard } from "@components/RentCard/RentCard";
 import { Text } from "@components/Text/Text";
 import { LoadingContainer } from "../style";
-import { Container, Page, PaginationContainer } from "./style";
+import { Container, Page, PaginationContainer, RentsGrid } from "./style";
 import { Modal } from "@components/Modal/Modal";
 import { Box } from "@mui/material";
 import SockJS from "sockjs-client";
@@ -150,7 +151,18 @@ export default function RentsPage() {
 
   return (
     <Container>
-      {!loading && <RentsTable rents={rents} onRequestStatusChange={handleOpenStatusModal}/>}
+      {/* {!loading && <RentsTable rents={rents} onRequestStatusChange={handleOpenStatusModal}/>} */}
+      {!loading && (
+        <RentsGrid>
+          {rents.map((rent) => (
+            <RentCard
+              key={rent.id}
+              rent={rent}
+              onRequestStatusChange={handleOpenStatusModal}
+            />
+          ))}
+        </RentsGrid>
+      )}
 
        <Modal onClose={handleCloseModal} open={isModalOpen}>
           <Text variant="h6">Atualizar status do pedido</Text>

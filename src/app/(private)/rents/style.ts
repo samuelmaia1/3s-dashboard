@@ -31,3 +31,9 @@ export const Page = styled(Box)<PageProps>(({ theme, active }) => ({
     : `1px solid ${theme.palette.primary.main}`,
   cursor: "pointer",
 }));
+
+export const RentsGrid = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+  gap: theme.spacing(2),
+}));
