@@ -1,5 +1,6 @@
 import { formatAddressToString, formatDate, formatToCurrency } from "@/formatter";
 import { downloadContractPdf } from "@/services/contract.service";
+import { downloadReceiptPdf } from "@/services/receipt.service";
 import { Order, OrderStatus, orderStatusIcons } from "@/types/Order";
 import { Button } from "@components/Button/Button";
 import { Card } from "@components/Card/Card";
@@ -36,6 +37,10 @@ export function OrderCard({ order, onRequestStatusChange }: OrderCardProps) {
 
   function handleGenerateContract() {
     downloadContractPdf(order.id, order.costumerId, "ORDER");
+  }
+
+  function handleGenerateReceipt() {
+    downloadReceiptPdf(order.id, order.costumerId, "ORDER");
   }
 
   return (
@@ -123,6 +128,9 @@ export function OrderCard({ order, onRequestStatusChange }: OrderCardProps) {
         <ActionGroup>
           <Button variant="text" icon="download" onClick={handleGenerateContract}>
             Contrato
+          </Button>
+          <Button variant="text" icon="download" onClick={handleGenerateReceipt}>
+            Recibo
           </Button>
           {onRequestStatusChange && (
             <Button

@@ -1,5 +1,4 @@
 import { formatAddressToString, formatDate, formatToCurrency } from "@/formatter";
-import { downloadContractPdf } from "@/services/contract.service";
 import { Rent, RentStatus, rentStatusIcons } from "@/types/Rent";
 import { Button } from "@components/Button/Button";
 import { Card } from "@components/Card/Card";
@@ -7,6 +6,8 @@ import { Text } from "@components/Text/Text";
 import { TextTag, TextTagVariant } from "@components/TextTag/TextTag";
 import { useTheme } from "@mui/material";
 import { ActionGroup, Footer, MetricItem, MetricsGrid, ProductsContainer } from "@components/OrderCard/style";
+import { downloadReceiptPdf } from "@/services/receipt.service";
+import { downloadContractPdf } from "@/services/contract.service";
 
 interface RentCardProps {
   rent: Rent;
@@ -33,12 +34,22 @@ export function RentCard({ rent, onRequestStatusChange }: RentCardProps) {
     .map((item) => item.product.name)
     .join(", ");
   const remainingItems = rent.items.length - 2;
-  const locationLabel = rent.deliveryAddress
+  const hasDeliveryAddress = Boolean(
+    rent.deliveryAddress?.street &&
+    rent.deliveryAddress?.number &&
+    rent.deliveryAddress?.neighborhood &&
+    rent.deliveryAddress?.city
+  );
+  const locationLabel = hasDeliveryAddress && rent.deliveryAddress
     ? formatAddressToString(rent.deliveryAddress)
     : "Retirada no local";
 
   function handleGenerateContract() {
     downloadContractPdf(rent.id, rent.costumerId, "RENT");
+  }
+
+  function handleGenerateReceipt() {
+    downloadReceiptPdf(rent.id, rent.costumerId, "RENT");
   }
 
   return (
@@ -74,7 +85,7 @@ export function RentCard({ rent, onRequestStatusChange }: RentCardProps) {
             Frete
           </Text>
           <Text variant="body1" weight="medium">
-            {rent.deliveryAddress ? formatToCurrency(rent.deliveryTax ?? 0) : "Sem frete"}
+            {hasDeliveryAddress ? formatToCurrency(rent.deliveryTax ?? 0) : "Sem frete"}
           </Text>
         </MetricItem>
 
@@ -93,7 +104,7 @@ export function RentCard({ rent, onRequestStatusChange }: RentCardProps) {
             Modalidade
           </Text>
           <Text variant="body1" weight="medium">
-            {rent.deliveryAddress ? "Entrega" : "Retirada"}
+            {hasDeliveryAddress ? "Entrega" : "Retirada"}
           </Text>
         </MetricItem>
       </MetricsGrid>
@@ -128,8 +139,11 @@ export function RentCard({ rent, onRequestStatusChange }: RentCardProps) {
         </div>
 
         <ActionGroup>
-          <Button variant="text" icon="download" onClick={handleGenerateContract}>
+          <Button variant="filled" icon="file-down" onClick={handleGenerateContract}>
             Contrato
+          </Button>
+          <Button variant="filled" icon="download" onClick={handleGenerateReceipt}>
+            Recibo
           </Button>
           {onRequestStatusChange && (
             <Button

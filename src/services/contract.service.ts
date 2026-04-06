@@ -1,7 +1,7 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
 import { EntityPageable, Filters } from "@/types/ApiTypes";
-import { Contract, ContractWithDetails } from "@/types/Contract";
+import { Contract } from "@/types/Contract";
 import { ApiError } from "@/types/Error";
 import axios from "axios";
 

@@ -27,12 +27,12 @@ export default function RentsPage() {
   const [selectedStatus, setSelectedStatus] = useState<RentStatus | null>(null);
   const [filters, setFilters] = useState<Filters>({
     page: 0,
-    size: 10,
+    size: 12,
     sort: [{ field: "createdAt", direction: "desc" }],
   });
   const [page, setPage] = useState<Pageable>({
     number: 0,
-    size: 10,
+    size: 12,
     totalElements: 0,
     totalPages: 0,
   });
@@ -157,7 +157,6 @@ export default function RentsPage() {
         <Button onClick={() => router.push("/rents/create")}>Novo Aluguel</Button>
       </Box>
 
-      {/* {!loading && <RentsTable rents={rents} onRequestStatusChange={handleOpenStatusModal}/>} */}
       {!loading && (
         <RentsGrid>
           {rents.map((rent) => (

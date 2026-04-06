@@ -31,6 +31,9 @@ export const routes = {
     download: "/contracts/download",
     sign: "/contracts/sign",
   },
+  receipt: {
+    generate: "/receipts/generate",
+  },
   orders: {
     updateStatus: "/orders/status",
   },
