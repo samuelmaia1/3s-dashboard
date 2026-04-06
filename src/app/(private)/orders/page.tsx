@@ -3,7 +3,6 @@
 import { Button } from "@components/Button/Button";
 import { Container, OrdersGrid, TopContainer } from "./style";
 import { useRouter } from "next/navigation";
-// import OrdersTable from "@components/OrdersTable/OrdersTable";
 import { OrderCard } from "@components/OrderCard/OrderCard";
 import { useEffect, useState } from "react";
 import { ListFilters, Pageable } from "@/types/ApiTypes";
