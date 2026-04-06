@@ -50,7 +50,6 @@ interface ProductClientProps {
 }
 
 export default function ProductClient({ product }: ProductClientProps) {
-  console.log("Produto recebido no componente:", product); // Log para verificar os dados recebidos
   const [currentProduct, setCurrentProduct] = useState<Product | null>(product);
   const [editProductModalOpen, setEditProductModalOpen] = useState(false);
   const [deleteProductModalOpen, setDeleteProductModalOpen] = useState(false);
