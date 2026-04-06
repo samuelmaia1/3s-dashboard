@@ -13,6 +13,15 @@ export interface Filters {
   category?: string;
 }
 
+export interface ListFilters extends Filters {
+  status?: string;
+  deliveryDate?: string;
+}
+
+export interface RentFilters extends ListFilters {
+  returnDate?: string;
+}
+
 export type SortDirection = "asc" | "desc";
 
 export interface Sort {

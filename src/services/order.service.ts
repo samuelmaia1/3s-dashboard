@@ -1,6 +1,6 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
-import { EntityPageable, Filters } from "@/types/ApiTypes";
+import { EntityPageable, ListFilters } from "@/types/ApiTypes";
 import { ApiError } from "@/types/Error";
 import { CreateOrder, Order, OrderStatus } from "@/types/Order";
 import axios from "axios";
@@ -18,9 +18,11 @@ export async function createOrder(data: CreateOrder) {
     }
 }
 
-export async function getOrders(params?: Filters): Promise<EntityPageable<Order>> {
+export async function getOrders(params?: ListFilters): Promise<EntityPageable<Order>> {
     try {
-        const response = await api.get(routes.users.orders, {params});
+        const response = await api.get(routes.users.orders, {
+            params: normalizeOrderFilters(params),
+        });
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response?.data) {
@@ -29,6 +31,39 @@ export async function getOrders(params?: Filters): Promise<EntityPageable<Order>
 
         throw error;
     }
+}
+
+function normalizeOrderFilters(filters?: ListFilters) {
+    if (!filters) return filters;
+
+    const { deliveryDate, status, ...rest } = filters;
+
+    return {
+        ...rest,
+        status: toOrderStatusKey(status),
+        deliveryDateFrom: toStartOfDayIso(deliveryDate),
+        deliveryDateTo: toEndOfDayIso(deliveryDate),
+    };
+}
+
+function toOrderStatusKey(status?: string) {
+    if (!status) return undefined;
+
+    return Object.keys(OrderStatus).find(
+        (key) => OrderStatus[key as keyof typeof OrderStatus] === status
+    );
+}
+
+function toStartOfDayIso(value?: string) {
+    if (!value) return undefined;
+
+    return new Date(`${value}T00:00:00`).toISOString();
+}
+
+function toEndOfDayIso(value?: string) {
+    if (!value) return undefined;
+
+    return new Date(`${value}T23:59:59.999`).toISOString();
 }
 
 export async function updateStatus(orderId: string, status: OrderStatus) {
@@ -121,7 +156,6 @@ export async function calculateDeliveryTax(originCode: string, destinationCode: 
       deliveryTax: deliveryTax.toFixed(2),
     };
   } catch (error) {
-    console.error("Erro ao calcular frete:", error);
     throw new Error("Não foi possível calcular o frete");
   }
 }

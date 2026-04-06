@@ -6,10 +6,11 @@ export const Container = styled(Box)(() => ({
 
 export const TopContainer = styled(Box)(() => ({
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     gap: 16,
-    marginBottom: 48
+    marginBottom: 24,
+    flexWrap: "wrap",
 }))
 
 export const OrdersGrid = styled(Box)(({ theme }) => ({

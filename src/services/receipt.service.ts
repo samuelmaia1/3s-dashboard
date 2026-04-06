@@ -1,7 +1,7 @@
 import { routes } from "@/constants/api-routes";
 import { api } from "@/lib/axios";
 import { ApiError } from "@/types/Error";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export async function downloadReceiptPdf(referenceId: string, costumerId: string, referenceType: "ORDER" | "RENT") {
   try {
@@ -30,7 +30,7 @@ export async function downloadReceiptPdf(referenceId: string, costumerId: string
   }
 }
 
-function generateBlob(response: any) {
+function generateBlob(response: AxiosResponse<Blob>) {
   const pdfBlob = new Blob([response.data], { type: "application/pdf" });
 
   const fileUrl = window.URL.createObjectURL(pdfBlob);

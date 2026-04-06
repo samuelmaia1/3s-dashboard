@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 // import OrdersTable from "@components/OrdersTable/OrdersTable";
 import { OrderCard } from "@components/OrderCard/OrderCard";
 import { useEffect, useState } from "react";
-import { Filters, Pageable } from "@/types/ApiTypes";
+import { ListFilters, Pageable } from "@/types/ApiTypes";
 import { Order, OrderStatus, orderStatusIcons } from "@/types/Order";
 import { Page, PaginationContainer } from "./create/style";
 import { Text } from "@components/Text/Text";
@@ -19,6 +19,13 @@ import { Modal } from "@components/Modal/Modal";
 import { Box } from "@mui/material";
 import SockJS from "sockjs-client";
 import { Client, IMessage } from "@stomp/stompjs";
+import { ListFilters as ListFiltersSection, ListFilterValues } from "@components/ListFilters/ListFilters";
+
+const initialFilters: ListFilters = {
+    page: 0,
+    size: 10,
+    sort: [{ field: "createdAt", direction: "desc" }],
+};
 
 export default function Orders() {
     const [orders, setOrders] = useState<Order[]>([]);
@@ -27,11 +34,7 @@ export default function Orders() {
     const [selectedStatus, setSelectedStatus] = useState<OrderStatus | null>(null);
     const [loading, setLoading] = useState(false);
 
-    const [filters, setFilters] = useState<Filters>({
-        page: 0,
-        size: 10,
-        sort: [{ field: "createdAt", direction: "desc" }],
-    });
+    const [filters, setFilters] = useState<ListFilters>(initialFilters);
     
       const [page, setPage] = useState<Pageable>({
         number: 0,
@@ -44,6 +47,17 @@ export default function Orders() {
 
     const router = useRouter();
     const { showMessage } = useFlashMessage();
+
+    function handleApplyFilters(values: ListFilterValues) {
+        setFilters((prev) => ({
+            ...initialFilters,
+            size: prev.size,
+            sort: prev.sort,
+            status: values.status,
+            deliveryDate: values.deliveryDate,
+            page: 0,
+        }));
+    }
 
     async function fetchOrders() {
         setLoading(true);
@@ -164,7 +178,16 @@ export default function Orders() {
     return (
         <Container>
             <TopContainer>
-                <Button onClick={() => router.push('/orders/create')}>Novo Pedido</Button>
+                <Text variant="h4">Pedidos</Text>
+                <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+                    <ListFiltersSection
+                        title="Filtrar pedidos"
+                        values={filters}
+                        statuses={Object.values(OrderStatus)}
+                        onApply={handleApplyFilters}
+                    />
+                    <Button onClick={() => router.push('/orders/create')}>Novo Pedido</Button>
+                </Box>
             </TopContainer>
 
             {/* <OrdersTable orders={orders} onRequestStatusChange={handleOpenStatusModal}/> */}

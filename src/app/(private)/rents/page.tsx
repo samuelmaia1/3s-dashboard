@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getRents, updateRentStatus } from "@/services/rent.service";
-import { Filters, Pageable } from "@/types/ApiTypes";
+import { Pageable, RentFilters } from "@/types/ApiTypes";
 import { ApiError } from "@/types/Error";
 import { Rent, RentStatus, rentStatusIcons } from "@/types/Rent";
 import { useFlashMessage } from "@contexts/FlashMessageContext";
@@ -18,6 +18,13 @@ import { Box } from "@mui/material";
 import SockJS from "sockjs-client";
 import { Client, IMessage } from "@stomp/stompjs";
 import { useRouter } from "next/navigation";
+import { ListFilters as ListFiltersSection, ListFilterValues } from "@components/ListFilters/ListFilters";
+
+const initialFilters: RentFilters = {
+  page: 0,
+  size: 12,
+  sort: [{ field: "createdAt", direction: "desc" }],
+};
 
 export default function RentsPage() {
   const [loading, setLoading] = useState(true);
@@ -25,11 +32,7 @@ export default function RentsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rentToUpdate, setRentToUpdate] = useState<Rent | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<RentStatus | null>(null);
-  const [filters, setFilters] = useState<Filters>({
-    page: 0,
-    size: 12,
-    sort: [{ field: "createdAt", direction: "desc" }],
-  });
+  const [filters, setFilters] = useState<RentFilters>(initialFilters);
   const [page, setPage] = useState<Pageable>({
     number: 0,
     size: 12,
@@ -41,6 +44,18 @@ export default function RentsPage() {
   const router = useRouter();
 
   const showPagination = page.totalPages > 1;
+
+  function handleApplyFilters(values: ListFilterValues) {
+    setFilters((prev) => ({
+      ...initialFilters,
+      size: prev.size,
+      sort: prev.sort,
+      status: values.status,
+      deliveryDate: values.deliveryDate,
+      returnDate: values.returnDate,
+      page: 0,
+    }));
+  }
 
   function getVisiblePages(
     current: number,
@@ -153,8 +168,17 @@ export default function RentsPage() {
 
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "flex-end", marginBottom: 6 }}>
-        <Button onClick={() => router.push("/rents/create")}>Novo Aluguel</Button>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 2, marginBottom: 3, flexWrap: "wrap" }}>
+        <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+          <ListFiltersSection
+            title="Selecione os filtros"
+            values={filters}
+            statuses={Object.values(RentStatus)}
+            showReturnDate
+            onApply={handleApplyFilters}
+          />
+          <Button onClick={() => router.push("/rents/create")}>Novo Aluguel</Button>
+        </Box>
       </Box>
 
       {!loading && (
